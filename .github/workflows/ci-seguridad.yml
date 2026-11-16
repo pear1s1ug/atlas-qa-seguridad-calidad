@@ -81,7 +81,7 @@ jobs:
       - run: npm ci --prefix BACKEND --no-audit
       - name: Ejecutar pruebas con cobertura (umbral mínimo 80 %)
         run: npm run test:ci --prefix BACKEND -- --coverageThreshold='{"global":{"lines":80,"statements":80}}'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: reporte-jest
@@ -120,7 +120,7 @@ jobs:
           set -a; . ./.env; set +a
           ./scripts/respaldo.sh respaldos
           ./scripts/restaurar.sh "$(ls -1t respaldos/atlas_db_*.dump | head -1)"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: reportes-e2e-zap
