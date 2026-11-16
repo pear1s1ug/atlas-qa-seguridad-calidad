@@ -47,7 +47,8 @@ services:
       atlas-postgres:
         condition: service_healthy
     volumes:
-      - ./BACKEND/uploads:/app/uploads
+      # Volumen nombrado: el contenedor sin privilegios (uid node) es dueño del storage de documentos
+      - atlas_uploads:/app/uploads
     networks:
       - atlas-network
     restart: unless-stopped
@@ -73,6 +74,7 @@ services:
 
 volumes:
   postgres_data:
+  atlas_uploads:
 
 networks:
   atlas-network:

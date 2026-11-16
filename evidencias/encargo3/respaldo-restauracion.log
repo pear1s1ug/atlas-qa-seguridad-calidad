@@ -1,0 +1,9 @@
+Respaldo generado: respaldos/atlas_db_20261116_011722.dump, respaldos/atlas_docs_20261116_011722.tar.gz
+atlas_db_20261116_011722.dump: OK
+DROP DATABASE
+CREATE DATABASE
+ usuarios=86
+ clientes=86
+ contratos=52
+
+Restauración completada en la base atlas_restaurada
