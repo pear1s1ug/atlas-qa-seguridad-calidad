@@ -1,0 +1,367 @@
+<testsuites id="" name="" tests="16" failures="7" skipped="0" errors="0" time="165.252999">
+<testsuite name="flujo.spec.js" timestamp="2026-11-16T01:53:26.796Z" hostname="chromium" tests="4" failures="2" skipped="0" time="76.718" errors="0">
+<testcase name="Flujos E2E › CP-63 flujo completo: login → dashboard → crear cliente → crear contrato con PDF → logout" classname="flujo.spec.js" time="28.391">
+</testcase>
+<testcase name="Flujos E2E › CP-64 un usuario Editor no ve ni accede a funciones de administración en la UI" classname="flujo.spec.js" time="20.176">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|../../e2e/test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|../../e2e/test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/error-context.md]]
+
+[[ATTACHMENT|../../e2e/test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/trace.zip]]
+]]>
+</system-out>
+<failure message="expect(locator).toBeVisible() failed" type="expect.toBeVisible">
+<![CDATA[  [chromium] › flujo.spec.js:50:3 › Flujos E2E › CP-64 un usuario Editor no ve ni accede a funciones de administración en la UI 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/no autorizado/i)
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText(/no autorizado/i) with timeout 15000ms
+      - waiting for getByText(/no autorizado/i)
+
+
+      55 |     await expect(page.getByRole("tab", { name: /crear cliente/i })).toHaveCount(0);
+      56 |     await page.goto("/usuarios");
+    > 57 |     await expect(page.getByText(/no autorizado/i)).toBeVisible();
+         |                                                    ^
+      58 |     await evidencia(page, "CP-64-editor-sin-acceso");
+      59 |   });
+      60 |
+        at /work/e2e/tests/flujo.spec.js:57:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+</testcase>
+<testcase name="Flujos E2E › CP-56 NFR-USAB-4 desde un cliente se accede a la lista de sus contratos" classname="flujo.spec.js" time="19.036">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|../../e2e/test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|../../e2e/test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/error-context.md]]
+
+[[ATTACHMENT|../../e2e/test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/trace.zip]]
+]]>
+</system-out>
+<failure message="Debe existir una acción &apos;Ver contratos&apos; por cliente" type="expect.toBeVisible">
+<![CDATA[  [chromium] › flujo.spec.js:61:3 › Flujos E2E › CP-56 NFR-USAB-4 desde un cliente se accede a la lista de sus contratos 
+
+    Error: Debe existir una acción 'Ver contratos' por cliente
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('button-cliente-contratos-36')
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+      - Debe existir una acción 'Ver contratos' por cliente getByTestId('button-cliente-contratos-36') with timeout 10000ms
+      - waiting for getByTestId('button-cliente-contratos-36')
+
+
+      65 |     await expect(page.getByText(c.cliente.nombre).first()).toBeVisible({ timeout: 30_000 });
+      66 |     const verContratos = page.getByTestId(`button-cliente-contratos-${c.cliente.id}`);
+    > 67 |     await expect(verContratos, "Debe existir una acción 'Ver contratos' por cliente").toBeVisible({ timeout: 10_000 });
+         |                                                                                       ^
+      68 |     await verContratos.click();
+      69 |     await expect(page).toHaveURL(new RegExp(`/contratos\\?cliente=${c.cliente.id}`));
+      70 |     await expect(page.getByText(c.contrato.titulo).first()).toBeVisible({ timeout: 30_000 });
+        at /work/e2e/tests/flujo.spec.js:67:87
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+</testcase>
+<testcase name="Flujos E2E › CP-41 XSS almacenado: un nombre con HTML malicioso se muestra escapado" classname="flujo.spec.js" time="9.115">
+</testcase>
+</testsuite>
+<testsuite name="no-funcionales.spec.js" timestamp="2026-11-16T01:53:26.796Z" hostname="chromium" tests="10" failures="5" skipped="0" time="64.249" errors="0">
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53 /login sin violaciones WCAG 2.1 AA críticas o graves (axe-core)" classname="no-funcionales.spec.js" time="1.738">
+<system-out>
+<![CDATA[CP-53 /login: [{"id":"color-contrast","impact":"serious","nodos":1}]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/test-failed-1.png]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/error-context.md]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/trace.zip]]
+]]>
+</system-out>
+<failure message="expect(received).toEqual(expected) // deep equality" type="expect.toEqual">
+<![CDATA[  [chromium] › no-funcionales.spec.js:12:5 › NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53 /login sin violaciones WCAG 2.1 AA críticas o graves (axe-core) 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "color-contrast",
+    + ]
+
+      17 |       console.log(`CP-53 ${ruta}:`, JSON.stringify(r.violations.map((v) => ({ id: v.id, impact: v.impact, nodos: v.nodes.length }))));
+      18 |       await evidencia(page, `CP-53${ruta.replace("/", "-")}`);
+    > 19 |       expect(graves.map((v) => v.id)).toEqual([]);
+         |                                       ^
+      20 |     });
+      21 |   }
+      22 |
+        at /work/e2e/tests/no-funcionales.spec.js:19:39
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53 /registro sin violaciones WCAG 2.1 AA críticas o graves (axe-core)" classname="no-funcionales.spec.js" time="2.063">
+<system-out>
+<![CDATA[CP-53 /registro: [{"id":"color-contrast","impact":"serious","nodos":1}]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/test-failed-1.png]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/error-context.md]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/trace.zip]]
+]]>
+</system-out>
+<failure message="expect(received).toEqual(expected) // deep equality" type="expect.toEqual">
+<![CDATA[  [chromium] › no-funcionales.spec.js:12:5 › NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53 /registro sin violaciones WCAG 2.1 AA críticas o graves (axe-core) 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "color-contrast",
+    + ]
+
+      17 |       console.log(`CP-53 ${ruta}:`, JSON.stringify(r.violations.map((v) => ({ id: v.id, impact: v.impact, nodos: v.nodes.length }))));
+      18 |       await evidencia(page, `CP-53${ruta.replace("/", "-")}`);
+    > 19 |       expect(graves.map((v) => v.id)).toEqual([]);
+         |                                       ^
+      20 |     });
+      21 |   }
+      22 |
+        at /work/e2e/tests/no-funcionales.spec.js:19:39
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53b pantallas autenticadas (inicio y clientes) sin violaciones WCAG críticas/graves" classname="no-funcionales.spec.js" time="15.262">
+<system-out>
+<![CDATA[CP-53b: {"/home":["color-contrast","list"],"/clientes":["button-name","list"]}
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/error-context.md]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/trace.zip]]
+]]>
+</system-out>
+<failure message="expect(received).toEqual(expected) // deep equality" type="expect.toEqual">
+<![CDATA[  [chromium] › no-funcionales.spec.js:23:3 › NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53b pantallas autenticadas (inicio y clientes) sin violaciones WCAG críticas/graves 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 6
+
+    - Array []
+    + Array [
+    +   "color-contrast",
+    +   "list",
+    +   "button-name",
+    +   "list",
+    + ]
+
+      32 |     }
+      33 |     console.log("CP-53b:", JSON.stringify(resultados));
+    > 34 |     expect(Object.values(resultados).flat()).toEqual([]);
+         |                                              ^
+      35 |   });
+      36 |
+      37 |   test("CP-53c tipografía mínima de 12px en textos visibles", async ({ page }) => {
+        at /work/e2e/tests/no-funcionales.spec.js:34:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53c tipografía mínima de 12px en textos visibles" classname="no-funcionales.spec.js" time="1.765">
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-54 el login puede completarse solo con teclado (Tab / Enter)" classname="no-funcionales.spec.js" time="4.927">
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-55 mensajes de error amigables ante credenciales inválidas" classname="no-funcionales.spec.js" time="4.861">
+</testcase>
+<testcase name="NFR-PERF-2 Tiempo de carga › CP-51 la página principal (dashboard) carga en &lt; 2 s con red móvil promedio (4G)" classname="no-funcionales.spec.js" time="9.184">
+<system-out>
+<![CDATA[CP-51 dashboard listo en 4168 ms
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/test-failed-1.png]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/error-context.md]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/trace.zip]]
+]]>
+</system-out>
+<failure message="expect(received).toBeLessThan(expected)" type="expect.toBeLessThan">
+<![CDATA[  [chromium] › no-funcionales.spec.js:74:3 › NFR-PERF-2 Tiempo de carga › CP-51 la página principal (dashboard) carga en < 2 s con red móvil promedio (4G) 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 2000
+    Received:   4168
+
+      88 |     console.log(`CP-51 dashboard listo en ${ms} ms`);
+      89 |     await evidencia(page, "CP-51-dashboard-cargado");
+    > 90 |     expect(ms).toBeLessThan(2000);
+         |                ^
+      91 |   });
+      92 | });
+      93 |
+        at /work/e2e/tests/no-funcionales.spec.js:90:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+</testcase>
+<testcase name="NFR-COMPAT Compatibilidad › CP-58 @compat la pantalla de login se renderiza y autentica en el navegador" classname="no-funcionales.spec.js" time="4.567">
+</testcase>
+<testcase name="NFR-COMPAT Compatibilidad › CP-59 diseño responsivo en movil 375x667 sin desborde horizontal" classname="no-funcionales.spec.js" time="10.029">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/error-context.md]]
+
+[[ATTACHMENT|../../e2e/test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/trace.zip]]
+]]>
+</system-out>
+<failure message="expect(received).toBeGreaterThanOrEqual(expected)" type="expect.toBeGreaterThanOrEqual">
+<![CDATA[  [chromium] › no-funcionales.spec.js:104:5 › NFR-COMPAT Compatibilidad › CP-59 diseño responsivo en movil 375x667 sin desborde horizontal 
+
+    Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 262.5
+    Received:    131.5
+
+      117 |       expect(loginOverflow).toBeLessThanOrEqual(0);
+      118 |       expect(appOverflow).toBeLessThanOrEqual(0);
+    > 119 |       expect(anchoForm).toBeGreaterThanOrEqual(Math.min(280, vp.width * 0.7)); // formulario usable en pantalla chica
+          |                         ^
+      120 |     });
+      121 |   }
+      122 | });
+        at /work/e2e/tests/no-funcionales.spec.js:119:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+</testcase>
+<testcase name="NFR-COMPAT Compatibilidad › CP-59 diseño responsivo en tablet 768x1024 sin desborde horizontal" classname="no-funcionales.spec.js" time="9.853">
+</testcase>
+</testsuite>
+<testsuite name="no-funcionales.spec.js" timestamp="2026-11-16T01:53:26.796Z" hostname="firefox" tests="1" failures="0" skipped="0" time="6.279" errors="0">
+<testcase name="NFR-COMPAT Compatibilidad › CP-58 @compat la pantalla de login se renderiza y autentica en el navegador" classname="no-funcionales.spec.js" time="6.279">
+</testcase>
+</testsuite>
+<testsuite name="no-funcionales.spec.js" timestamp="2026-11-16T01:53:26.796Z" hostname="webkit" tests="1" failures="0" skipped="0" time="7.37" errors="0">
+<testcase name="NFR-COMPAT Compatibilidad › CP-58 @compat la pantalla de login se renderiza y autentica en el navegador" classname="no-funcionales.spec.js" time="7.37">
+</testcase>
+</testsuite>
+</testsuites>

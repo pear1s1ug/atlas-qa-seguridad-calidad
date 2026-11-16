@@ -3,21 +3,12 @@ const { pool } = require("../db");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
+const { getUserFromAuthHeader } = require("../lib/auth");
 const JWT_SECRET = process.env.JWT_SECRET || "inseguro";
 
 // Función helper para simular latencia
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-function getUserFromAuthHeader(req) {
-  const auth = req.headers.authorization || "";
-  if (!auth.startsWith("Bearer ")) return null;
-  try {
-    const token = auth.substring(7);
-    return jwt.verify(token, JWT_SECRET);
-  } catch {
-    return null;
-  }
-}
 
 // Crear cliente (empresa)
 router.post("/", async (req, res) => {

@@ -3,34 +3,14 @@ const jwt = require("jsonwebtoken");
 const { pool } = require("../db");
 
 const router = express.Router();
+const { getUserFromAuthHeader } = require("../lib/auth");
 const JWT_SECRET = process.env.JWT_SECRET || "inseguro";
 
 // Función helper para simular latencia
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-function getUserFromAuthHeader(req) {
-  const auth = req.headers.authorization || "";
-  if (!auth.startsWith("Bearer ")) return null;
-  try {
-    const token = auth.substring(7);
-    return jwt.verify(token, JWT_SECRET);
-  } catch {
-    return null;
-  }
-}
 
-// Función auxiliar para calcular días entre dos fechas
-// Retorna la diferencia en días (puede ser positiva o negativa)
-function calcularDiasEntreFechas(fecha1, fecha2) {
-  const date1 = new Date(fecha1);
-  const date2 = new Date(fecha2);
-  // Normalizar a medianoche para evitar problemas con horas
-  date1.setHours(0, 0, 0, 0);
-  date2.setHours(0, 0, 0, 0);
-  const diffTime = date2 - date1;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays;
-}
+const { calcularDiasEntreFechas } = require("../lib/contratoEstado");
 
 // Endpoint de métricas
 router.get("/", async (req, res) => {

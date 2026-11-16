@@ -1,0 +1,31 @@
+npm notice run atlas-frontend@0.0.0 npx
+npm notice run 'eslint' src
+
+/proyecto/atlas-qa/FRONTEND/src/pages/clientes/ClientesTabList.jsx
+  27:60  error  'onLoad' is defined but never used  no-unused-vars
+
+/proyecto/atlas-qa/FRONTEND/src/pages/contratos/ContratosTabCreate.jsx
+  31:16  error  'error' is defined but never used  no-unused-vars
+
+/proyecto/atlas-qa/FRONTEND/src/pages/contratos/ContratosTabList.jsx
+   32:3  error    'onLoad' is defined but never used                                                                       no-unused-vars
+  244:5  warning  React Hook useMemo has a missing dependency: 'apiUrl'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/proyecto/atlas-qa/FRONTEND/src/pages/empresas/EmpresaForm.jsx
+  42:16  error  'error' is defined but never used  no-unused-vars
+  63:14  error  'error' is defined but never used  no-unused-vars
+
+/proyecto/atlas-qa/FRONTEND/src/pages/empresas/EmpresasList.jsx
+  43:35  warning  Unused eslint-disable directive (no problems were reported)
+
+/proyecto/atlas-qa/FRONTEND/src/pages/usuarios/UsuarioForm.jsx
+  43:16  error  'error' is defined but never used  no-unused-vars
+  61:14  error  'error' is defined but never used  no-unused-vars
+  86:14  error  'error' is defined but never used  no-unused-vars
+
+/proyecto/atlas-qa/FRONTEND/src/pages/usuarios/UsuariosTabList.jsx
+  28:9  warning  The 'handleDeleteClick' function makes the dependencies of useMemo Hook (at line 154) change on every render. Move it inside the useMemo callback. Alternatively, wrap the definition of 'handleDeleteClick' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+✖ 11 problems (8 errors, 3 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

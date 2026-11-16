@@ -1,0 +1,1289 @@
+npm notice run atlas@1.0.0 test:ci
+npm notice run TZ=America/Santiago jest --runInBand --ci --coverage --json --outputFile=reports/jest-results.json
+FAIL tests/unit/auth.test.js
+  ● NFR-SEG-9 Verificación de tokens JWT › CP-47b sin JWT_SECRET configurado la app no usa una clave por defecto embebida
+
+    expect(received).not.toMatch(expected)
+
+    Expected pattern: not /SECRET=inseguro/
+    Received string:      "SECRET=inseguro
+    "
+
+      52 |     );
+      53 |     // Se acepta que falle al iniciar (fail-fast); NO se acepta la clave embebida "inseguro"
+    > 54 |     expect(r.stdout).not.toMatch(/SECRET=inseguro/);
+         |                          ^
+      55 |   });
+      56 | });
+      57 |
+
+      at Object.toMatch (tests/unit/auth.test.js:54:26)
+
+FAIL tests/unit/contratoEstado.test.js
+  ● RF-5.4 Estado de vigencia del contrato › CP-13b la fecha 'hoy' se calcula en la zona horaria de Chile (America/Santiago)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "2026-11-15"
+    Received: "2026-11-16"
+
+      49 |     // 23:30 del 15-11-2026 en Chile corresponde a 02:30 UTC del 16-11-2026.
+      50 |     const nocheChile = new Date("2026-11-16T02:30:00Z");
+    > 51 |     expect(fechaHoyISO(nocheChile)).toBe("2026-11-15");
+         |                                     ^
+      52 |     // Un contrato que vence el 15-11 a las 23:30 hora local aún NO está vencido
+      53 |     expect(calcularEstado("2026-11-15", nocheChile)).toBe("por_vencer");
+      54 |   });
+
+      at Object.toBe (tests/unit/contratoEstado.test.js:51:37)
+
+[0mPOST /empresas [32m201[0m 31.154 ms - 362[0m
+[0mPOST /autenticacion/login [32m200[0m 4017.337 ms - 265[0m
+[0mPOST /empresas [32m201[0m 5.630 ms - 362[0m
+[0mPOST /autenticacion/login [32m200[0m 4012.443 ms - 265[0m
+[0mPOST /empresa-usuarios [32m201[0m 4.906 ms - 97[0m
+[0mPOST /autenticacion/login [32m200[0m 4040.631 ms - 265[0m
+[0mPOST /clientes [32m201[0m 5.715 ms - 786[0m
+[0mPOST /clientes [32m201[0m 3.655 ms - 786[0m
+[0mPOST /contratos [32m201[0m 12.725 ms - 217[0m
+[0mPOST /contratos [32m201[0m 2.902 ms - 217[0m
+[0mGET /contratos [32m200[0m 4004.165 ms - 499[0m
+[0mPOST /contratos [32m201[0m 8.494 ms - 217[0m
+[0mPOST /contratos [31m500[0m 10.659 ms - 91[0m
+[0mPOST /contratos [32m201[0m 10.254 ms - 217[0m
+[0mPOST /contratos [32m201[0m 2.677 ms - 217[0m
+[0mPOST /contratos [32m201[0m 4.523 ms - 217[0m
+[0mGET /contratos/8/file [32m200[0m 1.316 ms - 193[0m
+[0mPOST /contratos [32m201[0m 9.465 ms - 217[0m
+[0mGET /contratos/9/file [32m200[0m 0.523 ms - 69[0m
+[0mPOST /contratos [32m201[0m 3.852 ms - 218[0m
+[0mPOST /contratos [32m201[0m 3.952 ms - 218[0m
+[0mPOST /contratos [32m201[0m 3.679 ms - 218[0m
+[0mPOST /contratos [32m201[0m 3.597 ms - 218[0m
+[0mGET /contratos/3/file [32m200[0m 0.464 ms - 193[0m
+[0mPOST /contratos [32m201[0m 54.750 ms - 218[0m
+[0mGET /contratos/14/file [32m200[0m 32.696 ms - 5243073[0m
+[0mPOST /contratos [32m201[0m 3.246 ms - 218[0m
+[0mPOST /contratos [32m201[0m 2.524 ms - 218[0m
+[0mPOST /contratos [32m201[0m 2.430 ms - 218[0m
+FAIL tests/integration/contratos.int.test.js (20.909 s)
+  ● Console
+
+    console.error
+      error: invalid input syntax for type bigint: "NaN"
+          at /proyecto/atlas-qa/BACKEND/node_modules/pg-pool/index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at /proyecto/atlas-qa/BACKEND/src/routes/contracts.js:30:28 {
+        length: 140,
+        severity: 'ERROR',
+        code: '22P02',
+        detail: undefined,
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: "unnamed portal parameter $1 = '...'",
+        schema: undefined,
+        table: undefined,
+        column: undefined,
+        dataType: undefined,
+        constraint: undefined,
+        file: 'numutils.c',
+        line: '316',
+        routine: 'pg_strtoint64'
+      }
+
+      52 |     res.status(201).json(result.rows[0]);
+      53 |   } catch (err) {
+    > 54 |     console.error(err);
+         |             ^
+      55 |     res.status(500).json({
+      56 |       error: "Error al crear contrato",
+      57 |       glosa: err.message || err.toString(),
+
+      at error (src/routes/contracts.js:54:13)
+
+  ● RF-5.1 Crear contratos asociados a cliente › CP-27 crear contrato con fecha_fin anterior a fecha_inicio responde 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      49 |   test("CP-27 crear contrato con fecha_fin anterior a fecha_inicio responde 400", async () => {
+      50 |     const res = await crearContrato(A, clienteA.id, { fecha_inicio: "2026-12-01", fecha_fin: "2026-01-01" });
+    > 51 |     expect(res.status).toBe(400);
+         |                        ^
+      52 |   });
+      53 |
+      54 |   test("CP-61 RB-3 un contrato debe asociarse a un (único) cliente: cliente_id es obligatorio", async () => {
+
+      at Object.toBe (tests/integration/contratos.int.test.js:51:24)
+
+  ● RF-5.1 Crear contratos asociados a cliente › CP-61 RB-3 un contrato debe asociarse a un (único) cliente: cliente_id es obligatorio
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 500
+
+      59 |       .field("fecha_inicio", "2026-01-01")
+      60 |       .field("fecha_fin", "2026-12-31");
+    > 61 |     expect(res.status).toBe(400);
+         |                        ^
+      62 |   });
+      63 |
+      64 |   test("CP-28 no se puede crear un contrato para un cliente de otra empresa ni sin autenticación", async () => {
+
+      at Object.toBe (tests/integration/contratos.int.test.js:61:24)
+
+  ● RF-5.1 Crear contratos asociados a cliente › CP-28 no se puede crear un contrato para un cliente de otra empresa ni sin autenticación
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 201
+    Received array: [400, 403, 404]
+
+      64 |   test("CP-28 no se puede crear un contrato para un cliente de otra empresa ni sin autenticación", async () => {
+      65 |     const cruzado = await crearContrato(A, clienteB.id);
+    > 66 |     expect([400, 403, 404]).toContain(cruzado.status);
+         |                             ^
+      67 |     const anon = await api()
+      68 |       .post("/contratos")
+      69 |       .field("cliente_id", String(clienteA.id))
+
+      at Object.toContain (tests/integration/contratos.int.test.js:66:29)
+
+  ● RF-5.1 Crear contratos asociados a cliente › CP-19 un editor no puede crear, editar ni eliminar contratos (403)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 403
+    Received: 201
+
+      76 |   test("CP-19 un editor no puede crear, editar ni eliminar contratos (403)", async () => {
+      77 |     const crear = await crearContrato(editorA, clienteA.id);
+    > 78 |     expect(crear.status).toBe(403);
+         |                          ^
+      79 |     const editar = await api().put(`/contratos/${contratoA.id}`).set(editorA.auth).field("titulo", "Editado por editor");
+      80 |     expect(editar.status).toBe(403);
+      81 |     const eliminar = await api().delete(`/contratos/${contratoA.id}`).set(editorA.auth);
+
+      at Object.toBe (tests/integration/contratos.int.test.js:78:26)
+
+  ● RF-5.2 / RF-5.3 Documentos del contrato › CP-29 adjuntar PDF y PNG; la descarga devuelve el mismo archivo con su tipo MIME
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "image/png"
+    Received string:    "application/pdf"
+
+      91 |       const dl = await api().get(`/contratos/${c.body.id}/file`).set(A.auth).buffer(true).parse(binario);
+      92 |       expect(dl.status).toBe(200);
+    > 93 |       expect(dl.headers["content-type"]).toContain(fx.opts.contentType);
+         |                                          ^
+      94 |       expect(Buffer.compare(dl.body, fs.readFileSync(fx.path))).toBe(0);
+      95 |     }
+      96 |   });
+
+      at Object.toContain (tests/integration/contratos.int.test.js:93:42)
+
+  ● RF-5.2 / RF-5.3 Documentos del contrato › CP-30 se rechaza adjuntar archivo no permitido malware.exe (400/415)
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 201
+    Received array: [400, 415]
+
+      101 |   ])("CP-30 se rechaza adjuntar archivo no permitido %s (400/415)", async (file, ct) => {
+      102 |     const res = await crearContrato(A, clienteA.id, {}, { path: path.join(FX, file), opts: { contentType: ct } });
+    > 103 |     expect([400, 415]).toContain(res.status);
+          |                        ^
+      104 |   });
+      105 |
+      106 |   test("CP-30b se rechaza un archivo con extensión permitida pero contenido falso (magic bytes)", async () => {
+
+      at toContain (tests/integration/contratos.int.test.js:103:24)
+
+  ● RF-5.2 / RF-5.3 Documentos del contrato › CP-30 se rechaza adjuntar archivo no permitido xss.html (400/415)
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 201
+    Received array: [400, 415]
+
+      101 |   ])("CP-30 se rechaza adjuntar archivo no permitido %s (400/415)", async (file, ct) => {
+      102 |     const res = await crearContrato(A, clienteA.id, {}, { path: path.join(FX, file), opts: { contentType: ct } });
+    > 103 |     expect([400, 415]).toContain(res.status);
+          |                        ^
+      104 |   });
+      105 |
+      106 |   test("CP-30b se rechaza un archivo con extensión permitida pero contenido falso (magic bytes)", async () => {
+
+      at toContain (tests/integration/contratos.int.test.js:103:24)
+
+  ● RF-5.2 / RF-5.3 Documentos del contrato › CP-30b se rechaza un archivo con extensión permitida pero contenido falso (magic bytes)
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 201
+    Received array: [400, 415]
+
+      108 |     fs.writeFileSync(tmp, "MZ esto en realidad es un ejecutable");
+      109 |     const res = await crearContrato(A, clienteA.id, {}, { path: tmp, opts: { contentType: "application/pdf" } });
+    > 110 |     expect([400, 415]).toContain(res.status);
+          |                        ^
+      111 |   });
+      112 |
+      113 |   test("CP-31 el documento se almacena en storage interno y la BD guarda su referencia", async () => {
+
+      at Object.toContain (tests/integration/contratos.int.test.js:110:24)
+
+  ● RF-5.2 / RF-5.3 Documentos del contrato › CP-31 el documento se almacena en storage interno y la BD guarda su referencia
+
+    expect(received).toBeTruthy()
+
+    Received: undefined
+
+      115 |     const { rows } = await db.query("SELECT * FROM documentos_contrato WHERE contract_id=$1", [c.body.id]);
+      116 |     expect(rows).toHaveLength(1);
+    > 117 |     expect(rows[0].ruta).toBeTruthy();
+          |                          ^
+      118 |     const uploadsRoot = path.join(__dirname, "..", "..", "uploads");
+      119 |     expect(fs.existsSync(path.join(uploadsRoot, rows[0].ruta))).toBe(true);
+      120 |   });
+
+      at Object.toBeTruthy (tests/integration/contratos.int.test.js:117:26)
+
+  ● RF-5.2 / RF-5.3 Documentos del contrato › CP-34 descargar documento exige autenticación y pertenencia a la empresa
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 401
+    Received: 200
+
+      122 |   test("CP-34 descargar documento exige autenticación y pertenencia a la empresa", async () => {
+      123 |     const anon = await api().get(`/contratos/${contratoA.id}/file`);
+    > 124 |     expect(anon.status).toBe(401);
+          |                         ^
+      125 |     const otro = await api().get(`/contratos/${contratoA.id}/file`).set(B.auth);
+      126 |     expect([403, 404]).toContain(otro.status);
+      127 |     const det = await api().get(`/contratos/${contratoA.id}`).set(B.auth);
+
+      at Object.toBe (tests/integration/contratos.int.test.js:124:25)
+
+  ● RF-5.4 Estado calculado del contrato › CP-32 los contratos listados exponen su estado (vigente / por_vencer / vencido)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "vigente"
+    Received: undefined
+
+      154 |     const res = await api().get("/contratos").set(A.auth);
+      155 |     const porId = Object.fromEntries(res.body.map((c) => [String(c.id), c.estado]));
+    > 156 |     expect(porId[String(vig.id)]).toBe("vigente");
+          |                                   ^
+      157 |     expect(porId[String(pv.id)]).toBe("por_vencer");
+      158 |     expect(porId[String(ven.id)]).toBe("vencido");
+      159 |     const det = await api().get(`/contratos/${ven.id}`).set(A.auth);
+
+      at Object.toBe (tests/integration/contratos.int.test.js:156:35)
+
+  ● RF-5.5 Enlace para compartir el documento › CP-33 generar enlace, acceder sin sesión y revocar el acceso
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 201
+    Received: 404
+
+      165 |   test("CP-33 generar enlace, acceder sin sesión y revocar el acceso", async () => {
+      166 |     const gen = await api().post(`/contratos/${contratoA.id}/compartir`).set(A.auth).send({ horas: 24 });
+    > 167 |     expect(gen.status).toBe(201);
+          |                        ^
+      168 |     expect(gen.body.token).toBeDefined();
+      169 |     const acceso = await api().get(`/compartido/${gen.body.token}`).buffer(true).parse(binario);
+      170 |     expect(acceso.status).toBe(200);
+
+      at Object.toBe (tests/integration/contratos.int.test.js:167:24)
+
+  ● RF-6.1 Auditoría de acciones críticas sobre contratos y documentos › CP-36 se auditan la subida, descarga y eliminación de contratos/documentos
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /DOCUMENTO_DESCARGAR.*18/
+    Received string:  "LOGIN: usuario inició sesión
+    EMPRESA_USUARIOS_CREAR: vinculó usuario 5 a empresa 2 con rol 2
+    CLIENTES_CREAR: creó cliente Cliente cli_mwile81x_29773_6
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato de mantención para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 4
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+    CONTRATOS_ELIMINAR: eliminó contrato ID 18"
+
+      187 |     const acciones = rows.map((r) => r.accion).join("\n");
+      188 |     expect(acciones).toMatch(new RegExp(`CONTRATOS_CREAR.*`));
+    > 189 |     expect(acciones).toMatch(new RegExp(`DOCUMENTO_DESCARGAR.*${c.id}`));
+          |                      ^
+      190 |     expect(acciones).toMatch(new RegExp(`CONTRATOS_ELIMINAR.*${c.id}`));
+      191 |   });
+      192 | });
+
+      at Object.toMatch (tests/integration/contratos.int.test.js:189:22)
+
+[0mGET /contratos [32m200[0m 4003.874 ms - 3495[0m
+[0mPOST /contratos/3/compartir [33m404[0m 0.768 ms - 161[0m
+[0mPOST /contratos [32m201[0m 15.968 ms - 218[0m
+[0mGET /contratos/18/file [32m200[0m 0.466 ms - 193[0m
+[0mDELETE /contratos/18 [32m200[0m 3.648 ms - 16[0m
+[0mPOST /empresas [32m201[0m 23.547 ms - 362[0m
+[0mPOST /autenticacion/login [32m200[0m 4013.318 ms - 265[0m
+[0mPOST /empresas [32m201[0m 4.877 ms - 362[0m
+[0mPOST /autenticacion/login [32m200[0m 4013.453 ms - 265[0m
+[0mPOST /empresa-usuarios [32m201[0m 5.577 ms - 97[0m
+[0mPOST /autenticacion/login [32m200[0m 4014.892 ms - 265[0m
+[0mPOST /clientes [32m201[0m 5.106 ms - 786[0m
+[0mPOST /clientes [32m201[0m 3.534 ms - 786[0m
+[0mGET /clientes [33m401[0m 4002.019 ms - 74[0m
+[0mGET /clientes [33m401[0m 4000.510 ms - 74[0m
+[0mGET /clientes [32m200[0m 4017.985 ms - 788[0m
+[0mGET /clientes/6 [33m404[0m 1.046 ms - 25[0m
+[0mPUT /clientes/6 [33m404[0m 1.061 ms - 25[0m
+[0mDELETE /clientes/6 [33m404[0m 0.743 ms - 25[0m
+[0mPOST /clientes [32m201[0m 13.118 ms - 786[0m
+[0mPOST /clientes [32m201[0m 2.790 ms - 788[0m
+[0mPOST /clientes [32m201[0m 2.611 ms - 788[0m
+[0mPUT /clientes/5 [32m200[0m 2.751 ms - 788[0m
+[0mPOST /clientes [32m201[0m 2.407 ms - 789[0m
+[0mPUT /clientes/10 [32m200[0m 2.341 ms - 787[0m
+[0mGET /clientes/10 [32m200[0m 0.583 ms - 787[0m
+[0mPOST /clientes [32m201[0m 2.376 ms - 789[0m
+[0mDELETE /clientes/11 [32m200[0m 2.698 ms - 16[0m
+[0mGET /clientes/11 [33m404[0m 0.584 ms - 25[0m
+[0mPOST /empresas [32m201[0m 4.765 ms - 366[0m
+[0mPOST /autenticacion/login [32m200[0m 4016.945 ms - 267[0m
+[0mPOST /clientes [32m201[0m 3.544 ms - 783[0m
+[0mPOST /clientes [32m201[0m 3.091 ms - 783[0m
+[0mPOST /clientes [32m201[0m 2.967 ms - 783[0m
+[0mPOST /clientes [32m201[0m 3.017 ms - 771[0m
+FAIL tests/integration/clientes.int.test.js (32.495 s)
+  ● Console
+
+    console.log
+      authUser 4
+
+      at log (src/routes/clients.js:133:13)
+
+    console.log
+      authUser 6
+
+      at log (src/routes/clients.js:133:13)
+
+  ● RF-4.1 Crear clientes › CP-18 un editor (solo lectura) no puede crear clientes (403)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 403
+    Received: 201
+
+      66 |   test("CP-18 un editor (solo lectura) no puede crear clientes (403)", async () => {
+      67 |     const res = await crearCliente(editorA);
+    > 68 |     expect(res.status).toBe(403);
+         |                        ^
+      69 |     const lista = await api().get("/clientes").set(editorA.auth);
+      70 |     expect(lista.status).toBe(200); // pero sí puede visualizar
+      71 |   });
+
+      at Object.toBe (tests/integration/clientes.int.test.js:68:24)
+
+  ● RF-4.1 Crear clientes › CP-19a un editor no puede editar ni eliminar clientes (403)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 403
+    Received: 200
+
+      73 |   test("CP-19a un editor no puede editar ni eliminar clientes (403)", async () => {
+      74 |     const put = await api().put(`/clientes/${clienteA.id}`).set(editorA.auth).send(clienteValido());
+    > 75 |     expect(put.status).toBe(403);
+         |                        ^
+      76 |     const del = await api().delete(`/clientes/${clienteA.id}`).set(editorA.auth);
+      77 |     expect(del.status).toBe(403);
+      78 |   });
+
+      at Object.toBe (tests/integration/clientes.int.test.js:75:24)
+
+  ● RF-4.2 Editar, eliminar y listar clientes › CP-23 la eliminación de clientes es lógica (el registro se conserva marcado)
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 1
+    Received length: 0
+    Received array:  []
+
+       97 |     expect(get.status).toBe(404);
+       98 |     const { rows } = await db.query("SELECT * FROM clientes WHERE id=$1", [c.id]);
+    >  99 |     expect(rows).toHaveLength(1);
+          |                  ^
+      100 |     expect(rows[0].eliminado_en).toBeTruthy();
+      101 |     const aud = await db.query("SELECT 1 FROM auditoria WHERE accion LIKE $1", [`%CLIENTES_ELIMINAR%${c.id}%`]);
+      102 |     expect(aud.rows.length).toBeGreaterThan(0);
+
+      at Object.toHaveLength (tests/integration/clientes.int.test.js:99:18)
+
+  ● RF-4.2 Editar, eliminar y listar clientes › CP-24 el listado de clientes soporta paginación y filtro por nombre
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 2
+    Received length: 4
+    Received array:  [{"cargo_representante": null, "correo": "cli_mwilf0eo_29773_23@cliente-qa.cl", "correo_representante": null, "created_at": "2026-11-16T01:36:48.337Z", "dia_pago": "5", "direccion": "Calle Falsa 123, Providencia", "direccion_calle": null, "direccion_ciudad": null, "direccion_numero": null, "direccion_region": null, "empresa_id": "6", "es_empresa": true, "giro_actividad_economica": "Servicios informáticos", "id": "15", "metodo_pago": "transferencia", "moneda": "CLP", "nombre": "Otro nombre", "nombre_banco": "Banco de Pruebas", "nombre_fantasia": "Cliente QA", "nombre_representante": null, "numero_cuenta": "00012345678", "relacion_representante": null, "rut": "76.086.428-5", "sitio_web": null, "telefono": "+56987654321", "telefono_corporativo": null, "telefono_representante": null, "titular_cuenta": "Cliente QA SpA"}, {"cargo_representante": null, "correo": "cli_mwilf0ej_29773_22@cliente-qa.cl", "correo_representante": null, "created_at": "2026-11-16T01:36:48.333Z", "dia_pago": "5", "direccion": "Calle Falsa 123, Providencia", "direccion_calle": null, "direccion_ciudad": null, "direccion_numero": null, "direccion_region": null, "empresa_id": "6", "es_empresa": true, "giro_actividad_economica": "Servicios informáticos", "id": "14", "metodo_pago": "transferencia", "moneda": "CLP", "nombre": "pag_mwilf0ea_29773_19 2", "nombre_banco": "Banco de Pruebas", "nombre_fantasia": "Cliente QA", "nombre_representante": null, "numero_cuenta": "00012345678", "relacion_representante": null, "rut": "76.086.428-5", "sitio_web": null, "telefono": "+56987654321", "telefono_corporativo": null, "telefono_representante": null, "titular_cuenta": "Cliente QA SpA"}, {"cargo_representante": null, "correo": "cli_mwilf0ef_29773_21@cliente-qa.cl", "correo_representante": null, "created_at": "2026-11-16T01:36:48.328Z", "dia_pago": "5", "direccion": "Calle Falsa 123, Providencia", "direccion_calle": null, "direccion_ciudad": null, "direccion_numero": null, "direccion_region": null, "empresa_id": "6", "es_empresa": true, "giro_actividad_economica": "Servicios informáticos", "id": "13", "metodo_pago": "transferencia", "moneda": "CLP", "nombre": "pag_mwilf0ea_29773_19 1", "nombre_banco": "Banco de Pruebas", "nombre_fantasia": "Cliente QA", "nombre_representante": null, "numero_cuenta": "00012345678", "relacion_representante": null, "rut": "76.086.428-5", "sitio_web": null, "telefono": "+56987654321", "telefono_corporativo": null, "telefono_representante": null, "titular_cuenta": "Cliente QA SpA"}, {"cargo_representante": null, "correo": "cli_mwilf0ea_29773_20@cliente-qa.cl", "correo_representante": null, "created_at": "2026-11-16T01:36:48.323Z", "dia_pago": "5", "direccion": "Calle Falsa 123, Providencia", "direccion_calle": null, "direccion_ciudad": null, "direccion_numero": null, "direccion_region": null, "empresa_id": "6", "es_empresa": true, "giro_actividad_economica": "Servicios informáticos", "id": "12", "metodo_pago": "transferencia", "moneda": "CLP", "nombre": "pag_mwilf0ea_29773_19 0", "nombre_banco": "Banco de Pruebas", "nombre_fantasia": "Cliente QA", "nombre_representante": null, "numero_cuenta": "00012345678", "relacion_representante": null, "rut": "76.086.428-5", "sitio_web": null, "telefono": "+56987654321", "telefono_corporativo": null, "telefono_representante": null, "titular_cuenta": "Cliente QA SpA"}]
+
+      111 |     expect(pag.status).toBe(200);
+      112 |     const lista = Array.isArray(pag.body) ? pag.body : pag.body.data;
+    > 113 |     expect(lista).toHaveLength(2);
+          |                   ^
+      114 |     expect(Number(pag.headers["x-total-count"] || pag.body.total)).toBe(4);
+      115 |     const filtro = await api().get(`/clientes?nombre=${encodeURIComponent(marca)}`).set(C.auth);
+      116 |     const lf = Array.isArray(filtro.body) ? filtro.body : filtro.body.data;
+
+      at Object.toHaveLength (tests/integration/clientes.int.test.js:113:19)
+
+  ● RF-4.3 Validación de campos › CP-25 crear cliente con { correo: 'no-es-un-correo' } (correo inválido) responde 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      129 |   ])("CP-25 crear cliente con %o (%s) responde 400", async (over) => {
+      130 |     const res = await crearCliente(A, over);
+    > 131 |     expect(res.status).toBe(400);
+          |                        ^
+      132 |   });
+      133 | });
+      134 |
+
+      at toBe (tests/integration/clientes.int.test.js:131:24)
+
+  ● RF-4.3 Validación de campos › CP-25 crear cliente con { rut: '12.345.678-0' } (RUT con dígito verificador inválido) responde 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      129 |   ])("CP-25 crear cliente con %o (%s) responde 400", async (over) => {
+      130 |     const res = await crearCliente(A, over);
+    > 131 |     expect(res.status).toBe(400);
+          |                        ^
+      132 |   });
+      133 | });
+      134 |
+
+      at toBe (tests/integration/clientes.int.test.js:131:24)
+
+  ● RF-4.3 Validación de campos › CP-25 crear cliente con { nombre: '' } (nombre vacío) responde 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      129 |   ])("CP-25 crear cliente con %o (%s) responde 400", async (over) => {
+      130 |     const res = await crearCliente(A, over);
+    > 131 |     expect(res.status).toBe(400);
+          |                        ^
+      132 |   });
+      133 | });
+      134 |
+
+      at toBe (tests/integration/clientes.int.test.js:131:24)
+
+  ● RF-4.3 Validación de campos › CP-25 crear cliente con { telefono: 'abc-def' } (teléfono no numérico) responde 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      129 |   ])("CP-25 crear cliente con %o (%s) responde 400", async (over) => {
+      130 |     const res = await crearCliente(A, over);
+    > 131 |     expect(res.status).toBe(400);
+          |                        ^
+      132 |   });
+      133 | });
+      134 |
+
+      at toBe (tests/integration/clientes.int.test.js:131:24)
+
+  ● RF-4.3 Validación de campos › CP-25 crear cliente con { dia_pago: '45' } (día de pago fuera de rango) responde 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      129 |   ])("CP-25 crear cliente con %o (%s) responde 400", async (over) => {
+      130 |     const res = await crearCliente(A, over);
+    > 131 |     expect(res.status).toBe(400);
+          |                        ^
+      132 |   });
+      133 | });
+      134 |
+
+      at toBe (tests/integration/clientes.int.test.js:131:24)
+
+  ● RF-4.3 Validación de campos › CP-25 crear cliente con {
+  nombre: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+} (nombre excede largo máximo) responde 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      129 |   ])("CP-25 crear cliente con %o (%s) responde 400", async (over) => {
+      130 |     const res = await crearCliente(A, over);
+    > 131 |     expect(res.status).toBe(400);
+          |                        ^
+      132 |   });
+      133 | });
+      134 |
+
+      at toBe (tests/integration/clientes.int.test.js:131:24)
+
+  ● NFR-SEG-3 Cifrado de datos sensibles en reposo › CP-45 el número de cuenta bancaria se almacena cifrado y se entrega descifrado al titular
+
+    expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not "99988877766"
+
+      149 |     expect(res.status).toBe(201);
+      150 |     const { rows } = await db.query("SELECT numero_cuenta FROM clientes WHERE id=$1", [res.body.id]);
+    > 151 |     expect(rows[0].numero_cuenta).not.toBe("99988877766");
+          |                                       ^
+      152 |     expect(rows[0].numero_cuenta).not.toContain("99988877766");
+      153 |     const get = await api().get(`/clientes/${res.body.id}`).set(A.auth);
+      154 |     expect(get.body.numero_cuenta).toBe("99988877766");
+
+      at Object.toBe (tests/integration/clientes.int.test.js:151:39)
+
+[0mGET /clientes?page=1&limit=2 [32m200[0m 4003.272 ms - 3125[0m
+[0mPOST /clientes [32m201[0m 12.856 ms - 769[0m
+[0mPOST /clientes [32m201[0m 3.280 ms - 789[0m
+[0mPOST /clientes [32m201[0m 3.441 ms - 760[0m
+[0mPOST /clientes [32m201[0m 2.967 ms - 784[0m
+[0mPOST /clientes [32m201[0m 2.601 ms - 790[0m
+[0mPOST /clientes [32m201[0m 2.378 ms - 1060[0m
+[0mGET /clientes/search?name=%27%20OR%20%271%27%3D%271%27%20-- [32m200[0m 1.770 ms - 2[0m
+[0mGET /clientes/search?name=%25%27%20UNION%20SELECT%20%2A%20FROM%20usuarios%20-- [32m200[0m 0.744 ms - 2[0m
+[0mPOST /clientes [32m201[0m 2.736 ms - 789[0m
+[0mPOST /empresas [32m201[0m 22.933 ms - 363[0m
+[0mPOST /autenticacion/login [32m200[0m 4038.474 ms - 268[0m
+[0mPOST /empresas [32m201[0m 4.570 ms - 363[0m
+[0mPOST /autenticacion/login [32m200[0m 4014.188 ms - 268[0m
+[0mPOST /clientes [32m201[0m 4.735 ms - 779[0m
+[0mGET /auditoria [32m200[0m 1.378 ms - 8255[0m
+[0mGET /clientes/abc [31m500[0m 7.609 ms - 92[0m
+[0mGET / [32m200[0m 0.248 ms - 30[0m
+[0mGET / [32m200[0m 0.143 ms - 30[0m
+[0mGET /empresas [32m200[0m 10.174 ms - 1622[0m
+[0mGET /clientes [32m200[0m 4001.904 ms - 2[0m
+[0mPOST /clientes [32m201[0m 37.358 ms - 787[0m
+[0mGET /contratos [32m200[0m 4002.916 ms - 2[0m
+[0mGET /clientes [32m200[0m 4002.601 ms - 789[0m
+[0mPOST /clientes [32m201[0m 13.681 ms - 787[0m
+[0mGET /contratos [32m200[0m 4001.276 ms - 2[0m
+[0mGET /clientes [32m200[0m 4001.005 ms - 1577[0m
+[0mPOST /clientes [32m201[0m 12.233 ms - 787[0m
+[0mGET /contratos [32m200[0m 4002.117 ms - 2[0m
+[0mGET /clientes [32m200[0m 4002.479 ms - 2365[0m
+[0mPOST /clientes [32m201[0m 13.665 ms - 787[0m
+[0mGET /contratos [32m200[0m 4000.808 ms - 2[0m
+[0mGET /clientes [32m200[0m 4001.997 ms - 3153[0m
+[0mPOST /clientes [32m201[0m 12.497 ms - 789[0m
+FAIL tests/integration/seguridad.int.test.js (48.374 s)
+  ● Console
+
+    console.error
+      error: invalid input syntax for type bigint: "abc"
+          at /proyecto/atlas-qa/BACKEND/node_modules/pg-pool/index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at /proyecto/atlas-qa/BACKEND/src/routes/clients.js:192:20 {
+        length: 140,
+        severity: 'ERROR',
+        code: '22P02',
+        detail: undefined,
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: "unnamed portal parameter $1 = '...'",
+        schema: undefined,
+        table: undefined,
+        column: undefined,
+        dataType: undefined,
+        constraint: undefined,
+        file: 'numutils.c',
+        line: '316',
+        routine: 'pg_strtoint64'
+      }
+
+      200 |     res.json(result.rows[0]);
+      201 |   } catch (err) {
+    > 202 |     console.error(err);
+          |             ^
+      203 |     res.status(500).json({
+      204 |       error: "Error al obtener cliente",
+      205 |       glosa: err.message || err.toString(),
+
+      at error (src/routes/clients.js:202:13)
+
+    console.log
+      authUser 7
+
+      at log (src/routes/clients.js:133:13)
+
+    console.log
+      authUser 7
+
+      at log (src/routes/clients.js:133:13)
+
+    console.log
+      authUser 7
+
+      at log (src/routes/clients.js:133:13)
+
+    console.log
+      authUser 7
+
+      at log (src/routes/clients.js:133:13)
+
+    console.log
+      authUser 7
+
+      at log (src/routes/clients.js:133:13)
+
+    console.log
+      CP-50 p95 (ms): {"listarClientes":4004,"crearCliente":38,"listarContratos":4005}
+
+      at Object.log (tests/integration/seguridad.int.test.js:93:13)
+
+  ● NFR-SEG-6 / RB-2 Gestión segura de logs de auditoría › CP-37 la auditoría exige autenticación, se aísla por empresa y no acepta inserciones anónimas
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 401
+    Received: 200
+
+      18 |   test("CP-37 la auditoría exige autenticación, se aísla por empresa y no acepta inserciones anónimas", async () => {
+      19 |     const anon = await api().get("/auditoria");
+    > 20 |     expect(anon.status).toBe(401);
+         |                         ^
+      21 |     const res = await api().get("/auditoria").set(A.auth);
+      22 |     expect(res.status).toBe(200);
+      23 |     const usuarios = new Set(res.body.map((r) => r.usuario_id));
+
+      at Object.toBe (tests/integration/seguridad.int.test.js:20:25)
+
+  ● NFR-SEG-5 / NFR-SEG-6 Manejo de errores sin fuga de información › CP-39 los errores no exponen detalles internos (SQL, stack, constraints)
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 500
+    Received:   500
+
+      31 |   test("CP-39 los errores no exponen detalles internos (SQL, stack, constraints)", async () => {
+      32 |     const r1 = await api().get("/clientes/abc").set(A.auth);
+    > 33 |     expect(r1.status).toBeLessThan(500);
+         |                       ^
+      34 |     const r2 = await crearCliente(A, { correo: undefined, nombre: undefined });
+      35 |     const cuerpos = JSON.stringify([r1.body, r2.body]);
+      36 |     expect(cuerpos).not.toMatch(/syntax|constraint|violates|relation|column|bigint|at .*\.js/i);
+
+      at Object.toBeLessThan (tests/integration/seguridad.int.test.js:33:23)
+
+  ● NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF › CP-42 CORS restringido a orígenes permitidos y sesión sin cookies (mitiga CSRF)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      42 |     const res = await api().get("/").set("Origin", "https://sitio-malicioso.example");
+      43 |     const acao = res.headers["access-control-allow-origin"];
+    > 44 |     expect(acao === undefined || (acao !== "*" && acao !== "https://sitio-malicioso.example")).toBe(true);
+         |                                                                                                ^
+      45 |     const lr = await api().post("/autenticacion/login").send({ nombre_usuario: A.nombre_usuario, password: A.password });
+      46 |     expect(lr.headers["set-cookie"]).toBeUndefined();
+      47 |   });
+
+      at Object.toBe (tests/integration/seguridad.int.test.js:44:96)
+
+  ● NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF › CP-43 la API envía cabeceras de seguridad HTTP (Helmet)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "nosniff"
+    Received: undefined
+
+      49 |   test("CP-43 la API envía cabeceras de seguridad HTTP (Helmet)", async () => {
+      50 |     const res = await api().get("/");
+    > 51 |     expect(res.headers["x-content-type-options"]).toBe("nosniff");
+         |                                                   ^
+      52 |     expect(res.headers["x-frame-options"] || res.headers["content-security-policy"]).toBeDefined();
+      53 |     expect(res.headers["strict-transport-security"]).toBeDefined();
+      54 |     expect(res.headers["x-powered-by"]).toBeUndefined();
+
+      at Object.toBe (tests/integration/seguridad.int.test.js:51:51)
+
+  ● NFR-SEG-8 Protección de datos personales (Ley 19.628 / Ley 21.719) › CP-49 datos de empresas y usuarios no son accesibles por terceros no autorizados
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 401
+    Received: 200
+
+      59 |   test("CP-49 datos de empresas y usuarios no son accesibles por terceros no autorizados", async () => {
+      60 |     const anon = await api().get("/empresas");
+    > 61 |     expect(anon.status).toBe(401);
+         |                         ^
+      62 |     const lista = await api().get("/empresas").set(A.auth);
+      63 |     expect(lista.status).toBe(200);
+      64 |     expect(lista.body.map((e) => String(e.id))).not.toContain(String(B.empresaId));
+
+      at Object.toBe (tests/integration/seguridad.int.test.js:61:25)
+
+  ● NFR-PERF-1 Tiempo de respuesta de operaciones CRUD simples › CP-50 GET/POST de clientes y contratos responden con p95 < 300 ms
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 300
+    Received:   4004
+
+      92 |     const resumen = Object.fromEntries(Object.entries(tiempos).map(([k, v]) => [k, p95(v)]));
+      93 |     console.log("CP-50 p95 (ms):", JSON.stringify(resumen));
+    > 94 |     Object.values(resumen).forEach((v) => expect(v).toBeLessThan(300));
+         |                                                     ^
+      95 |   }, 120000);
+      96 | });
+      97 |
+
+      at toBeLessThan (tests/integration/seguridad.int.test.js:94:53)
+          at Array.forEach (<anonymous>)
+      at Object.forEach (tests/integration/seguridad.int.test.js:94:28)
+
+  ● 3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) › CP-62b la colección OpenAPI documenta logout, refresh y compartir documentos
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: "/autenticacion/logout"
+    Received array: ["/autenticacion/login", "/usuarios", "/usuarios/{id}", "/clientes", "/clientes/search", "/clientes/{id}", "/contratos", "/contratos/estados", "/contratos/dashboard", "/contratos/{id}", …]
+
+      112 |     const paths = Object.keys(res.body.paths || {});
+      113 |     ["/autenticacion/logout", "/autenticacion/refresh", "/contratos/{id}/compartir", "/compartido/{token}"].forEach((p) =>
+    > 114 |       expect(paths).toContain(p)
+          |                     ^
+      115 |     );
+      116 |   });
+      117 | });
+
+      at toContain (tests/integration/seguridad.int.test.js:114:21)
+          at Array.forEach (<anonymous>)
+      at Object.forEach (tests/integration/seguridad.int.test.js:113:109)
+
+[0mGET /contratos [32m200[0m 4001.217 ms - 2[0m
+[0mGET /openapi.json [32m200[0m 0.477 ms - 14099[0m
+[0mGET /docs/ [32m200[0m 1.079 ms - 3106[0m
+[0mGET /openapi.json [32m200[0m 0.193 ms - 14099[0m
+[0mPOST /empresas [32m201[0m 24.165 ms - 363[0m
+[0mPOST /autenticacion/login [32m200[0m 4013.789 ms - 268[0m
+[0mPOST /empresas [32m201[0m 4.068 ms - 364[0m
+[0mPOST /autenticacion/login [32m200[0m 4011.564 ms - 269[0m
+[0mPOST /empresa-usuarios [32m201[0m 4.278 ms - 99[0m
+[0mPOST /autenticacion/login [32m200[0m 4012.089 ms - 268[0m
+[0mGET /usuarios [32m200[0m 5.496 ms - 273[0m
+[0mPOST /empresa-usuarios [33m400[0m 1.747 ms - 67[0m
+[0mPOST /empresa-usuarios [32m201[0m 3.998 ms - 99[0m
+[0mPOST /empresa-usuarios [32m201[0m 3.923 ms - 99[0m
+FAIL tests/integration/usuarios.int.test.js (16.266 s)
+  ● Console
+
+    console.log
+      authUser {
+        usuarioId: '12',
+        nombreUsuario: 'adm_mwilg4za_29773_1',
+        empresaUsuarioId: '12',
+        empresaId: '9',
+        iat: 1794793064,
+        exp: 1794800264
+      }
+
+      at log (src/routes/users.js:32:13)
+
+    console.error
+      error: null value in column "contrasena_hash" of relation "usuarios" violates not-null constraint
+          at /proyecto/atlas-qa/BACKEND/node_modules/pg-pool/index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at /proyecto/atlas-qa/BACKEND/src/routes/users.js:85:20 {
+        length: 309,
+        severity: 'ERROR',
+        code: '23502',
+        detail: 'Failing row contains (17, edi_mwilgebq_29773_8, null, upd_mwilghfe_29773_9@atlas-qa.cl, 2026-11-16 01:37:53.031994+00).',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'usuarios',
+        column: 'contrasena_hash',
+        dataType: undefined,
+        constraint: undefined,
+        file: 'execMain.c',
+        line: '2039',
+        routine: 'ExecConstraints'
+      }
+
+      101 |     res.json(result.rows[0]);
+      102 |   } catch (err) {
+    > 103 |     console.error(err);
+          |             ^
+      104 |     res.status(500).json({
+      105 |       error: "Error al actualizar usuario",
+      106 |       glosa: err.message || err.toString(),
+
+      at error (src/routes/users.js:103:13)
+
+    console.error
+      error: null value in column "contrasena_hash" of relation "usuarios" violates not-null constraint
+          at /proyecto/atlas-qa/BACKEND/node_modules/pg-pool/index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at /proyecto/atlas-qa/BACKEND/src/routes/users.js:85:20 {
+        length: 308,
+        severity: 'ERROR',
+        code: '23502',
+        detail: 'Failing row contains (12, adm_mwilg4za_29773_1, null, x_mwilghfl_29773_10@atlas-qa.cl, 2026-11-16 01:37:40.930757+00).',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'usuarios',
+        column: 'contrasena_hash',
+        dataType: undefined,
+        constraint: undefined,
+        file: 'execMain.c',
+        line: '2039',
+        routine: 'ExecConstraints'
+      }
+
+      101 |     res.json(result.rows[0]);
+      102 |   } catch (err) {
+    > 103 |     console.error(err);
+          |             ^
+      104 |     res.status(500).json({
+      105 |       error: "Error al actualizar usuario",
+      106 |       glosa: err.message || err.toString(),
+
+      at error (src/routes/users.js:103:13)
+
+  ● RF-3.1 Crear/invitar usuarios y asignar rol › CP-12 vincular usuario a empresa exige rol_id (400) y no crea usuario huérfano
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 1
+    Received array:  [{"id": "15"}]
+
+      33 |     expect(res.status).toBe(400);
+      34 |     const { rows } = await db.query("SELECT id FROM usuarios WHERE nombre_usuario=$1", [nombre_usuario]);
+    > 35 |     expect(rows).toHaveLength(0);
+         |                  ^
+      36 |   });
+      37 |
+      38 |   test("CP-18c un editor no puede crear usuarios (403)", async () => {
+
+      at Object.toHaveLength (tests/integration/usuarios.int.test.js:35:18)
+
+  ● RF-3.1 Crear/invitar usuarios y asignar rol › CP-18c un editor no puede crear usuarios (403)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 403
+    Received: 201
+
+      42 |       .set(editorA.auth)
+      43 |       .send({ nombre_usuario, contrasena_hash: PASSWORD_FUERTE, correo: `${nombre_usuario}@atlas-qa.cl`, rol_id: 1 });
+    > 44 |     expect(res.status).toBe(403);
+         |                        ^
+      45 |   });
+      46 | });
+      47 |
+
+      at Object.toBe (tests/integration/usuarios.int.test.js:44:24)
+
+  ● RF-3.3 Administrador modifica o elimina usuarios de su empresa › CP-20 admin actualiza y elimina a un usuario de su empresa
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 500
+
+      54 |       .set(A.auth)
+      55 |       .send({ nombre_usuario: tmp.nombre_usuario, correo: nuevoCorreo });
+    > 56 |     expect(up.status).toBe(200);
+         |                       ^
+      57 |     expect(up.body.correo).toBe(nuevoCorreo);
+      58 |     const del = await api().delete(`/usuarios/${tmp.usuarioId}`).set(A.auth);
+      59 |     expect(del.status).toBe(200);
+
+      at Object.toBe (tests/integration/usuarios.int.test.js:56:23)
+
+  ● RF-3.3 Administrador modifica o elimina usuarios de su empresa › CP-19b un editor no puede modificar ni eliminar usuarios (403)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 403
+    Received: 500
+
+      67 |       .set(editorA.auth)
+      68 |       .send({ nombre_usuario: A.nombre_usuario, correo: `${uid("x")}@atlas-qa.cl` });
+    > 69 |     expect(put.status).toBe(403);
+         |                        ^
+      70 |     const del = await api().delete(`/usuarios/${A.usuarioId}`).set(editorA.auth);
+      71 |     expect(del.status).toBe(403);
+      72 |   });
+
+      at Object.toBe (tests/integration/usuarios.int.test.js:69:24)
+
+  ● RF-3.3 Administrador modifica o elimina usuarios de su empresa › CP-21 admin de la empresa A no puede leer, modificar ni eliminar usuarios de la empresa B (IDOR)
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 200
+    Received array: [403, 404]
+
+      74 |   test("CP-21 admin de la empresa A no puede leer, modificar ni eliminar usuarios de la empresa B (IDOR)", async () => {
+      75 |     const get = await api().get(`/usuarios/${B.usuarioId}`).set(A.auth);
+    > 76 |     expect([403, 404]).toContain(get.status);
+         |                        ^
+      77 |     const put = await api()
+      78 |       .put(`/usuarios/${B.usuarioId}`)
+      79 |       .set(A.auth)
+
+      at Object.toContain (tests/integration/usuarios.int.test.js:76:24)
+
+  ● RF-3.3 Administrador modifica o elimina usuarios de su empresa › CP-21b sin token no es posible crear, leer ni modificar usuarios (401)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 401
+    Received: 201
+
+      86 |   test("CP-21b sin token no es posible crear, leer ni modificar usuarios (401)", async () => {
+      87 |     const post = await api().post("/usuarios").send({ nombre_usuario: uid("anon"), contrasena_hash: "x", correo: `${uid("a")}@x.cl` });
+    > 88 |     expect(post.status).toBe(401);
+         |                         ^
+      89 |     const get = await api().get(`/usuarios/${A.usuarioId}`);
+      90 |     expect(get.status).toBe(401);
+      91 |   });
+
+      at Object.toBe (tests/integration/usuarios.int.test.js:88:25)
+
+  ● NFR-SEG-2 Almacenamiento seguro de contraseñas › CP-38 las contraseñas se almacenan con hash bcrypt (no en texto plano)
+
+    expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not "Atlas#Prueba2026"
+
+       95 |   test("CP-38 las contraseñas se almacenan con hash bcrypt (no en texto plano)", async () => {
+       96 |     const { rows } = await db.query("SELECT contrasena_hash FROM usuarios WHERE nombre_usuario=$1", [A.nombre_usuario]);
+    >  97 |     expect(rows[0].contrasena_hash).not.toBe(A.password);
+          |                                         ^
+       98 |     expect(rows[0].contrasena_hash).toMatch(/^\$2[aby]\$\d{2}\$.{53}$/);
+       99 |   });
+      100 |
+
+      at Object.toBe (tests/integration/usuarios.int.test.js:97:41)
+
+  ● NFR-SEG-2 Almacenamiento seguro de contraseñas › CP-38b los usuarios semilla (admin/editor) no conservan contraseñas en texto plano
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /^\$2[aby]\$/
+    Received string:  "admin"
+
+      103 |       "SELECT nombre_usuario, contrasena_hash FROM usuarios WHERE nombre_usuario IN ('admin','editor')"
+      104 |     );
+    > 105 |     for (const r of rows) expect(r.contrasena_hash).toMatch(/^\$2[aby]\$/);
+          |                                                     ^
+      106 |   });
+      107 | });
+      108 |
+
+      at Object.toMatch (tests/integration/usuarios.int.test.js:105:53)
+
+[0mPOST /autenticacion/login [32m200[0m 4012.947 ms - 268[0m
+[0mPUT /usuarios/17 [31m500[0m 3.657 ms - 144[0m
+[0mPUT /usuarios/12 [31m500[0m 7.017 ms - 144[0m
+[0mGET /usuarios/13 [32m200[0m 6.850 ms - 135[0m
+[0mPOST /usuarios [32m201[0m 1.682 ms - 129[0m
+[0mPOST /empresas [32m201[0m 22.333 ms - 364[0m
+[0mPOST /autenticacion/login [32m200[0m 4014.736 ms - 269[0m
+[0mPOST /autenticacion/login [32m200[0m 4013.742 ms - 269[0m
+[0mPOST /autenticacion/login [33m401[0m 4002.459 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4002.024 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4001.784 ms - 35[0m
+[0mPOST /autenticacion/login [32m200[0m 4038.431 ms - 269[0m
+[0mGET /clientes [32m200[0m 4004.231 ms - 2[0m
+[0mPOST /autenticacion/logout [33m404[0m 0.754 ms - 160[0m
+[0mPOST /autenticacion/login [32m200[0m 4013.669 ms - 269[0m
+FAIL tests/integration/auth.int.test.js (36.247 s)
+  ● Console
+
+    console.log
+      authUser 11
+
+      at log (src/routes/clients.js:133:13)
+
+  ● RF-1.2 Cierre de sesión y revocación de tokens › CP-14 logout invalida el token: reutilizarlo responde 401
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 404
+    Received array: [200, 204]
+
+      49 |     expect(antes.status).toBe(200);
+      50 |     const out = await api().post("/autenticacion/logout").set(auth).send({ refreshToken: lr.body.refreshToken });
+    > 51 |     expect([200, 204]).toContain(out.status);
+         |                        ^
+      52 |     const despues = await api().get("/clientes").set(auth);
+      53 |     expect(despues.status).toBe(401);
+      54 |   });
+
+      at Object.toContain (tests/integration/auth.int.test.js:51:24)
+
+  ● NFR-SEG-9 / 3.1.2 JWT de corta vigencia y refresh token › CP-47 access token dura ≤ 60 min y existe refresh token funcional
+
+    expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 3600
+    Received:    7200
+
+      59 |     const lr = await login(ctx.nombre_usuario, ctx.password);
+      60 |     const dec = jwt.decode(lr.body.token);
+    > 61 |     expect(dec.exp - dec.iat).toBeLessThanOrEqual(3600);
+         |                               ^
+      62 |     expect(typeof lr.body.refreshToken).toBe("string");
+      63 |     const rr = await api().post("/autenticacion/refresh").send({ refreshToken: lr.body.refreshToken });
+      64 |     expect(rr.status).toBe(200);
+
+      at Object.toBeLessThanOrEqual (tests/integration/auth.int.test.js:61:31)
+
+  ● NFR-SEG-5 Protección contra fuerza bruta › CP-46 tras múltiples intentos fallidos el login responde 429
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 429
+    Received array: [401, 401, 401, 401, 401, 401, 401, 401, 401, 401]
+
+      74 |     );
+      75 |     const codigos = intentos.map((r) => r.status);
+    > 76 |     expect(codigos).toContain(429);
+         |                     ^
+      77 |   });
+      78 | });
+      79 |
+
+      at Object.toContain (tests/integration/auth.int.test.js:76:21)
+
+[0mPOST /autenticacion/login [33m401[0m 4002.230 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4002.402 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4013.449 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4014.367 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4014.870 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4014.880 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4014.670 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4014.467 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4015.374 ms - 35[0m
+[0mPOST /autenticacion/login [33m401[0m 4015.400 ms - 35[0m
+[0mPOST /empresas [32m201[0m 22.483 ms - 364[0m
+[0mPOST /autenticacion/login [32m200[0m 4037.860 ms - 269[0m
+FAIL tests/integration/registro.int.test.js (8.229 s)
+  ● Console
+
+    console.error
+      error: duplicate key value violates unique constraint "empresas_correo_key"
+          at /proyecto/atlas-qa/BACKEND/node_modules/pg-pool/index.js:45:11
+          at processTicksAndRejections (node:internal/process/task_queues:104:5)
+          at /proyecto/atlas-qa/BACKEND/src/routes/empresas.js:27:29 {
+        length: 237,
+        severity: 'ERROR',
+        code: '23505',
+        detail: 'Key (correo)=(dup_mwilhfs3_29773_15@atlas-qa.cl) already exists.',
+        hint: undefined,
+        position: undefined,
+        internalPosition: undefined,
+        internalQuery: undefined,
+        where: undefined,
+        schema: 'public',
+        table: 'empresas',
+        column: undefined,
+        dataType: undefined,
+        constraint: 'empresas_correo_key',
+        file: 'nbtinsert.c',
+        line: '664',
+        routine: '_bt_check_unique'
+      }
+
+      42 |       });
+      43 |     } catch (err) {
+    > 44 |       console.error(err);
+         |               ^
+      45 |       res
+      46 |         .status(500)
+      47 |         .json({
+
+      at error (src/routes/empresas.js:44:15)
+
+  ● RF-2 Registro y creación de empresa › CP-17 registro rechaza contraseña débil 'admin' (muy corta) con 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      42 |   ])("CP-17 registro rechaza contraseña débil '%s' (%s) con 400", async (pwd) => {
+      43 |     const reg = await registrarEmpresa({ password: pwd });
+    > 44 |     expect(reg.res.status).toBe(400);
+         |                            ^
+      45 |     const { rows } = await db.query("SELECT id FROM usuarios WHERE nombre_usuario=$1", [reg.nombre_usuario]);
+      46 |     expect(rows).toHaveLength(0); // no deja usuarios huérfanos
+      47 |   });
+
+      at toBe (tests/integration/registro.int.test.js:44:28)
+
+  ● RF-2 Registro y creación de empresa › CP-17 registro rechaza contraseña débil 'sinsimbolos12345A' (sin símbolo) con 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      42 |   ])("CP-17 registro rechaza contraseña débil '%s' (%s) con 400", async (pwd) => {
+      43 |     const reg = await registrarEmpresa({ password: pwd });
+    > 44 |     expect(reg.res.status).toBe(400);
+         |                            ^
+      45 |     const { rows } = await db.query("SELECT id FROM usuarios WHERE nombre_usuario=$1", [reg.nombre_usuario]);
+      46 |     expect(rows).toHaveLength(0); // no deja usuarios huérfanos
+      47 |   });
+
+      at toBe (tests/integration/registro.int.test.js:44:28)
+
+  ● RF-2 Registro y creación de empresa › CP-17 registro rechaza contraseña débil 'SOLOMAYUSCULAS#123' (sin minúsculas) con 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      42 |   ])("CP-17 registro rechaza contraseña débil '%s' (%s) con 400", async (pwd) => {
+      43 |     const reg = await registrarEmpresa({ password: pwd });
+    > 44 |     expect(reg.res.status).toBe(400);
+         |                            ^
+      45 |     const { rows } = await db.query("SELECT id FROM usuarios WHERE nombre_usuario=$1", [reg.nombre_usuario]);
+      46 |     expect(rows).toHaveLength(0); // no deja usuarios huérfanos
+      47 |   });
+
+      at toBe (tests/integration/registro.int.test.js:44:28)
+
+  ● RF-2 Registro y creación de empresa › CP-17 registro rechaza contraseña débil 'solominusculas#123' (sin mayúsculas) con 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      42 |   ])("CP-17 registro rechaza contraseña débil '%s' (%s) con 400", async (pwd) => {
+      43 |     const reg = await registrarEmpresa({ password: pwd });
+    > 44 |     expect(reg.res.status).toBe(400);
+         |                            ^
+      45 |     const { rows } = await db.query("SELECT id FROM usuarios WHERE nombre_usuario=$1", [reg.nombre_usuario]);
+      46 |     expect(rows).toHaveLength(0); // no deja usuarios huérfanos
+      47 |   });
+
+      at toBe (tests/integration/registro.int.test.js:44:28)
+
+  ● RF-2 Registro y creación de empresa › CP-17 registro rechaza contraseña débil 'SinNumeros#Atlas' (sin número) con 400
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 400
+    Received: 201
+
+      42 |   ])("CP-17 registro rechaza contraseña débil '%s' (%s) con 400", async (pwd) => {
+      43 |     const reg = await registrarEmpresa({ password: pwd });
+    > 44 |     expect(reg.res.status).toBe(400);
+         |                            ^
+      45 |     const { rows } = await db.query("SELECT id FROM usuarios WHERE nombre_usuario=$1", [reg.nombre_usuario]);
+      46 |     expect(rows).toHaveLength(0); // no deja usuarios huérfanos
+      47 |   });
+
+      at toBe (tests/integration/registro.int.test.js:44:28)
+
+  ● RF-2 Registro y creación de empresa › CP-60 RB-1 no se permite registrar dos empresas con el mismo correo principal (409)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 500
+
+      52 |     expect(r1.res.status).toBe(201);
+      53 |     const r2 = await registrarEmpresa({ correoEmpresa: correo });
+    > 54 |     expect(r2.res.status).toBe(409);
+         |                           ^
+      55 |     const { rows } = await db.query("SELECT id FROM usuarios WHERE nombre_usuario=$1", [r2.nombre_usuario]);
+      56 |     expect(rows).toHaveLength(0); // transacción atómica: sin usuario huérfano
+      57 |   });
+
+      at Object.toBe (tests/integration/registro.int.test.js:54:27)
+
+📦 report is created on: /proyecto/atlas-qa/BACKEND/reports/html/index.html
+
+=============================== Coverage summary ===============================
+Statements   : 56.7% ( 368/649 )
+Branches     : 34.68% ( 120/346 )
+Functions    : 60.34% ( 35/58 )
+Lines        : 56.39% ( 357/633 )
+================================================================================
+Test Suites: 8 failed, 8 total
+Tests:       50 failed, 27 passed, 77 total
+Snapshots:   0 total
+Time:        163.088 s
+Ran all test suites.
+Test results written to: reports/jest-results.json
+[0mGET /metricas [32m200[0m 4008.858 ms - 143[0m
+[0mPOST /empresas [32m201[0m 5.807 ms - 364[0m
+[0mPOST /empresas [32m201[0m 3.712 ms - 364[0m
+[0mPOST /empresas [32m201[0m 3.470 ms - 364[0m
+[0mPOST /empresas [32m201[0m 3.218 ms - 365[0m
+[0mPOST /empresas [32m201[0m 3.156 ms - 368[0m
+[0mPOST /empresas [32m201[0m 2.941 ms - 368[0m
+[0mPOST /empresas [32m201[0m 3.034 ms - 368[0m
+[0mPOST /empresas [31m500[0m 6.185 ms - 127[0m
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.

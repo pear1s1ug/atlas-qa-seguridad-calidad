@@ -1,0 +1,1114 @@
+{
+  "config": {
+    "argv": [
+      "/usr/bin/node",
+      "/work/e2e/node_modules/.bin/playwright",
+      "test"
+    ],
+    "configFile": "/work/e2e/playwright.config.js",
+    "rootDir": "/work/e2e/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/work/e2e/global-setup.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/work/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/work/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/work/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/work/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/work/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/work/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/work/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "/work/e2e/tests",
+        "snapshotDir": "/work/e2e/tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "http://localhost:3350",
+          "locale": "es-CL",
+          "timezoneId": "America/Santiago",
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "video": "off",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/159.0.8154.6 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/work/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "firefox",
+        "testDir": "/work/e2e/tests",
+        "snapshotDir": "/work/e2e/tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "http://localhost:3350",
+          "locale": "es-CL",
+          "timezoneId": "America/Santiago",
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "video": "off",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:159.0) Gecko/20100101 Firefox/159.0",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "firefox"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "firefox"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/work/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "webkit",
+        "testDir": "/work/e2e/tests",
+        "snapshotDir": "/work/e2e/tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "http://localhost:3350",
+          "locale": "es-CL",
+          "timezoneId": "America/Santiago",
+          "screenshot": "only-on-failure",
+          "trace": "retain-on-failure",
+          "video": "off",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1792,
+            "height": 1120
+          },
+          "deviceScaleFactor": 2,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "webkit"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "webkit"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "/work/evidencias/encargo2/playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/work/evidencias/encargo2/playwright-results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "/work/evidencias/encargo2/playwright-junit.xml"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "flujo.spec.js",
+      "file": "flujo.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Flujos E2E",
+          "file": "flujo.spec.js",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-63 flujo completo: login → dashboard → crear cliente → crear contrato con PDF → logout",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 28391,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:53:27.090Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "bebafadf255f5423e778-97140e73c944676d206e",
+              "file": "flujo.spec.js",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "CP-64 un usuario Editor no ve ni accede a funciones de administración en la UI",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 20176,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/no autorizado/i)\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/no autorizado/i) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/no autorizado/i)\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/no autorizado/i)\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/no autorizado/i) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/no autorizado/i)\u001b[22m\n\n    at /work/e2e/tests/flujo.spec.js:57:52",
+                        "location": {
+                          "file": "/work/e2e/tests/flujo.spec.js",
+                          "column": 52,
+                          "line": 57
+                        },
+                        "snippet": "  55 |     await expect(page.getByRole(\"tab\", { name: /crear cliente/i })).toHaveCount(0);\n  56 |     await page.goto(\"/usuarios\");\n> 57 |     await expect(page.getByText(/no autorizado/i)).toBeVisible();\n     |                                                    ^\n  58 |     await evidencia(page, \"CP-64-editor-sin-acceso\");\n  59 |   });\n  60 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/work/e2e/tests/flujo.spec.js",
+                            "column": 52,
+                            "line": 57
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/no autorizado/i)\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/no autorizado/i) with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/no autorizado/i)\u001b[22m\n\n\n  55 |     await expect(page.getByRole(\"tab\", { name: /crear cliente/i })).toHaveCount(0);\n  56 |     await page.goto(\"/usuarios\");\n> 57 |     await expect(page.getByText(/no autorizado/i)).toBeVisible();\n     |                                                    ^\n  58 |     await evidencia(page, \"CP-64-editor-sin-acceso\");\n  59 |   });\n  60 |\n    at /work/e2e/tests/flujo.spec.js:57:52"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:53:55.652Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/work/e2e/test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/work/e2e/test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/work/e2e/test-results/flujo-Flujos-E2E-CP-64-un--6a91c--de-administración-en-la-UI-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/work/e2e/tests/flujo.spec.js",
+                        "column": 52,
+                        "line": 57
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "bebafadf255f5423e778-0c18f3f79dab1be6ef4c",
+              "file": "flujo.spec.js",
+              "line": 50,
+              "column": 3
+            },
+            {
+              "title": "CP-56 NFR-USAB-4 desde un cliente se accede a la lista de sus contratos",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 19036,
+                      "error": {
+                        "message": "Error: Debe existir una acción 'Ver contratos' por cliente\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('button-cliente-contratos-36')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Debe existir una acción 'Ver contratos' por cliente getByTestId('button-cliente-contratos-36') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('button-cliente-contratos-36')\u001b[22m\n",
+                        "stack": "Error: Debe existir una acción 'Ver contratos' por cliente\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('button-cliente-contratos-36')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Debe existir una acción 'Ver contratos' por cliente getByTestId('button-cliente-contratos-36') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('button-cliente-contratos-36')\u001b[22m\n\n    at /work/e2e/tests/flujo.spec.js:67:87",
+                        "location": {
+                          "file": "/work/e2e/tests/flujo.spec.js",
+                          "column": 87,
+                          "line": 67
+                        },
+                        "snippet": "  65 |     await expect(page.getByText(c.cliente.nombre).first()).toBeVisible({ timeout: 30_000 });\n  66 |     const verContratos = page.getByTestId(`button-cliente-contratos-${c.cliente.id}`);\n> 67 |     await expect(verContratos, \"Debe existir una acción 'Ver contratos' por cliente\").toBeVisible({ timeout: 10_000 });\n     |                                                                                       ^\n  68 |     await verContratos.click();\n  69 |     await expect(page).toHaveURL(new RegExp(`/contratos\\\\?cliente=${c.cliente.id}`));\n  70 |     await expect(page.getByText(c.contrato.titulo).first()).toBeVisible({ timeout: 30_000 });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/work/e2e/tests/flujo.spec.js",
+                            "column": 87,
+                            "line": 67
+                          },
+                          "message": "Error: Debe existir una acción 'Ver contratos' por cliente\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('button-cliente-contratos-36')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Debe existir una acción 'Ver contratos' por cliente getByTestId('button-cliente-contratos-36') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('button-cliente-contratos-36')\u001b[22m\n\n\n  65 |     await expect(page.getByText(c.cliente.nombre).first()).toBeVisible({ timeout: 30_000 });\n  66 |     const verContratos = page.getByTestId(`button-cliente-contratos-${c.cliente.id}`);\n> 67 |     await expect(verContratos, \"Debe existir una acción 'Ver contratos' por cliente\").toBeVisible({ timeout: 10_000 });\n     |                                                                                       ^\n  68 |     await verContratos.click();\n  69 |     await expect(page).toHaveURL(new RegExp(`/contratos\\\\?cliente=${c.cliente.id}`));\n  70 |     await expect(page.getByText(c.contrato.titulo).first()).toBeVisible({ timeout: 30_000 });\n    at /work/e2e/tests/flujo.spec.js:67:87"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:54:16.282Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/work/e2e/test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/work/e2e/test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/work/e2e/test-results/flujo-Flujos-E2E-CP-56-NFR-d1cff-a-la-lista-de-sus-contratos-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/work/e2e/tests/flujo.spec.js",
+                        "column": 87,
+                        "line": 67
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "bebafadf255f5423e778-7616a275cd043b085182",
+              "file": "flujo.spec.js",
+              "line": 61,
+              "column": 3
+            },
+            {
+              "title": "CP-41 XSS almacenado: un nombre con HTML malicioso se muestra escapado",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9115,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:54:35.848Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "bebafadf255f5423e778-ea76e318ef8541d9d882",
+              "file": "flujo.spec.js",
+              "line": 74,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "no-funcionales.spec.js",
+      "file": "no-funcionales.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "NFR-USAB / 3.1.1 Accesibilidad y usabilidad",
+          "file": "no-funcionales.spec.js",
+          "line": 10,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-53 /login sin violaciones WCAG 2.1 AA críticas o graves (axe-core)",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1738,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at /work/e2e/tests/no-funcionales.spec.js:19:39",
+                        "location": {
+                          "file": "/work/e2e/tests/no-funcionales.spec.js",
+                          "column": 39,
+                          "line": 19
+                        },
+                        "snippet": "  17 |       console.log(`CP-53 ${ruta}:`, JSON.stringify(r.violations.map((v) => ({ id: v.id, impact: v.impact, nodos: v.nodes.length }))));\n  18 |       await evidencia(page, `CP-53${ruta.replace(\"/\", \"-\")}`);\n> 19 |       expect(graves.map((v) => v.id)).toEqual([]);\n     |                                       ^\n  20 |     });\n  21 |   }\n  22 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/work/e2e/tests/no-funcionales.spec.js",
+                            "column": 39,
+                            "line": 19
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  17 |       console.log(`CP-53 ${ruta}:`, JSON.stringify(r.violations.map((v) => ({ id: v.id, impact: v.impact, nodos: v.nodes.length }))));\n  18 |       await evidencia(page, `CP-53${ruta.replace(\"/\", \"-\")}`);\n> 19 |       expect(graves.map((v) => v.id)).toEqual([]);\n     |                                       ^\n  20 |     });\n  21 |   }\n  22 |\n    at /work/e2e/tests/no-funcionales.spec.js:19:39"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "CP-53 /login: [{\"id\":\"color-contrast\",\"impact\":\"serious\",\"nodos\":1}]\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:54:45.061Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--c33bc-críticas-o-graves-axe-core--chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/work/e2e/tests/no-funcionales.spec.js",
+                        "column": 39,
+                        "line": 19
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-9d5c6438a0d0bcd279e9",
+              "file": "no-funcionales.spec.js",
+              "line": 12,
+              "column": 5
+            },
+            {
+              "title": "CP-53 /registro sin violaciones WCAG 2.1 AA críticas o graves (axe-core)",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2063,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at /work/e2e/tests/no-funcionales.spec.js:19:39",
+                        "location": {
+                          "file": "/work/e2e/tests/no-funcionales.spec.js",
+                          "column": 39,
+                          "line": 19
+                        },
+                        "snippet": "  17 |       console.log(`CP-53 ${ruta}:`, JSON.stringify(r.violations.map((v) => ({ id: v.id, impact: v.impact, nodos: v.nodes.length }))));\n  18 |       await evidencia(page, `CP-53${ruta.replace(\"/\", \"-\")}`);\n> 19 |       expect(graves.map((v) => v.id)).toEqual([]);\n     |                                       ^\n  20 |     });\n  21 |   }\n  22 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/work/e2e/tests/no-funcionales.spec.js",
+                            "column": 39,
+                            "line": 19
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  17 |       console.log(`CP-53 ${ruta}:`, JSON.stringify(r.violations.map((v) => ({ id: v.id, impact: v.impact, nodos: v.nodes.length }))));\n  18 |       await evidencia(page, `CP-53${ruta.replace(\"/\", \"-\")}`);\n> 19 |       expect(graves.map((v) => v.id)).toEqual([]);\n     |                                       ^\n  20 |     });\n  21 |   }\n  22 |\n    at /work/e2e/tests/no-funcionales.spec.js:19:39"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "CP-53 /registro: [{\"id\":\"color-contrast\",\"impact\":\"serious\",\"nodos\":1}]\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:54:47.327Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--56773-críticas-o-graves-axe-core--chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/work/e2e/tests/no-funcionales.spec.js",
+                        "column": 39,
+                        "line": 19
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-0ca035cdd8cecded92f5",
+              "file": "no-funcionales.spec.js",
+              "line": 12,
+              "column": 5
+            },
+            {
+              "title": "CP-53b pantallas autenticadas (inicio y clientes) sin violaciones WCAG críticas/graves",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 15262,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 6\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+   \"list\",\u001b[39m\n\u001b[31m+   \"button-name\",\u001b[39m\n\u001b[31m+   \"list\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 6\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+   \"list\",\u001b[39m\n\u001b[31m+   \"button-name\",\u001b[39m\n\u001b[31m+   \"list\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at /work/e2e/tests/no-funcionales.spec.js:34:46",
+                        "location": {
+                          "file": "/work/e2e/tests/no-funcionales.spec.js",
+                          "column": 46,
+                          "line": 34
+                        },
+                        "snippet": "  32 |     }\n  33 |     console.log(\"CP-53b:\", JSON.stringify(resultados));\n> 34 |     expect(Object.values(resultados).flat()).toEqual([]);\n     |                                              ^\n  35 |   });\n  36 |\n  37 |   test(\"CP-53c tipografía mínima de 12px en textos visibles\", async ({ page }) => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/work/e2e/tests/no-funcionales.spec.js",
+                            "column": 46,
+                            "line": 34
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 6\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"color-contrast\",\u001b[39m\n\u001b[31m+   \"list\",\u001b[39m\n\u001b[31m+   \"button-name\",\u001b[39m\n\u001b[31m+   \"list\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  32 |     }\n  33 |     console.log(\"CP-53b:\", JSON.stringify(resultados));\n> 34 |     expect(Object.values(resultados).flat()).toEqual([]);\n     |                                              ^\n  35 |   });\n  36 |\n  37 |   test(\"CP-53c tipografía mínima de 12px en textos visibles\", async ({ page }) => {\n    at /work/e2e/tests/no-funcionales.spec.js:34:46"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "CP-53b: {\"/home\":[\"color-contrast\",\"list\"],\"/clientes\":[\"button-name\",\"list\"]}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:54:49.953Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-USAB-3--355c7-ciones-WCAG-críticas-graves-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/work/e2e/tests/no-funcionales.spec.js",
+                        "column": 46,
+                        "line": 34
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-50163ab6b64e29615c92",
+              "file": "no-funcionales.spec.js",
+              "line": 23,
+              "column": 3
+            },
+            {
+              "title": "CP-53c tipografía mínima de 12px en textos visibles",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1765,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:05.913Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-84ddfe0f480c5c74556c",
+              "file": "no-funcionales.spec.js",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "CP-54 el login puede completarse solo con teclado (Tab / Enter)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4927,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:07.739Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-ba4b52bfca789e40beff",
+              "file": "no-funcionales.spec.js",
+              "line": 48,
+              "column": 3
+            },
+            {
+              "title": "CP-55 mensajes de error amigables ante credenciales inválidas",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4861,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:12.679Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-76143500b5bf4bd7dd08",
+              "file": "no-funcionales.spec.js",
+              "line": 61,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "NFR-PERF-2 Tiempo de carga",
+          "file": "no-funcionales.spec.js",
+          "line": 73,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-51 la página principal (dashboard) carga en < 2 s con red móvil promedio (4G)",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9184,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m2000\u001b[39m\nReceived:   \u001b[31m4168\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m2000\u001b[39m\nReceived:   \u001b[31m4168\u001b[39m\n    at /work/e2e/tests/no-funcionales.spec.js:90:16",
+                        "location": {
+                          "file": "/work/e2e/tests/no-funcionales.spec.js",
+                          "column": 16,
+                          "line": 90
+                        },
+                        "snippet": "  88 |     console.log(`CP-51 dashboard listo en ${ms} ms`);\n  89 |     await evidencia(page, \"CP-51-dashboard-cargado\");\n> 90 |     expect(ms).toBeLessThan(2000);\n     |                ^\n  91 |   });\n  92 | });\n  93 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/work/e2e/tests/no-funcionales.spec.js",
+                            "column": 16,
+                            "line": 90
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m2000\u001b[39m\nReceived:   \u001b[31m4168\u001b[39m\n\n  88 |     console.log(`CP-51 dashboard listo en ${ms} ms`);\n  89 |     await evidencia(page, \"CP-51-dashboard-cargado\");\n> 90 |     expect(ms).toBeLessThan(2000);\n     |                ^\n  91 |   });\n  92 | });\n  93 |\n    at /work/e2e/tests/no-funcionales.spec.js:90:16"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "CP-51 dashboard listo en 4168 ms\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:17.549Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-PERF-2--01abc--con-red-móvil-promedio-4G--chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/work/e2e/tests/no-funcionales.spec.js",
+                        "column": 16,
+                        "line": 90
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-0c34a22a55493e238b92",
+              "file": "no-funcionales.spec.js",
+              "line": 74,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "NFR-COMPAT Compatibilidad",
+          "file": "no-funcionales.spec.js",
+          "line": 94,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CP-58 @compat la pantalla de login se renderiza y autentica en el navegador",
+              "ok": true,
+              "tags": [
+                "compat"
+              ],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4567,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:27.246Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                },
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6279,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:52.668Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                },
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7370,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:59.914Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-84a0c0bebf9bfd651fac",
+              "file": "no-funcionales.spec.js",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "CP-59 diseño responsivo en movil 375x667 sin desborde horizontal",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 10029,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m262.5\u001b[39m\nReceived:    \u001b[31m131.5\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m262.5\u001b[39m\nReceived:    \u001b[31m131.5\u001b[39m\n    at /work/e2e/tests/no-funcionales.spec.js:119:25",
+                        "location": {
+                          "file": "/work/e2e/tests/no-funcionales.spec.js",
+                          "column": 25,
+                          "line": 119
+                        },
+                        "snippet": "  117 |       expect(loginOverflow).toBeLessThanOrEqual(0);\n  118 |       expect(appOverflow).toBeLessThanOrEqual(0);\n> 119 |       expect(anchoForm).toBeGreaterThanOrEqual(Math.min(280, vp.width * 0.7)); // formulario usable en pantalla chica\n      |                         ^\n  120 |     });\n  121 |   }\n  122 | });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/work/e2e/tests/no-funcionales.spec.js",
+                            "column": 25,
+                            "line": 119
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m262.5\u001b[39m\nReceived:    \u001b[31m131.5\u001b[39m\n\n  117 |       expect(loginOverflow).toBeLessThanOrEqual(0);\n  118 |       expect(appOverflow).toBeLessThanOrEqual(0);\n> 119 |       expect(anchoForm).toBeGreaterThanOrEqual(Math.min(280, vp.width * 0.7)); // formulario usable en pantalla chica\n      |                         ^\n  120 |     });\n  121 |   }\n  122 | });\n    at /work/e2e/tests/no-funcionales.spec.js:119:25"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:31.876Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/work/e2e/test-results/no-funcionales-NFR-COMPAT--ad37a-667-sin-desborde-horizontal-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/work/e2e/tests/no-funcionales.spec.js",
+                        "column": 25,
+                        "line": 119
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-33f1f356830de4e9954b",
+              "file": "no-funcionales.spec.js",
+              "line": 104,
+              "column": 5
+            },
+            {
+              "title": "CP-59 diseño responsivo en tablet 768x1024 sin desborde horizontal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9853,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T01:55:42.381Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "2181564ade733428c3b8-2a174783de21024c56ee",
+              "file": "no-funcionales.spec.js",
+              "line": 104,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-16T01:53:22.596Z",
+    "duration": 165252.99899999998,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  }
+}

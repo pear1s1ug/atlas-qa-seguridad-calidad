@@ -1,0 +1,85 @@
+
+/proyecto/atlas-qa/BACKEND/src/app.js
+   8:9  error    'pool' is assigned a value but never used  no-unused-vars
+  54:5  warning  Unexpected console statement               no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/audit.js
+   3:7  error    'jwt' is assigned a value but never used         no-unused-vars
+   7:7  error    'JWT_SECRET' is assigned a value but never used  no-unused-vars
+  22:5  warning  Unexpected console statement                     no-console
+  33:5  warning  Unexpected console statement                     no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/auth.js
+  26:5  warning  Potential timing attack, right side: true  security/detect-possible-timing-attacks
+  61:5  warning  Unexpected console statement               no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/clients.js
+    3:7  error    'jwt' is assigned a value but never used         no-unused-vars
+    7:7  error    'JWT_SECRET' is assigned a value but never used  no-unused-vars
+  110:5  warning  Unexpected console statement                     no-console
+  133:5  warning  Unexpected console statement                     no-console
+  143:5  warning  Unexpected console statement                     no-console
+  171:5  warning  Unexpected console statement                     no-console
+  202:5  warning  Unexpected console statement                     no-console
+  309:5  warning  Unexpected console statement                     no-console
+  349:5  warning  Unexpected console statement                     no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/contracts.js
+    1:7  error    'path' is assigned a value but never used        no-unused-vars
+    2:7  error    'fs' is assigned a value but never used          no-unused-vars
+    5:7  error    'jwt' is assigned a value but never used         no-unused-vars
+   10:7  error    'JWT_SECRET' is assigned a value but never used  no-unused-vars
+   54:5  warning  Unexpected console statement                     no-console
+   95:5  warning  Unexpected console statement                     no-console
+  161:5  warning  Unexpected console statement                     no-console
+  257:5  warning  Unexpected console statement                     no-console
+  276:5  warning  Unexpected console statement                     no-console
+  395:5  warning  Unexpected console statement                     no-console
+  417:5  warning  Unexpected console statement                     no-console
+  449:5  warning  Unexpected console statement                     no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/empresa_usuarios.js
+    3:7  error    'jwt' is assigned a value but never used         no-unused-vars
+    7:7  error    'JWT_SECRET' is assigned a value but never used  no-unused-vars
+   71:5  warning  Unexpected console statement                     no-console
+  115:5  warning  Unexpected console statement                     no-console
+  134:5  warning  Unexpected console statement                     no-console
+  164:5  warning  Unexpected console statement                     no-console
+  193:5  warning  Unexpected console statement                     no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/empresas.js
+    3:7  error    'jwt' is assigned a value but never used         no-unused-vars
+    7:7  error    'JWT_SECRET' is assigned a value but never used  no-unused-vars
+   44:7  warning  Unexpected console statement                     no-console
+   72:7  warning  Unexpected console statement                     no-console
+   89:5  warning  Unexpected console statement                     no-console
+  109:5  warning  Unexpected console statement                     no-console
+  141:5  warning  Unexpected console statement                     no-console
+  172:5  warning  Unexpected console statement                     no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/metricas.js
+    2:7  error    'jwt' is assigned a value but never used         no-unused-vars
+    7:7  error    'JWT_SECRET' is assigned a value but never used  no-unused-vars
+  155:5  warning  Unexpected console statement                     no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/roles.js
+   3:7  error    'jwt' is assigned a value but never used         no-unused-vars
+   7:7  error    'JWT_SECRET' is assigned a value but never used  no-unused-vars
+  24:5  warning  Unexpected console statement                     no-console
+  35:5  warning  Unexpected console statement                     no-console
+  47:5  warning  Unexpected console statement                     no-console
+  67:5  warning  Unexpected console statement                     no-console
+  86:5  warning  Unexpected console statement                     no-console
+
+/proyecto/atlas-qa/BACKEND/src/routes/users.js
+    3:7  error    'jwt' is assigned a value but never used         no-unused-vars
+    7:7  error    'JWT_SECRET' is assigned a value but never used  no-unused-vars
+   20:5  warning  Unexpected console statement                     no-console
+   32:5  warning  Unexpected console statement                     no-console
+   54:5  warning  Unexpected console statement                     no-console
+   73:5  warning  Unexpected console statement                     no-console
+  103:5  warning  Unexpected console statement                     no-console
+  132:5  warning  Unexpected console statement                     no-console
+
+✖ 62 problems (19 errors, 43 warnings)
+

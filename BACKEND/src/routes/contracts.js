@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const { pool } = require("../db");
 
 const router = express.Router();
+const { getUserFromAuthHeader } = require("../lib/auth");
 const JWT_SECRET = process.env.JWT_SECRET || "inseguro";
 
 // Función helper para simular latencia
@@ -14,16 +15,6 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-function getUserFromAuthHeader(req) {
-  const auth = req.headers.authorization || "";
-  if (!auth.startsWith("Bearer ")) return null;
-  try {
-    const token = auth.substring(7);
-    return jwt.verify(token, JWT_SECRET);
-  } catch {
-    return null;
-  }
-}
 
 // Crear contrato con archivo PDF (guardado en DB como bytea)
 router.post("/", upload.single("file"), async (req, res) => {

@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="77" failures="50" errors="0" time="163.025">
+  <testsuite name="NFR-SEG-9 Verificación de tokens JWT" errors="0" failures="1" skipped="0" timestamp="2026-11-16T01:35:58" time="0.322" tests="7">
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08a token válido retorna el payload decodificado" name="NFR-SEG-9 Verificación de tokens JWT CP-08a token válido retorna el payload decodificado" time="0.004">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08b sin cabecera Authorization retorna null" name="NFR-SEG-9 Verificación de tokens JWT CP-08b sin cabecera Authorization retorna null" time="0">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08c token mal formado retorna null" name="NFR-SEG-9 Verificación de tokens JWT CP-08c token mal formado retorna null" time="0">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08d token expirado retorna null" name="NFR-SEG-9 Verificación de tokens JWT CP-08d token expirado retorna null" time="0.001">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08e token firmado con otra clave (firma alterada) retorna null" name="NFR-SEG-9 Verificación de tokens JWT CP-08e token firmado con otra clave (firma alterada) retorna null" time="0.001">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08f token con algoritmo &apos;none&apos; es rechazado" name="NFR-SEG-9 Verificación de tokens JWT CP-08f token con algoritmo &apos;none&apos; es rechazado" time="0">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-47b sin JWT_SECRET configurado la app no usa una clave por defecto embebida" name="NFR-SEG-9 Verificación de tokens JWT CP-47b sin JWT_SECRET configurado la app no usa una clave por defecto embebida" time="0.05">
+      <failure>Error: expect(received).not.toMatch(expected)
+
+Expected pattern: not /SECRET=inseguro/
+Received string:      &quot;SECRET=inseguro
+&quot;
+    at Object.toMatch (/proyecto/atlas-qa/BACKEND/tests/unit/auth.test.js:54:26)
+    at Promise.then.completed (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:121:9)
+    at run (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/proyecto/atlas-qa/BACKEND/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/proyecto/atlas-qa/BACKEND/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-5.4 Estado de vigencia del contrato" errors="0" failures="1" skipped="0" timestamp="2026-11-16T01:35:58" time="0.046" tests="6">
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-05 contrato con fecha_fin anterior a hoy se clasifica como vencido" name="RF-5.4 Estado de vigencia del contrato CP-05 contrato con fecha_fin anterior a hoy se clasifica como vencido" time="0.001">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-06 contrato que vence dentro de 30 días se clasifica como por_vencer" name="RF-5.4 Estado de vigencia del contrato CP-06 contrato que vence dentro de 30 días se clasifica como por_vencer" time="0">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-06 valores límite: vence hoy y vence exactamente en el día 30 → por_vencer" name="RF-5.4 Estado de vigencia del contrato CP-06 valores límite: vence hoy y vence exactamente en el día 30 → por_vencer" time="0.001">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-07 contrato que vence después de 30 días se clasifica como vigente" name="RF-5.4 Estado de vigencia del contrato CP-07 contrato que vence después de 30 días se clasifica como vigente" time="0">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-13 cálculo de días restantes y vencidos es exacto" name="RF-5.4 Estado de vigencia del contrato CP-13 cálculo de días restantes y vencidos es exacto" time="0">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-13b la fecha &apos;hoy&apos; se calcula en la zona horaria de Chile (America/Santiago)" name="RF-5.4 Estado de vigencia del contrato CP-13b la fecha &apos;hoy&apos; se calcula en la zona horaria de Chile (America/Santiago)" time="0.002">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;2026-11-15&quot;
+Received: &quot;2026-11-16&quot;
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/unit/contratoEstado.test.js:51:37)
+    at Promise.then.completed (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/utils.js:231:10)
+    at _callCircusTest (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:316:40)
+    at _runTest (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:252:3)
+    at _runTestsForDescribeBlock (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:126:9)
+    at _runTestsForDescribeBlock (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:121:9)
+    at run (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/run.js:71:3)
+    at runAndTransformResultsToJestFormat (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/proyecto/atlas-qa/BACKEND/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/proyecto/atlas-qa/BACKEND/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/proyecto/atlas-qa/BACKEND/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-5.1 Crear contratos asociados a cliente" errors="0" failures="13" skipped="0" timestamp="2026-11-16T01:35:58" time="20.909" tests="15">
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-26 crear contrato con título, descripción y fechas asociado a un cliente" name="RF-5.1 Crear contratos asociados a cliente CP-26 crear contrato con título, descripción y fechas asociado a un cliente" time="4.012">
+    </testcase>
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-27 crear contrato con fecha_fin anterior a fecha_inicio responde 400" name="RF-5.1 Crear contratos asociados a cliente CP-27 crear contrato con fecha_fin anterior a fecha_inicio responde 400" time="0.012">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:51:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-61 RB-3 un contrato debe asociarse a un (único) cliente: cliente_id es obligatorio" name="RF-5.1 Crear contratos asociados a cliente CP-61 RB-3 un contrato debe asociarse a un (único) cliente: cliente_id es obligatorio" time="0.014">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 500
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:61:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-28 no se puede crear un contrato para un cliente de otra empresa ni sin autenticación" name="RF-5.1 Crear contratos asociados a cliente CP-28 no se puede crear un contrato para un cliente de otra empresa ni sin autenticación" time="0.013">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected value: 201
+Received array: [400, 403, 404]
+    at Object.toContain (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:66:29)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-19 un editor no puede crear, editar ni eliminar contratos (403)" name="RF-5.1 Crear contratos asociados a cliente CP-19 un editor no puede crear, editar ni eliminar contratos (403)" time="0.005">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 403
+Received: 201
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:78:26)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-29 adjuntar PDF y PNG; la descarga devuelve el mismo archivo con su tipo MIME" name="RF-5.2 / RF-5.3 Documentos del contrato CP-29 adjuntar PDF y PNG; la descarga devuelve el mismo archivo con su tipo MIME" time="0.022">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected substring: &quot;image/png&quot;
+Received string:    &quot;application/pdf&quot;
+    at Object.toContain (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:93:42)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-30 se rechaza adjuntar archivo no permitido malware.exe (400/415)" name="RF-5.2 / RF-5.3 Documentos del contrato CP-30 se rechaza adjuntar archivo no permitido malware.exe (400/415)" time="0.006">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected value: 201
+Received array: [400, 415]
+    at toContain (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:103:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-30 se rechaza adjuntar archivo no permitido xss.html (400/415)" name="RF-5.2 / RF-5.3 Documentos del contrato CP-30 se rechaza adjuntar archivo no permitido xss.html (400/415)" time="0.006">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected value: 201
+Received array: [400, 415]
+    at toContain (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:103:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-30b se rechaza un archivo con extensión permitida pero contenido falso (magic bytes)" name="RF-5.2 / RF-5.3 Documentos del contrato CP-30b se rechaza un archivo con extensión permitida pero contenido falso (magic bytes)" time="0.005">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected value: 201
+Received array: [400, 415]
+    at Object.toContain (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:110:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-31 el documento se almacena en storage interno y la BD guarda su referencia" name="RF-5.2 / RF-5.3 Documentos del contrato CP-31 el documento se almacena en storage interno y la BD guarda su referencia" time="0.011">
+      <failure>Error: expect(received).toBeTruthy()
+
+Received: undefined
+    at Object.toBeTruthy (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:117:26)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-34 descargar documento exige autenticación y pertenencia a la empresa" name="RF-5.2 / RF-5.3 Documentos del contrato CP-34 descargar documento exige autenticación y pertenencia a la empresa" time="0.003">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 401
+Received: 200
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:124:25)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-35 subida y descarga de un documento de 5 MB demoran menos de 10 segundos" name="RF-5.2 / RF-5.3 Documentos del contrato CP-35 subida y descarga de un documento de 5 MB demoran menos de 10 segundos" time="0.104">
+    </testcase>
+    <testcase classname="RF-5.4 Estado calculado del contrato CP-32 los contratos listados exponen su estado (vigente / por_vencer / vencido)" name="RF-5.4 Estado calculado del contrato CP-32 los contratos listados exponen su estado (vigente / por_vencer / vencido)" time="4.018">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;vigente&quot;
+Received: undefined
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:156:35)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-5.5 Enlace para compartir el documento CP-33 generar enlace, acceder sin sesión y revocar el acceso" name="RF-5.5 Enlace para compartir el documento CP-33 generar enlace, acceder sin sesión y revocar el acceso" time="0.003">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 404
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:167:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-6.1 Auditoría de acciones críticas sobre contratos y documentos CP-36 se auditan la subida, descarga y eliminación de contratos/documentos" name="RF-6.1 Auditoría de acciones críticas sobre contratos y documentos CP-36 se auditan la subida, descarga y eliminación de contratos/documentos" time="0.025">
+      <failure>Error: expect(received).toMatch(expected)
+
+Expected pattern: /DOCUMENTO_DESCARGAR.*18/
+Received string:  &quot;LOGIN: usuario inició sesión
+EMPRESA_USUARIOS_CREAR: vinculó usuario 5 a empresa 2 con rol 2
+CLIENTES_CREAR: creó cliente Cliente cli_mwile81x_29773_6
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato de mantención para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 4
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_CREAR: creó contrato Contrato QA para cliente 3
+CONTRATOS_ELIMINAR: eliminó contrato ID 18&quot;
+    at Object.toMatch (/proyecto/atlas-qa/BACKEND/tests/integration/contratos.int.test.js:189:22)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Control de acceso a clientes" errors="0" failures="11" skipped="0" timestamp="2026-11-16T01:36:19" time="32.495" tests="18">
+    <testcase classname="Control de acceso a clientes CP-03 listar clientes sin token JWT responde 401" name="Control de acceso a clientes CP-03 listar clientes sin token JWT responde 401" time="8.007">
+    </testcase>
+    <testcase classname="Control de acceso a clientes CP-04 listar clientes con token válido filtra por la empresa del JWT" name="Control de acceso a clientes CP-04 listar clientes con token válido filtra por la empresa del JWT" time="4.02">
+    </testcase>
+    <testcase classname="Control de acceso a clientes CP-04b no se puede leer, editar ni eliminar un cliente de otra empresa" name="Control de acceso a clientes CP-04b no se puede leer, editar ni eliminar un cliente de otra empresa" time="0.006">
+    </testcase>
+    <testcase classname="RF-4.1 Crear clientes CP-09 crear cliente asocia el registro a la empresa del token (ignora empresa_id del body)" name="RF-4.1 Crear clientes CP-09 crear cliente asocia el registro a la empresa del token (ignora empresa_id del body)" time="0.014">
+    </testcase>
+    <testcase classname="RF-4.1 Crear clientes CP-11 crear cliente deja registro de auditoría con usuario y acción" name="RF-4.1 Crear clientes CP-11 crear cliente deja registro de auditoría con usuario y acción" time="0.01">
+    </testcase>
+    <testcase classname="RF-4.1 Crear clientes CP-18 un editor (solo lectura) no puede crear clientes (403)" name="RF-4.1 Crear clientes CP-18 un editor (solo lectura) no puede crear clientes (403)" time="0.005">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 403
+Received: 201
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:68:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.1 Crear clientes CP-19a un editor no puede editar ni eliminar clientes (403)" name="RF-4.1 Crear clientes CP-19a un editor no puede editar ni eliminar clientes (403)" time="0.005">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 403
+Received: 200
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:75:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.2 Editar, eliminar y listar clientes CP-22 editar cliente persiste los cambios y registra auditoría" name="RF-4.2 Editar, eliminar y listar clientes CP-22 editar cliente persiste los cambios y registra auditoría" time="0.008">
+    </testcase>
+    <testcase classname="RF-4.2 Editar, eliminar y listar clientes CP-23 la eliminación de clientes es lógica (el registro se conserva marcado)" name="RF-4.2 Editar, eliminar y listar clientes CP-23 la eliminación de clientes es lógica (el registro se conserva marcado)" time="0.01">
+      <failure>Error: expect(received).toHaveLength(expected)
+
+Expected length: 1
+Received length: 0
+Received array:  []
+    at Object.toHaveLength (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:99:18)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.2 Editar, eliminar y listar clientes CP-24 el listado de clientes soporta paginación y filtro por nombre" name="RF-4.2 Editar, eliminar y listar clientes CP-24 el listado de clientes soporta paginación y filtro por nombre" time="8.049">
+      <failure>Error: expect(received).toHaveLength(expected)
+
+Expected length: 2
+Received length: 4
+Received array:  [{&quot;cargo_representante&quot;: null, &quot;correo&quot;: &quot;cli_mwilf0eo_29773_23@cliente-qa.cl&quot;, &quot;correo_representante&quot;: null, &quot;created_at&quot;: &quot;2026-11-16T01:36:48.337Z&quot;, &quot;dia_pago&quot;: &quot;5&quot;, &quot;direccion&quot;: &quot;Calle Falsa 123, Providencia&quot;, &quot;direccion_calle&quot;: null, &quot;direccion_ciudad&quot;: null, &quot;direccion_numero&quot;: null, &quot;direccion_region&quot;: null, &quot;empresa_id&quot;: &quot;6&quot;, &quot;es_empresa&quot;: true, &quot;giro_actividad_economica&quot;: &quot;Servicios informáticos&quot;, &quot;id&quot;: &quot;15&quot;, &quot;metodo_pago&quot;: &quot;transferencia&quot;, &quot;moneda&quot;: &quot;CLP&quot;, &quot;nombre&quot;: &quot;Otro nombre&quot;, &quot;nombre_banco&quot;: &quot;Banco de Pruebas&quot;, &quot;nombre_fantasia&quot;: &quot;Cliente QA&quot;, &quot;nombre_representante&quot;: null, &quot;numero_cuenta&quot;: &quot;00012345678&quot;, &quot;relacion_representante&quot;: null, &quot;rut&quot;: &quot;76.086.428-5&quot;, &quot;sitio_web&quot;: null, &quot;telefono&quot;: &quot;+56987654321&quot;, &quot;telefono_corporativo&quot;: null, &quot;telefono_representante&quot;: null, &quot;titular_cuenta&quot;: &quot;Cliente QA SpA&quot;}, {&quot;cargo_representante&quot;: null, &quot;correo&quot;: &quot;cli_mwilf0ej_29773_22@cliente-qa.cl&quot;, &quot;correo_representante&quot;: null, &quot;created_at&quot;: &quot;2026-11-16T01:36:48.333Z&quot;, &quot;dia_pago&quot;: &quot;5&quot;, &quot;direccion&quot;: &quot;Calle Falsa 123, Providencia&quot;, &quot;direccion_calle&quot;: null, &quot;direccion_ciudad&quot;: null, &quot;direccion_numero&quot;: null, &quot;direccion_region&quot;: null, &quot;empresa_id&quot;: &quot;6&quot;, &quot;es_empresa&quot;: true, &quot;giro_actividad_economica&quot;: &quot;Servicios informáticos&quot;, &quot;id&quot;: &quot;14&quot;, &quot;metodo_pago&quot;: &quot;transferencia&quot;, &quot;moneda&quot;: &quot;CLP&quot;, &quot;nombre&quot;: &quot;pag_mwilf0ea_29773_19 2&quot;, &quot;nombre_banco&quot;: &quot;Banco de Pruebas&quot;, &quot;nombre_fantasia&quot;: &quot;Cliente QA&quot;, &quot;nombre_representante&quot;: null, &quot;numero_cuenta&quot;: &quot;00012345678&quot;, &quot;relacion_representante&quot;: null, &quot;rut&quot;: &quot;76.086.428-5&quot;, &quot;sitio_web&quot;: null, &quot;telefono&quot;: &quot;+56987654321&quot;, &quot;telefono_corporativo&quot;: null, &quot;telefono_representante&quot;: null, &quot;titular_cuenta&quot;: &quot;Cliente QA SpA&quot;}, {&quot;cargo_representante&quot;: null, &quot;correo&quot;: &quot;cli_mwilf0ef_29773_21@cliente-qa.cl&quot;, &quot;correo_representante&quot;: null, &quot;created_at&quot;: &quot;2026-11-16T01:36:48.328Z&quot;, &quot;dia_pago&quot;: &quot;5&quot;, &quot;direccion&quot;: &quot;Calle Falsa 123, Providencia&quot;, &quot;direccion_calle&quot;: null, &quot;direccion_ciudad&quot;: null, &quot;direccion_numero&quot;: null, &quot;direccion_region&quot;: null, &quot;empresa_id&quot;: &quot;6&quot;, &quot;es_empresa&quot;: true, &quot;giro_actividad_economica&quot;: &quot;Servicios informáticos&quot;, &quot;id&quot;: &quot;13&quot;, &quot;metodo_pago&quot;: &quot;transferencia&quot;, &quot;moneda&quot;: &quot;CLP&quot;, &quot;nombre&quot;: &quot;pag_mwilf0ea_29773_19 1&quot;, &quot;nombre_banco&quot;: &quot;Banco de Pruebas&quot;, &quot;nombre_fantasia&quot;: &quot;Cliente QA&quot;, &quot;nombre_representante&quot;: null, &quot;numero_cuenta&quot;: &quot;00012345678&quot;, &quot;relacion_representante&quot;: null, &quot;rut&quot;: &quot;76.086.428-5&quot;, &quot;sitio_web&quot;: null, &quot;telefono&quot;: &quot;+56987654321&quot;, &quot;telefono_corporativo&quot;: null, &quot;telefono_representante&quot;: null, &quot;titular_cuenta&quot;: &quot;Cliente QA SpA&quot;}, {&quot;cargo_representante&quot;: null, &quot;correo&quot;: &quot;cli_mwilf0ea_29773_20@cliente-qa.cl&quot;, &quot;correo_representante&quot;: null, &quot;created_at&quot;: &quot;2026-11-16T01:36:48.323Z&quot;, &quot;dia_pago&quot;: &quot;5&quot;, &quot;direccion&quot;: &quot;Calle Falsa 123, Providencia&quot;, &quot;direccion_calle&quot;: null, &quot;direccion_ciudad&quot;: null, &quot;direccion_numero&quot;: null, &quot;direccion_region&quot;: null, &quot;empresa_id&quot;: &quot;6&quot;, &quot;es_empresa&quot;: true, &quot;giro_actividad_economica&quot;: &quot;Servicios informáticos&quot;, &quot;id&quot;: &quot;12&quot;, &quot;metodo_pago&quot;: &quot;transferencia&quot;, &quot;moneda&quot;: &quot;CLP&quot;, &quot;nombre&quot;: &quot;pag_mwilf0ea_29773_19 0&quot;, &quot;nombre_banco&quot;: &quot;Banco de Pruebas&quot;, &quot;nombre_fantasia&quot;: &quot;Cliente QA&quot;, &quot;nombre_representante&quot;: null, &quot;numero_cuenta&quot;: &quot;00012345678&quot;, &quot;relacion_representante&quot;: null, &quot;rut&quot;: &quot;76.086.428-5&quot;, &quot;sitio_web&quot;: null, &quot;telefono&quot;: &quot;+56987654321&quot;, &quot;telefono_corporativo&quot;: null, &quot;telefono_representante&quot;: null, &quot;titular_cuenta&quot;: &quot;Cliente QA SpA&quot;}]
+    at Object.toHaveLength (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:113:19)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { correo: &apos;no-es-un-correo&apos; } (correo inválido) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { correo: &apos;no-es-un-correo&apos; } (correo inválido) responde 400" time="0.015">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:131:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { rut: &apos;12.345.678-0&apos; } (RUT con dígito verificador inválido) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { rut: &apos;12.345.678-0&apos; } (RUT con dígito verificador inválido) responde 400" time="0.005">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:131:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { nombre: &apos;&apos; } (nombre vacío) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { nombre: &apos;&apos; } (nombre vacío) responde 400" time="0.007">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:131:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { telefono: &apos;abc-def&apos; } (teléfono no numérico) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { telefono: &apos;abc-def&apos; } (teléfono no numérico) responde 400" time="0.004">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:131:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { dia_pago: &apos;45&apos; } (día de pago fuera de rango) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { dia_pago: &apos;45&apos; } (día de pago fuera de rango) responde 400" time="0.004">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:131:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con {
+  nombre: &apos;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&apos;
+} (nombre excede largo máximo) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con {
+  nombre: &apos;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&apos;
+} (nombre excede largo máximo) responde 400" time="0.004">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:131:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-5 Inyección SQL CP-40b la búsqueda por nombre no es vulnerable a inyección SQL" name="NFR-SEG-5 Inyección SQL CP-40b la búsqueda por nombre no es vulnerable a inyección SQL" time="0.006">
+    </testcase>
+    <testcase classname="NFR-SEG-3 Cifrado de datos sensibles en reposo CP-45 el número de cuenta bancaria se almacena cifrado y se entrega descifrado al titular" name="NFR-SEG-3 Cifrado de datos sensibles en reposo CP-45 el número de cuenta bancaria se almacena cifrado y se entrega descifrado al titular" time="0.005">
+      <failure>Error: expect(received).not.toBe(expected) // Object.is equality
+
+Expected: not &quot;99988877766&quot;
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/clientes.int.test.js:151:39)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="NFR-SEG-6 / RB-2 Gestión segura de logs de auditoría" errors="0" failures="7" skipped="0" timestamp="2026-11-16T01:36:52" time="48.374" tests="8">
+    <testcase classname="NFR-SEG-6 / RB-2 Gestión segura de logs de auditoría CP-37 la auditoría exige autenticación, se aísla por empresa y no acepta inserciones anónimas" name="NFR-SEG-6 / RB-2 Gestión segura de logs de auditoría CP-37 la auditoría exige autenticación, se aísla por empresa y no acepta inserciones anónimas" time="0.004">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 401
+Received: 200
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:20:25)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-5 / NFR-SEG-6 Manejo de errores sin fuga de información CP-39 los errores no exponen detalles internos (SQL, stack, constraints)" name="NFR-SEG-5 / NFR-SEG-6 Manejo de errores sin fuga de información CP-39 los errores no exponen detalles internos (SQL, stack, constraints)" time="0.01">
+      <failure>Error: expect(received).toBeLessThan(expected)
+
+Expected: &lt; 500
+Received:   500
+    at Object.toBeLessThan (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:33:23)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF CP-42 CORS restringido a orígenes permitidos y sesión sin cookies (mitiga CSRF)" name="NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF CP-42 CORS restringido a orígenes permitidos y sesión sin cookies (mitiga CSRF)" time="0.002">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:44:96)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF CP-43 la API envía cabeceras de seguridad HTTP (Helmet)" name="NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF CP-43 la API envía cabeceras de seguridad HTTP (Helmet)" time="0.001">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;nosniff&quot;
+Received: undefined
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:51:51)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-8 Protección de datos personales (Ley 19.628 / Ley 21.719) CP-49 datos de empresas y usuarios no son accesibles por terceros no autorizados" name="NFR-SEG-8 Protección de datos personales (Ley 19.628 / Ley 21.719) CP-49 datos de empresas y usuarios no son accesibles por terceros no autorizados" time="0.011">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 401
+Received: 200
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:61:25)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-PERF-1 Tiempo de respuesta de operaciones CRUD simples CP-50 GET/POST de clientes y contratos responden con p95 &lt; 300 ms" name="NFR-PERF-1 Tiempo de respuesta de operaciones CRUD simples CP-50 GET/POST de clientes y contratos responden con p95 &lt; 300 ms" time="40.132">
+      <failure>Error: expect(received).toBeLessThan(expected)
+
+Expected: &lt; 300
+Received:   4004
+    at toBeLessThan (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:94:53)
+    at Array.forEach (&lt;anonymous&gt;)
+    at Object.forEach (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:94:28)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) CP-62 la colección OpenAPI está disponible y documenta los endpoints críticos" name="3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) CP-62 la colección OpenAPI está disponible y documenta los endpoints críticos" time="0.005">
+    </testcase>
+    <testcase classname="3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) CP-62b la colección OpenAPI documenta logout, refresh y compartir documentos" name="3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) CP-62b la colección OpenAPI documenta logout, refresh y compartir documentos" time="0.001">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected value: &quot;/autenticacion/logout&quot;
+Received array: [&quot;/autenticacion/login&quot;, &quot;/usuarios&quot;, &quot;/usuarios/{id}&quot;, &quot;/clientes&quot;, &quot;/clientes/search&quot;, &quot;/clientes/{id}&quot;, &quot;/contratos&quot;, &quot;/contratos/estados&quot;, &quot;/contratos/dashboard&quot;, &quot;/contratos/{id}&quot;, …]
+    at toContain (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:114:21)
+    at Array.forEach (&lt;anonymous&gt;)
+    at Object.forEach (/proyecto/atlas-qa/BACKEND/tests/integration/seguridad.int.test.js:113:109)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-3.1 Crear/invitar usuarios y asignar rol" errors="0" failures="8" skipped="0" timestamp="2026-11-16T01:37:40" time="16.266" tests="9">
+    <testcase classname="RF-3.1 Crear/invitar usuarios y asignar rol CP-10 listar usuarios solo retorna integrantes de la empresa del token" name="RF-3.1 Crear/invitar usuarios y asignar rol CP-10 listar usuarios solo retorna integrantes de la empresa del token" time="0.008">
+    </testcase>
+    <testcase classname="RF-3.1 Crear/invitar usuarios y asignar rol CP-12 vincular usuario a empresa exige rol_id (400) y no crea usuario huérfano" name="RF-3.1 Crear/invitar usuarios y asignar rol CP-12 vincular usuario a empresa exige rol_id (400) y no crea usuario huérfano" time="0.011">
+      <failure>Error: expect(received).toHaveLength(expected)
+
+Expected length: 0
+Received length: 1
+Received array:  [{&quot;id&quot;: &quot;15&quot;}]
+    at Object.toHaveLength (/proyecto/atlas-qa/BACKEND/tests/integration/usuarios.int.test.js:35:18)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-3.1 Crear/invitar usuarios y asignar rol CP-18c un editor no puede crear usuarios (403)" name="RF-3.1 Crear/invitar usuarios y asignar rol CP-18c un editor no puede crear usuarios (403)" time="0.006">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 403
+Received: 201
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/usuarios.int.test.js:44:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-20 admin actualiza y elimina a un usuario de su empresa" name="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-20 admin actualiza y elimina a un usuario de su empresa" time="4.027">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 200
+Received: 500
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/usuarios.int.test.js:56:23)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-19b un editor no puede modificar ni eliminar usuarios (403)" name="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-19b un editor no puede modificar ni eliminar usuarios (403)" time="0.009">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 403
+Received: 500
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/usuarios.int.test.js:69:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-21 admin de la empresa A no puede leer, modificar ni eliminar usuarios de la empresa B (IDOR)" name="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-21 admin de la empresa A no puede leer, modificar ni eliminar usuarios de la empresa B (IDOR)" time="0.008">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected value: 200
+Received array: [403, 404]
+    at Object.toContain (/proyecto/atlas-qa/BACKEND/tests/integration/usuarios.int.test.js:76:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-21b sin token no es posible crear, leer ni modificar usuarios (401)" name="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-21b sin token no es posible crear, leer ni modificar usuarios (401)" time="0.003">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 401
+Received: 201
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/usuarios.int.test.js:88:25)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-2 Almacenamiento seguro de contraseñas CP-38 las contraseñas se almacenan con hash bcrypt (no en texto plano)" name="NFR-SEG-2 Almacenamiento seguro de contraseñas CP-38 las contraseñas se almacenan con hash bcrypt (no en texto plano)" time="0.001">
+      <failure>Error: expect(received).not.toBe(expected) // Object.is equality
+
+Expected: not &quot;Atlas#Prueba2026&quot;
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/usuarios.int.test.js:97:41)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-2 Almacenamiento seguro de contraseñas CP-38b los usuarios semilla (admin/editor) no conservan contraseñas en texto plano" name="NFR-SEG-2 Almacenamiento seguro de contraseñas CP-38b los usuarios semilla (admin/editor) no conservan contraseñas en texto plano" time="0.001">
+      <failure>Error: expect(received).toMatch(expected)
+
+Expected pattern: /^\$2[aby]\$/
+Received string:  &quot;admin&quot;
+    at Object.toMatch (/proyecto/atlas-qa/BACKEND/tests/integration/usuarios.int.test.js:105:53)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-1.1 Inicio de sesión" errors="0" failures="3" skipped="0" timestamp="2026-11-16T01:37:57" time="36.247" tests="6">
+    <testcase classname="RF-1.1 Inicio de sesión CP-01 login exitoso con credenciales válidas entrega un JWT" name="RF-1.1 Inicio de sesión CP-01 login exitoso con credenciales válidas entrega un JWT" time="4.017">
+    </testcase>
+    <testcase classname="RF-1.1 Inicio de sesión CP-02 login rechaza credenciales inválidas con HTTP 401 y sin token" name="RF-1.1 Inicio de sesión CP-02 login rechaza credenciales inválidas con HTTP 401 y sin token" time="8.01">
+    </testcase>
+    <testcase classname="RF-1.1 Inicio de sesión CP-40a inyección SQL en el login no permite autenticarse" name="RF-1.1 Inicio de sesión CP-40a inyección SQL en el login no permite autenticarse" time="4.004">
+    </testcase>
+    <testcase classname="RF-1.2 Cierre de sesión y revocación de tokens CP-14 logout invalida el token: reutilizarlo responde 401" name="RF-1.2 Cierre de sesión y revocación de tokens CP-14 logout invalida el token: reutilizarlo responde 401" time="8.05">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected value: 404
+Received array: [200, 204]
+    at Object.toContain (/proyecto/atlas-qa/BACKEND/tests/integration/auth.int.test.js:51:24)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-9 / 3.1.2 JWT de corta vigencia y refresh token CP-47 access token dura ≤ 60 min y existe refresh token funcional" name="NFR-SEG-9 / 3.1.2 JWT de corta vigencia y refresh token CP-47 access token dura ≤ 60 min y existe refresh token funcional" time="4.016">
+      <failure>Error: expect(received).toBeLessThanOrEqual(expected)
+
+Expected: &lt;= 3600
+Received:    7200
+    at Object.toBeLessThanOrEqual (/proyecto/atlas-qa/BACKEND/tests/integration/auth.int.test.js:61:31)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="NFR-SEG-5 Protección contra fuerza bruta CP-46 tras múltiples intentos fallidos el login responde 429" name="NFR-SEG-5 Protección contra fuerza bruta CP-46 tras múltiples intentos fallidos el login responde 429" time="4.023">
+      <failure>Error: expect(received).toContain(expected) // indexOf
+
+Expected value: 429
+Received array: [401, 401, 401, 401, 401, 401, 401, 401, 401, 401]
+    at Object.toContain (/proyecto/atlas-qa/BACKEND/tests/integration/auth.int.test.js:76:21)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-2 Registro y creación de empresa" errors="0" failures="6" skipped="0" timestamp="2026-11-16T01:38:33" time="8.229" tests="8">
+    <testcase classname="RF-2 Registro y creación de empresa CP-15 registro de usuario + empresa permite iniciar sesión y ver el dashboard" name="RF-2 Registro y creación de empresa CP-15 registro de usuario + empresa permite iniciar sesión y ver el dashboard" time="8.078">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-16 el primer usuario de la empresa obtiene rol administrador" name="RF-2 Registro y creación de empresa CP-16 el primer usuario de la empresa obtiene rol administrador" time="0.017">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;admin&apos; (muy corta) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;admin&apos; (muy corta) con 400" time="0.006">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/registro.int.test.js:44:28)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;sinsimbolos12345A&apos; (sin símbolo) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;sinsimbolos12345A&apos; (sin símbolo) con 400" time="0.005">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/registro.int.test.js:44:28)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;SOLOMAYUSCULAS#123&apos; (sin minúsculas) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;SOLOMAYUSCULAS#123&apos; (sin minúsculas) con 400" time="0.005">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/registro.int.test.js:44:28)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;solominusculas#123&apos; (sin mayúsculas) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;solominusculas#123&apos; (sin mayúsculas) con 400" time="0.004">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/registro.int.test.js:44:28)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;SinNumeros#Atlas&apos; (sin número) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;SinNumeros#Atlas&apos; (sin número) con 400" time="0.005">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 400
+Received: 201
+    at toBe (/proyecto/atlas-qa/BACKEND/tests/integration/registro.int.test.js:44:28)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-60 RB-1 no se permite registrar dos empresas con el mismo correo principal (409)" name="RF-2 Registro y creación de empresa CP-60 RB-1 no se permite registrar dos empresas con el mismo correo principal (409)" time="0.012">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 409
+Received: 500
+    at Object.toBe (/proyecto/atlas-qa/BACKEND/tests/integration/registro.int.test.js:54:27)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
