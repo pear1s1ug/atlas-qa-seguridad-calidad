@@ -16,7 +16,7 @@
     "@fontsource/rubik": "^5.3.0",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
-    "@mui/x-charts": "^8.18.0",
+    "@mui/x-charts": "^9.17.0",
     "axios": "^1.13.1",
     "jwt-decode": "^4.0.0",
     "material-react-table": "^3.2.1",
