@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.14.1",
     "@fontsource/poppins": "^5.3.0",
     "@fontsource/rubik": "^5.3.0",
-    "@mui/icons-material": "^7.3.4",
+    "@mui/icons-material": "^9.5.0",
     "@mui/material": "^7.3.4",
     "@mui/x-charts": "^8.18.0",
     "axios": "^1.13.1",
