@@ -7,3 +7,14 @@ e2e/playwright-report/
 e2e/.data/
 e2e/capturas/
 .scannerwork/
+
+# Secretos locales (nunca versionar)
+.env
+**/.env
+!.env.example
+
+respaldos/
+
+# Builds
+FRONTEND/dist/
+**/node_modules/

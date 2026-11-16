@@ -24,7 +24,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
-export default function ClientesTabList({ items, onDelete, onLoad, loading = false }) {
+export default function ClientesTabList({ items, onDelete, loading = false }) {
   const { role } = useAuth();
   const navigate = useNavigate();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -127,20 +127,30 @@ export default function ClientesTabList({ items, onDelete, onLoad, loading = fal
       {
         id: "acciones",
         header: "Acciones",
-        size: 120,
+        size: 260,
         enableColumnFilter: false,
         enableSorting: false,
         enableColumnActions: false,
         Cell: ({ row }) => (
-          <Stack direction="row" spacing={1} justifyContent="flex-end">
+          <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
+            <Button
+              size="small"
+              variant="outlined"
+              data-testid={`button-cliente-contratos-${row.original.id}`}
+              aria-label={`Ver contratos de ${row.original.nombre}`}
+              onClick={() => navigate(`/contratos?cliente=${row.original.id}`)}
+            >
+              Ver contratos
+            </Button>
             {role === "administrador" ? (
               <>
                 <IconButton
                   color="primary"
                   size="small"
                   data-testid={`button-cliente-editar-${row.original.id}`}
+                  aria-label={`Editar cliente ${row.original.nombre}`}
                   onClick={() =>
-                    navigate(`/clientes/${row.original.id}/editar`)
+                    void navigate(`/clientes/${row.original.id}/editar`)
                   }
                   sx={{
                     "&:hover": {
@@ -154,6 +164,7 @@ export default function ClientesTabList({ items, onDelete, onLoad, loading = fal
                   color="error"
                   size="small"
                   data-testid={`button-cliente-eliminar-${row.original.id}`}
+                  aria-label={`Eliminar cliente ${row.original.nombre}`}
                   onClick={() =>
                     handleDeleteClick(row.original.id, row.original.nombre)
                   }

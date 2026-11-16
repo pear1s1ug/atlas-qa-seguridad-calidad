@@ -1,0 +1,12 @@
+npm notice run atlas-frontend@0.0.0 npx
+npm notice run 'eslint' src
+
+/proyecto/atlas-qa/FRONTEND/src/pages/empresas/EmpresasList.jsx
+  43:35  warning  Unused eslint-disable directive (no problems were reported)
+
+/proyecto/atlas-qa/FRONTEND/src/pages/usuarios/UsuariosTabList.jsx
+  28:9  warning  The 'handleDeleteClick' function makes the dependencies of useMemo Hook (at line 156) change on every render. Move it inside the useMemo callback. Alternatively, wrap the definition of 'handleDeleteClick' in its own useCallback() Hook  react-hooks/exhaustive-deps
+
+✖ 2 problems (0 errors, 2 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

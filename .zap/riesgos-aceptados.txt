@@ -1,0 +1,2 @@
+# Alertas ZAP aceptadas formalmente (ID de regla | justificación | responsable | revisión)
+10055 | CSP style-src 'unsafe-inline': requerido por MUI/Emotion (CSS-in-JS). Mitigado: script-src 'self' sin unsafe-inline, React escapa salidas. | Analista de Seguridad | semestral

@@ -20,7 +20,7 @@ export default function AuditoriaList() {
   }, []);
 
   useEffect(() => {
-    load();
+    load().catch(() => {});
   }, [load]);
 
   const formatDate = (dateString) => {

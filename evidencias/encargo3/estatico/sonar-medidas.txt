@@ -1,0 +1,1 @@
+{'coverage': '91.7', 'bugs': '0', 'reliability_rating': '1.0', 'code_smells': '0', 'duplicated_lines_density': '7.5', 'security_rating': '1.0', 'vulnerabilities': '0', 'sqale_rating': '1.0'}

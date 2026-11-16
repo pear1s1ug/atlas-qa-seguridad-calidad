@@ -24,11 +24,11 @@ export default function ContratosTabCreate({ onSuccess, onLoad }) {
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    (async () => {
+    void (async () => {
       try {
         const { data } = await api.get("/clientes");
         setClientes(data || []);
-      } catch (error) {
+      } catch {
         toast.error("Error al cargar clientes");
       }
     })();
@@ -51,7 +51,7 @@ export default function ContratosTabCreate({ onSuccess, onLoad }) {
       descripcion: "",
     });
     setFile(null);
-    onLoad();
+    Promise.resolve(onLoad()).catch(() => {});
     onSuccess(); // Cambiar a la pestaña de listar después de crear
   };
 
@@ -139,7 +139,7 @@ export default function ContratosTabCreate({ onSuccess, onLoad }) {
           label="Archivo"
           InputLabelProps={{ shrink: true }}
           inputProps={{
-            accept: ".pdf,.doc,.docx,.xls,.xlsx",
+            accept: ".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png",
           }}
           onChange={(e) => setFile(e.target.files?.[0] || null)}
           variant="outlined"
@@ -149,7 +149,7 @@ export default function ContratosTabCreate({ onSuccess, onLoad }) {
         <Stack direction="row" spacing={2} justifyContent="flex-end">
           <Button
             variant="contained"
-            onClick={onCreate}
+            onClick={() => onCreate().catch(() => {})}
             startIcon={<DescriptionIcon />}
             sx={{
               minWidth: 150,

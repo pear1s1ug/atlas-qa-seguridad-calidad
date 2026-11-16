@@ -8,11 +8,14 @@ import {
   Tabs, 
   Tab, 
   Stack, 
-  CircularProgress 
+  CircularProgress,
+  Alert,
+  Button
 } from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 import AddIcon from "@mui/icons-material/Add";
 import ListIcon from "@mui/icons-material/List";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import ContratosTabList from "./ContratosTabList";
 import ContratosTabCreate from "./ContratosTabCreate";
@@ -22,21 +25,23 @@ export default function ContratosList() {
   const [tabValue, setTabValue] = useState(0);
   const [loading, setLoading] = useState(true);
   const { role } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const clienteId = searchParams.get("cliente");
 
   const load = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await api.get("/contratos");
+      const { data } = await api.get("/contratos", { params: clienteId ? { cliente: clienteId } : {} });
       setItems(data || []);
     } catch (error) {
       console.error("Error al cargar contratos:", error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [clienteId]);
 
   useEffect(() => {
-    load();
+    load().catch(() => {});
   }, [load]);
 
   const handleTabChange = (event, newValue) => {
@@ -52,7 +57,7 @@ export default function ContratosList() {
       if (role !== "administrador") return;
       await api.delete(`/contratos/${id}`);
       toast.success("Contrato eliminado");
-      load();
+      await load();
     },
     [role, load]
   );
@@ -93,6 +98,19 @@ export default function ContratosList() {
 
       <Card sx={{ boxShadow: "0 2px 0px rgba(0,0,0,0.1)" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          {clienteId && (
+            <Alert
+              severity="info"
+              sx={{ m: 2 }}
+              action={
+                <Button color="inherit" size="small" onClick={() => setSearchParams({})}>
+                  Ver todos
+                </Button>
+              }
+            >
+              Mostrando los contratos del cliente {items[0]?.cliente_nombre || `#${clienteId}`}
+            </Alert>
+          )}
           <Tabs value={tabValue} onChange={handleTabChange}>
             <Tab
               label="Listar Contratos"

@@ -1,163 +1,40 @@
+/** Métricas del dashboard (RF-2 criterio de aceptación / RF-5.4). Sin latencia artificial (NFR-PERF-1/2). */
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const { pool } = require("../db");
+const { requireAuth } = require("../lib/auth");
+const { calcularDiasEntreFechas, fechaHoyISO, sumarDiasISO } = require("../lib/contratoEstado");
+const { ah } = require("../lib/errors");
 
 const router = express.Router();
-const { getUserFromAuthHeader } = require("../lib/auth");
-const JWT_SECRET = process.env.JWT_SECRET || "inseguro";
+router.use(requireAuth);
 
-// Función helper para simular latencia
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const iso = (f) => (f instanceof Date ? fechaHoyISO(f) : String(f).slice(0, 10));
 
-
-const { calcularDiasEntreFechas } = require("../lib/contratoEstado");
-
-// Endpoint de métricas
-router.get("/", async (req, res) => {
-  try {
-    // Simular latencia de 4 segundos
-    await delay(4000);
-    const authUser = getUserFromAuthHeader(req);
-
-    // Validar token y empresaId
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    const empresaId = authUser.empresaId;
-    const hoy = new Date();
-    const hoyFormateado = hoy.toISOString().split("T")[0]; // YYYY-MM-DD
-
-    // Fechas para los próximos 15 y 30 días
-    const fecha15Dias = new Date(hoy);
-    fecha15Dias.setDate(fecha15Dias.getDate() + 15);
-    const fecha15DiasFormateada = fecha15Dias.toISOString().split("T")[0];
-
-    const fecha30Dias = new Date(hoy);
-    fecha30Dias.setDate(fecha30Dias.getDate() + 30);
-    const fecha30DiasFormateada = fecha30Dias.toISOString().split("T")[0];
-
-    // 1. Obtener 10 contratos próximos a vencer (fecha_fin >= hoy y <= 30 días)
-    const contratosProximosAVencerResult = await pool.query(
-      `SELECT 
-        c.id, 
-        c.fecha_fin,
-        cl.nombre AS cliente
-      FROM contratos c
-      INNER JOIN clientes cl ON cl.id = c.cliente_id
-      WHERE cl.empresa_id = $1 
-        AND c.fecha_fin >= $2 
-        AND c.fecha_fin <= $3
-      ORDER BY c.fecha_fin ASC
-      LIMIT 10`,
-      [empresaId, hoyFormateado, fecha30DiasFormateada]
-    );
-
-    // Formatear contratos próximos a vencer con días restantes
-    const contratosProximosAVencer = contratosProximosAVencerResult.rows.map(
-      (contrato) => {
-        const diasRestantes = calcularDiasEntreFechas(
-          hoyFormateado,
-          contrato.fecha_fin
-        );
-        return {
-          id: contrato.id,
-          cliente: contrato.cliente,
-          fechaVencimiento: contrato.fecha_fin,
-          diasRestantes: diasRestantes,
-        };
-      }
-    );
-
-    // 2. Obtener 10 contratos ya vencidos (fecha_fin < hoy)
-    const contratosVencidosResult = await pool.query(
-      `SELECT 
-        c.id, 
-        c.fecha_fin,
-        cl.nombre AS cliente
-      FROM contratos c
-      INNER JOIN clientes cl ON cl.id = c.cliente_id
-      WHERE cl.empresa_id = $1 
-        AND c.fecha_fin < $2
-      ORDER BY c.fecha_fin DESC
-      LIMIT 10`,
-      [empresaId, hoyFormateado]
-    );
-
-    // Formatear contratos vencidos con días vencidos
-    const contratosVencidos = contratosVencidosResult.rows.map((contrato) => {
-      const diasVencidos = Math.abs(
-        calcularDiasEntreFechas(contrato.fecha_fin, hoyFormateado)
-      );
-      return {
-        id: contrato.id,
-        cliente: contrato.cliente,
-        fechaVencimiento: contrato.fecha_fin,
-        diasVencidos: diasVencidos,
-      };
-    });
-
-    // 3. Métricas por empresa
-
-    // Total de usuarios asociados a la empresa
-    const totalUsuariosResult = await pool.query(
-      "SELECT COUNT(*) as total FROM empresa_usuarios WHERE empresa_id = $1",
-      [empresaId]
-    );
-    const totalUsuarios = parseInt(totalUsuariosResult.rows[0].total);
-
-    // Total de clientes de la empresa
-    const totalClientesResult = await pool.query(
-      "SELECT COUNT(*) as total FROM clientes WHERE empresa_id = $1",
-      [empresaId]
-    );
-    const totalClientes = parseInt(totalClientesResult.rows[0].total);
-
-    // Contratos que vencen en los próximos 15 días
-    const contratos15DiasResult = await pool.query(
-      `SELECT COUNT(*) as total 
-       FROM contratos c
-       INNER JOIN clientes cl ON cl.id = c.cliente_id
-       WHERE cl.empresa_id = $1 
-         AND c.fecha_fin >= $2 
-         AND c.fecha_fin <= $3`,
-      [empresaId, hoyFormateado, fecha15DiasFormateada]
-    );
-    const contratos15Dias = parseInt(contratos15DiasResult.rows[0].total);
-
-    // Contratos que vencen en los próximos 30 días
-    const contratos30DiasResult = await pool.query(
-      `SELECT COUNT(*) as total 
-       FROM contratos c
-       INNER JOIN clientes cl ON cl.id = c.cliente_id
-       WHERE cl.empresa_id = $1 
-         AND c.fecha_fin >= $2 
-         AND c.fecha_fin <= $3`,
-      [empresaId, hoyFormateado, fecha30DiasFormateada]
-    );
-    const contratos30Dias = parseInt(contratos30DiasResult.rows[0].total);
-
-    // Respuesta final
+router.get(
+  "/",
+  ah(async (req, res) => {
+    const e = req.user.empresaId;
+    const hoy = fechaHoyISO();
+    const en30 = sumarDiasISO(hoy, 30);
+    const base = `FROM contratos c JOIN clientes cl ON cl.id = c.cliente_id WHERE cl.empresa_id = $1`;
+    const [prox, venc, usu, cli, c15, c30] = await Promise.all([
+      pool.query(`SELECT c.id, c.fecha_fin, cl.nombre AS cliente ${base} AND c.fecha_fin BETWEEN $2 AND $3 ORDER BY c.fecha_fin ASC LIMIT 10`, [e, hoy, en30]),
+      pool.query(`SELECT c.id, c.fecha_fin, cl.nombre AS cliente ${base} AND c.fecha_fin < $2 ORDER BY c.fecha_fin DESC LIMIT 10`, [e, hoy]),
+      pool.query("SELECT count(*)::int AS n FROM empresa_usuarios WHERE empresa_id = $1", [e]),
+      pool.query("SELECT count(*)::int AS n FROM clientes WHERE empresa_id = $1 AND eliminado_en IS NULL", [e]),
+      pool.query(`SELECT count(*)::int AS n ${base} AND c.fecha_fin BETWEEN $2 AND $3`, [e, hoy, sumarDiasISO(hoy, 15)]),
+      pool.query(`SELECT count(*)::int AS n ${base} AND c.fecha_fin BETWEEN $2 AND $3`, [e, hoy, en30]),
+    ]);
     res.json({
-      contratosProximosAVencer,
-      contratosVencidos,
-      metricas: {
-        totalUsuarios,
-        totalClientes,
-        contratos15Dias,
-        contratos30Dias,
-      },
+      contratosProximosAVencer: prox.rows.map((c) => ({
+        id: c.id, cliente: c.cliente, fechaVencimiento: iso(c.fecha_fin), diasRestantes: calcularDiasEntreFechas(hoy, iso(c.fecha_fin)),
+      })),
+      contratosVencidos: venc.rows.map((c) => ({
+        id: c.id, cliente: c.cliente, fechaVencimiento: iso(c.fecha_fin), diasVencidos: calcularDiasEntreFechas(iso(c.fecha_fin), hoy),
+      })),
+      metricas: { totalUsuarios: usu.rows[0].n, totalClientes: cli.rows[0].n, contratos15Dias: c15.rows[0].n, contratos30Dias: c30.rows[0].n },
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al obtener métricas",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
+  })
+);
 
 module.exports = router;

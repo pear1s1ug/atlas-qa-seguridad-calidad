@@ -1,201 +1,106 @@
+/** RF-3 Gestión de usuarios de empresa y roles / RB-2 / RB-4 / RB-5 */
 const express = require("express");
-const { pool } = require("../db");
-const jwt = require("jsonwebtoken");
+const { pool, transaccion } = require("../db");
+const { requireAuth, requireAdmin } = require("../lib/auth");
+const { esIdValido } = require("../lib/validators");
+const { validarNuevoUsuario, crearUsuario, rolValido } = require("../lib/usuariosSvc");
+const { desdeReq } = require("../lib/auditoria");
+const { ah, e400, e404, e409 } = require("../lib/errors");
 
 const router = express.Router();
-const { getUserFromAuthHeader } = require("../lib/auth");
-const JWT_SECRET = process.env.JWT_SECRET || "inseguro";
+router.use(requireAuth);
 
+function idParam(req) {
+  if (!esIdValido(req.params.id)) throw e400("Identificador inválido");
+  return req.params.id;
+}
 
-// Crear relación empresa-usuario con rol (crea usuario si no existe)
-router.post("/", async (req, res) => {
-  try {
-    const authUser = getUserFromAuthHeader(req);
+/** Crea (o vincula) un usuario en la empresa del token con un rol. Reutilizado por POST /usuarios. */
+async function crearVinculo(req, res) {
+  const empresaId = req.user.empresaId;
+  const { usuario_id, rol_id } = req.body || {};
+  // Validar rol ANTES de crear cualquier registro (evita usuarios huérfanos)
+  if (!rol_id) throw e400("El campo rol_id es requerido");
+  if (!(await rolValido(pool, rol_id))) throw e400("El rol indicado no existe");
 
-    // Validar token y empresaId
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    const empresaId = authUser.empresaId;
+  const vinculo = await transaccion(async (client) => {
     let usuarioId;
-    const { usuario_id, rol_id, nombre_usuario, contrasena_hash, correo } =
-      req.body;
-
-    // Si viene usuario_id, usar ese (compatibilidad con formato anterior)
-    // Si vienen datos del usuario, crear el usuario primero
     if (usuario_id) {
+      if (!esIdValido(usuario_id)) throw e400("usuario_id inválido");
+      const ex = await client.query("SELECT id FROM usuarios WHERE id = $1", [usuario_id]);
+      if (!ex.rowCount) throw e404("El usuario indicado no existe");
       usuarioId = usuario_id;
-    } else if (nombre_usuario && contrasena_hash && correo) {
-      // Crear usuario primero
-      const usuarioResult = await pool.query(
-        "INSERT INTO usuarios (nombre_usuario, contrasena_hash, correo) VALUES ($1, $2, $3) RETURNING id, nombre_usuario, correo, created_at",
-        [nombre_usuario, contrasena_hash, correo]
-      );
-      usuarioId = usuarioResult.rows[0].id;
     } else {
-      return res.status(400).json({
-        error: "Datos inválidos",
-        glosa:
-          "Debe proporcionar usuario_id o los datos del usuario (nombre_usuario, contrasena_hash, correo)",
-      });
+      usuarioId = (await crearUsuario(client, validarNuevoUsuario(req.body))).id;
     }
-
-    // Validar que venga rol_id
-    if (!rol_id) {
-      return res.status(400).json({
-        error: "Datos inválidos",
-        glosa: "El campo rol_id es requerido",
-      });
-    }
-
-    // Crear relación empresa-usuario
-    const result = await pool.query(
+    const dup = await client.query("SELECT 1 FROM empresa_usuarios WHERE empresa_id=$1 AND usuario_id=$2", [empresaId, usuarioId]);
+    if (dup.rowCount) throw e409("El usuario ya pertenece a la empresa");
+    const r = await client.query(
       "INSERT INTO empresa_usuarios (empresa_id, usuario_id, rol_id) VALUES ($1, $2, $3) RETURNING *",
       [empresaId, usuarioId, rol_id]
     );
+    await desdeReq(req, `EMPRESA_USUARIOS_CREAR: vinculó usuario ${usuarioId} a empresa ${empresaId} con rol ${rol_id}`, client);
+    return r.rows[0];
+  });
+  res.status(201).json(vinculo);
+}
 
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `EMPRESA_USUARIOS_CREAR: vinculó usuario ${usuarioId} a empresa ${empresaId} con rol ${rol_id}`,
-      ]
+router.post("/", requireAdmin, ah(crearVinculo));
+
+router.get(
+  "/",
+  ah(async (req, res) => {
+    const r = await pool.query(
+      `SELECT u.id, u.nombre_usuario, u.correo, eu.id AS empresa_usuario_id, eu.created_at, eu.rol_id, r.nombre AS rol_nombre
+         FROM empresa_usuarios eu
+         JOIN usuarios u ON u.id = eu.usuario_id
+         LEFT JOIN roles r ON r.id = eu.rol_id
+        WHERE eu.empresa_id = $1 ORDER BY eu.created_at DESC`,
+      [req.user.empresaId]
     );
+    res.json(r.rows);
+  })
+);
 
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al crear vínculo",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
+router.get(
+  "/:id",
+  ah(async (req, res) => {
+    const r = await pool.query("SELECT * FROM empresa_usuarios WHERE id=$1 AND empresa_id=$2", [idParam(req), req.user.empresaId]);
+    if (!r.rowCount) throw e404();
+    res.json(r.rows[0]);
+  })
+);
 
-// Listar usuarios de la empresa (filtrado por empresa del token)
-router.get("/", async (req, res) => {
-  try {
-    const authUser = getUserFromAuthHeader(req);
+// Solo se permite cambiar el rol; empresa y usuario no son modificables (evita mover usuarios entre empresas)
+router.put(
+  "/:id",
+  requireAdmin,
+  ah(async (req, res) => {
+    const id = idParam(req);
+    const { rol_id } = req.body || {};
+    if (!(await rolValido(pool, rol_id))) throw e400("El rol indicado no existe");
+    const actual = await pool.query("SELECT * FROM empresa_usuarios WHERE id=$1 AND empresa_id=$2", [id, req.user.empresaId]);
+    if (!actual.rowCount) throw e404();
+    if (String(actual.rows[0].usuario_id) === String(req.user.usuarioId)) throw e409("No puede cambiar su propio rol");
+    const r = await pool.query("UPDATE empresa_usuarios SET rol_id=$1 WHERE id=$2 RETURNING *", [rol_id, id]);
+    await desdeReq(req, `EMPRESA_USUARIOS_ACTUALIZAR: cambió rol del vínculo ID ${id} a ${rol_id}`);
+    res.json(r.rows[0]);
+  })
+);
 
-    // Validar token y empresaId
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    const empresaId = authUser.empresaId;
-
-    // Obtener todos los usuarios de la empresa con la estructura solicitada
-    const result = await pool.query(
-      `
-      SELECT 
-        u.id,
-        u.nombre_usuario,
-        u.correo,
-        eu.created_at,
-        eu.rol_id,
-        r.nombre AS rol_nombre
-      FROM empresa_usuarios eu
-      INNER JOIN usuarios u ON u.id = eu.usuario_id
-      LEFT JOIN roles r ON r.id = eu.rol_id
-      WHERE eu.empresa_id = $1
-      ORDER BY eu.created_at DESC
-    `,
-      [empresaId]
-    );
-
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al listar usuarios",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Obtener vínculo por id
-router.get("/:id", async (req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT * FROM empresa_usuarios WHERE id=$1",
-      [req.params.id]
-    );
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "No encontrado" });
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al obtener vínculo",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Actualizar vínculo
-router.put("/:id", async (req, res) => {
-  const { empresa_id, usuario_id, rol_id } = req.body;
-  try {
-    const result = await pool.query(
-      "UPDATE empresa_usuarios SET empresa_id=$1, usuario_id=$2, rol_id=$3 WHERE id=$4 RETURNING *",
-      [empresa_id, usuario_id, rol_id, req.params.id]
-    );
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "No encontrado" });
-
-    const authUser = getUserFromAuthHeader(req);
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `EMPRESA_USUARIOS_ACTUALIZAR: actualizó vínculo ID ${req.params.id}`,
-      ]
-    );
-
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al actualizar vínculo",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Eliminar vínculo
-router.delete("/:id", async (req, res) => {
-  try {
-    const result = await pool.query(
-      "DELETE FROM empresa_usuarios WHERE id=$1 RETURNING *",
-      [req.params.id]
-    );
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "No encontrado" });
-
-    const authUser = getUserFromAuthHeader(req);
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `EMPRESA_USUARIOS_ELIMINAR: eliminó vínculo ID ${req.params.id}`,
-      ]
-    );
-
+router.delete(
+  "/:id",
+  requireAdmin,
+  ah(async (req, res) => {
+    const id = idParam(req);
+    const actual = await pool.query("SELECT * FROM empresa_usuarios WHERE id=$1 AND empresa_id=$2", [id, req.user.empresaId]);
+    if (!actual.rowCount) throw e404();
+    if (String(actual.rows[0].usuario_id) === String(req.user.usuarioId)) throw e409("No puede eliminar su propio acceso");
+    await pool.query("DELETE FROM empresa_usuarios WHERE id=$1", [id]);
+    await desdeReq(req, `EMPRESA_USUARIOS_ELIMINAR: eliminó vínculo ID ${id}`);
     res.json({ deleted: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al eliminar vínculo",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
+  })
+);
 
 module.exports = router;
+module.exports.crearVinculo = crearVinculo;

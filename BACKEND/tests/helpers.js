@@ -126,10 +126,12 @@ async function crearCliente(ctx, over = {}) {
   return api().post("/clientes").set(ctx.auth).send(clienteValido(over));
 }
 
+// Fecha local (TZ=America/Santiago) + N días, formato YYYY-MM-DD (no usar toISOString: es UTC)
 function isoHoyMas(dias) {
   const d = new Date();
   d.setDate(d.getDate() + dias);
-  return d.toISOString().slice(0, 10);
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
 
 async function crearContrato(ctx, clienteId, over = {}, archivo) {

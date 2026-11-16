@@ -17,14 +17,14 @@ export default function UsuariosTabCreate({ onSuccess, onLoad }) {
     nombre_usuario: "",
     correo: "",
     contrasena_hash: "",
-    rol_id: 1, // Valor por defecto: administrador
+    rol_id: 2, // Mínimo privilegio: editor por defecto
   });
 
   const onCreate = async () => {
     await api.post("/empresa-usuarios", form);
     toast.success("Usuario creado");
-    setForm({ nombre_usuario: "", correo: "", contrasena_hash: "", rol_id: 1 });
-    onLoad();
+    setForm({ nombre_usuario: "", correo: "", contrasena_hash: "", rol_id: 2 });
+    Promise.resolve(onLoad()).catch(() => {});
     onSuccess(); // Cambiar a la pestaña de listar después de crear
   };
 
@@ -93,7 +93,7 @@ export default function UsuariosTabCreate({ onSuccess, onLoad }) {
         <Stack direction="row" spacing={2} justifyContent="flex-end">
           <Button
             variant="contained"
-            onClick={onCreate}
+            onClick={() => onCreate().catch(() => {})}
             startIcon={<PersonAddIcon />}
             sx={{
               minWidth: 150,

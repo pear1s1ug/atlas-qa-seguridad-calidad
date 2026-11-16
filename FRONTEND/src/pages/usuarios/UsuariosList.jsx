@@ -19,7 +19,7 @@ export default function UsuariosList() {
   }, []);
 
   useEffect(() => {
-    load();
+    load().catch(() => {});
   }, [load]);
 
   const handleTabChange = (event, newValue) => {
@@ -31,7 +31,7 @@ export default function UsuariosList() {
       if (role !== "administrador") return;
       await api.delete(`/usuarios/${id}`);
       toast.success("Usuario eliminado");
-      load();
+      load().catch(() => {});
     },
     [role, load]
   );

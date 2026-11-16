@@ -41,11 +41,11 @@ export default function Layout() {
   ];
 
   const handleEditAccount = () => {
-    navigate(`/usuarios/${user?.id || 1}/editar`);
+    void navigate(`/usuarios/${user?.id || 1}/editar`);
   };
 
   const handleLogout = () => {
-    logout();
+    logout().then(() => navigate("/login", { replace: true }));
   };
 
   const DrawerContent = (
@@ -66,7 +66,7 @@ export default function Layout() {
       </Box>
 
       {/* Listado de accesos */}
-      <List sx={{ flex: 1, py: 2 }}>
+      <List component="nav" aria-label="Navegación principal" sx={{ flex: 1, py: 2 }}>
         {[...menuItems, ...(role === "administrador" ? adminItems : [])].map(
           (item) => {
             const active = location.pathname.startsWith(item.to);

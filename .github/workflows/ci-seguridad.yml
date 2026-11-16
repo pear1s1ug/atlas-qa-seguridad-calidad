@@ -1,0 +1,132 @@
+# Pipeline CI/CD con controles de calidad y seguridad automatizados (DevSecOps) — Encargo 3
+# Etapas: 1) SAST + secretos + SCA  2) Pruebas unitarias/integración + cobertura
+#         3) Build Docker + E2E/accesibilidad/compatibilidad + carga + DAST (OWASP ZAP)
+name: CI Calidad y Seguridad
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # escaneo semanal: detecta nuevas CVE en dependencias
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TZ: America/Santiago
+  NODE_VERSION: "20"
+
+jobs:
+  analisis-estatico:
+    name: "1. SAST, secretos y dependencias"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Instalar dependencias
+        run: |
+          npm ci --prefix BACKEND --no-audit
+          npm ci --prefix FRONTEND --no-audit
+      - name: ESLint backend (reglas de seguridad eslint-plugin-security)
+        run: npm run lint --prefix BACKEND
+      - name: ESLint frontend
+        run: npm run lint --prefix FRONTEND
+      - name: SCA - npm audit (falla con vulnerabilidades altas o críticas)
+        run: |
+          npm audit --prefix BACKEND --omit=dev --audit-level=high
+          npm audit --prefix FRONTEND --audit-level=high
+      - name: SAST - Semgrep (OWASP Top 10, Node.js, React)
+        run: |
+          docker run --rm -v "$PWD:/src" -w /src semgrep/semgrep:latest semgrep scan --metrics=off \
+            --config p/javascript --config p/nodejsscan --config p/owasp-top-ten --config p/react \
+            --severity ERROR --error --exclude node_modules --exclude evidencias --exclude reports \
+            BACKEND/src FRONTEND/src
+      - name: Detección de secretos - gitleaks
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest dir /repo --config /repo/.gitleaks.toml --no-banner --redact
+
+  pruebas:
+    name: "2. Pruebas unitarias e integración (Jest + Supertest)"
+    runs-on: ubuntu-latest
+    needs: analisis-estatico
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ci_password
+          POSTGRES_DB: atlas
+        ports: ["15432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://postgres:ci_password@localhost:15432/atlas
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cargar esquema y datos semilla
+        run: |
+          grep -v -E "^(DROP DATABASE|CREATE DATABASE|ALTER DATABASE atlas|CREATE SCHEMA public|ALTER SCHEMA public OWNER|\\\\connect)" BACKEND/sql/dump-atlas.sql > /tmp/dump.sql
+          PGPASSWORD=ci_password psql -h localhost -p 15432 -U postgres -d atlas -q -f /tmp/dump.sql
+      - name: Generar secretos efímeros
+        run: |
+          echo "JWT_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+          echo "DATA_ENCRYPTION_KEY=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+      - run: npm ci --prefix BACKEND --no-audit
+      - name: Ejecutar pruebas con cobertura (umbral mínimo 80 %)
+        run: npm run test:ci --prefix BACKEND -- --coverageThreshold='{"global":{"lines":80,"statements":80}}'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reporte-jest
+          path: BACKEND/reports/
+
+  e2e-dast:
+    name: "3. E2E, carga y DAST (Playwright, k6, OWASP ZAP)"
+    runs-on: ubuntu-latest
+    needs: pruebas
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Levantar el sistema con Docker Compose
+        run: |
+          ./scripts/generar-env.sh
+          docker compose up -d --build --wait
+          curl -fsS http://localhost:4450/salud
+      - name: Pruebas E2E, accesibilidad y compatibilidad (Chromium, Firefox, WebKit)
+        working-directory: e2e
+        run: |
+          npm ci --no-audit
+          npx playwright install --with-deps chromium firefox webkit
+          npx playwright test
+      - name: Prueba de carga k6 (200 usuarios concurrentes, p95 < 300 ms)
+        run: docker run --rm --network host -v "$PWD/perf:/scripts" grafana/k6:latest run -e DURACION=20s /scripts/carga.js
+      - name: DAST - OWASP ZAP baseline (frontend) y API scan (OpenAPI)
+        run: |
+          mkdir -p zap && chmod 777 zap
+          docker run --rm --network host -v "$PWD/zap:/zap/wrk:rw" zaproxy/zap-stable zap-baseline.py -t http://localhost:3350 -J zap-frontend.json -r zap-frontend.html -I
+          docker run --rm --network host -v "$PWD/zap:/zap/wrk:rw" zaproxy/zap-stable zap-api-scan.py -t http://localhost:4450/openapi.json -f openapi -J zap-api.json -r zap-api.html -I
+          python3 scripts/zap-gate.py zap/zap-frontend.json zap/zap-api.json
+      - name: Respaldo y restauración verificados (NFR-SEG-7)
+        run: |
+          set -a; . ./.env; set +a
+          ./scripts/respaldo.sh respaldos
+          ./scripts/restaurar.sh "$(ls -1t respaldos/atlas_db_*.dump | head -1)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reportes-e2e-zap
+          path: |
+            e2e/playwright-report/
+            zap/
+      - name: Bajar servicios
+        if: always()
+        run: docker compose down -v

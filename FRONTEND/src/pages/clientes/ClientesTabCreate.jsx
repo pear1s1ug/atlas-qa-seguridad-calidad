@@ -85,7 +85,7 @@ export default function ClientesTabCreate({ onSuccess, onLoad }) {
       numero_cuenta: "",
       titular_cuenta: "",
     });
-    onLoad();
+    Promise.resolve(onLoad()).catch(() => {});
     onSuccess(); // Cambiar a la pestaña de listar después de crear
   };
 
@@ -436,7 +436,7 @@ export default function ClientesTabCreate({ onSuccess, onLoad }) {
           <Button
             id="crear-cliente-create"
             variant="contained"
-            onClick={onCreate}
+            onClick={() => onCreate().catch(() => {})}
             startIcon={<PersonAddIcon />}
             sx={{
               minWidth: 150,

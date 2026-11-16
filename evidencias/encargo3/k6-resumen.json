@@ -1,0 +1,151 @@
+{
+    "metrics": {
+        "vus_max": {
+            "value": 200,
+            "min": 200,
+            "max": 200
+        },
+        "http_req_tls_handshaking": {
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "max": 0
+        },
+        "http_req_waiting": {
+            "p(90)": 189.66810020000005,
+            "p(95)": 224.00454299999998,
+            "max": 1706.116692,
+            "avg": 92.6757256229648,
+            "min": 3.312916,
+            "med": 60.9443405
+        },
+        "http_req_duration": {
+            "med": 61.026092,
+            "p(90)": 189.77352390000004,
+            "p(95)": 224.1062393,
+            "max": 1706.231947,
+            "avg": 92.79055570998054,
+            "min": 3.42196
+        },
+        "http_req_blocked": {
+            "min": 0.002294,
+            "med": 0.005179,
+            "p(90)": 0.013855000000000003,
+            "p(95)": 0.017822499999999995,
+            "max": 23.221512,
+            "avg": 0.05742589505813921
+        },
+        "checks": {
+            "passes": 10318,
+            "fails": 0,
+            "value": 1
+        },
+        "http_req_sending": {
+            "max": 23.196117,
+            "avg": 0.029343281007751805,
+            "min": 0.006993,
+            "med": 0.016399,
+            "p(90)": 0.038510100000000005,
+            "p(95)": 0.04738549999999999
+        },
+        "iteration_duration": {
+            "p(95)": 1435.4178004999999,
+            "max": 2824.783691,
+            "avg": 1186.3073485396405,
+            "min": 1008.70468,
+            "med": 1145.898581,
+            "p(90)": 1377.615262
+        },
+        "http_req_duration{tipo:crud}": {
+            "avg": 92.70980979414604,
+            "min": 3.42196,
+            "med": 61.016915499999996,
+            "p(90)": 189.73682000000002,
+            "p(95)": 223.73803549999994,
+            "max": 1706.231947,
+            "thresholds": {
+                "p(95)<300": false
+            }
+        },
+        "http_req_duration{expected_response:true}": {
+            "med": 61.026092,
+            "p(90)": 189.77352390000004,
+            "p(95)": 224.1062393,
+            "max": 1706.231947,
+            "avg": 92.79055570998054,
+            "min": 3.42196
+        },
+        "iterations": {
+            "count": 5159,
+            "rate": 161.04071145151983
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 10320,
+            "thresholds": {
+                "rate<0.01": false
+            },
+            "value": 0
+        },
+        "data_sent": {
+            "count": 4576663,
+            "rate": 142862.77681602
+        },
+        "http_reqs": {
+            "count": 10320,
+            "rate": 322.1438538824743
+        },
+        "http_req_connecting": {
+            "med": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "max": 22.881875,
+            "avg": 0.04641667122093023,
+            "min": 0
+        },
+        "http_req_receiving": {
+            "p(95)": 0.12713999999999995,
+            "max": 3.131221,
+            "avg": 0.08548680600775191,
+            "min": 0.030063,
+            "med": 0.081386,
+            "p(90)": 0.113955
+        },
+        "vus": {
+            "value": 7,
+            "min": 0,
+            "max": 200
+        },
+        "data_received": {
+            "count": 9856490,
+            "rate": 307675.1622436113
+        }
+    },
+    "setup_data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOiIyNCIsIm5vbWJyZVVzdWFyaW8iOiJrNl8xNzk0Nzk2MzMxMjA4IiwiZW1wcmVzYVVzdWFyaW9JZCI6IjI0IiwiZW1wcmVzYUlkIjoiMTciLCJyb2wiOiJhZG1pbmlzdHJhZG9yIiwiaWF0IjoxNzk0Nzk2MzMyLCJleHAiOjE3OTQ3OTcyMzIsImp0aSI6IjhiZGQ4NGNlLWZjYzYtNDZlZC1iM2MyLTk2NTFmNzA0ZWI1NSJ9.f8UrVkjlA7REpagWmw5-gd1k11_xX0HoiVCWvo8SBho"
+    },
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+            "clientes 200": {
+                "name": "clientes 200",
+                "path": "::clientes 200",
+                "id": "baf69f2f3fb31bc8f461a1174f8a6bf4",
+                "passes": 5159,
+                "fails": 0
+            },
+            "contratos 200": {
+                "passes": 5159,
+                "fails": 0,
+                "name": "contratos 200",
+                "path": "::contratos 200",
+                "id": "effa4187b1e8c86e1623701fde5c0a78"
+            }
+        }
+    }
+}

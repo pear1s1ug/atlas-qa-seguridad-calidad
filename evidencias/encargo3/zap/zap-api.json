@@ -1,0 +1,1393 @@
+{
+	"@programName": "ZAP",
+	"@version": "2.17.0",
+	"@generated": "Mon, 16 Nov 2026 02:34:52",
+	"created": "2026-11-16T02:34:52.013961893Z",
+	"insights":[
+		{
+			"level": "Medium",
+			"reason": "Exceeded High",
+			"site": "http://localhost:4450",
+			"key": "insight.code.4xx",
+			"description": "Percentage of responses with status code 4xx",
+			"statistic": "99"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:4450",
+			"key": "insight.code.2xx",
+			"description": "Percentage of responses with status code 2xx",
+			"statistic": "4"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:4450",
+			"key": "insight.endpoint.ctype.application/json",
+			"description": "Percentage of endpoints with content type application/json",
+			"statistic": "100"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:4450",
+			"key": "insight.endpoint.method.DELETE",
+			"description": "Percentage of endpoints with method DELETE",
+			"statistic": "12"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:4450",
+			"key": "insight.endpoint.method.GET",
+			"description": "Percentage of endpoints with method GET",
+			"statistic": "50"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:4450",
+			"key": "insight.endpoint.method.POST",
+			"description": "Percentage of endpoints with method POST",
+			"statistic": "25"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:4450",
+			"key": "insight.endpoint.method.PUT",
+			"description": "Percentage of endpoints with method PUT",
+			"statistic": "10"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:4450",
+			"key": "insight.endpoint.total",
+			"description": "Count of total endpoints",
+			"statistic": "112"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:4450",
+			"key": "insight.response.slow",
+			"description": "Percentage of slow responses",
+			"statistic": "4"
+		}
+	],
+	"site":[ 
+		{
+			"@name": "http://localhost:4450",
+			"@host": "localhost",
+			"@port": "4450",
+			"@ssl": "false",
+			"alerts": [ 
+				{
+					"pluginid": "90004",
+					"alertRef": "90004-1",
+					"alert": "Cross-Origin-Resource-Policy Header Missing or Invalid",
+					"name": "Cross-Origin-Resource-Policy Header Missing or Invalid",
+					"riskcode": "1",
+					"confidence": "2",
+					"riskdesc": "Low (Medium)",
+					"desc": "<p>Cross-Origin-Resource-Policy header is an opt-in header designed to counter side-channels attacks like Spectre. Resource should be specifically set as shareable amongst different origins.</p>",
+					"instances":[ 
+						{
+							"id": "231",
+							"uri": "http://localhost:4450/clientes",
+							"nodeName": "http:\/\/localhost:4450\/clientes",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "same-site",
+							"otherinfo": ""
+						},
+						{
+							"id": "226",
+							"uri": "http://localhost:4450/clientes/search?name=ZAP",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/search (name)",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "same-site",
+							"otherinfo": ""
+						},
+						{
+							"id": "181",
+							"uri": "http://localhost:4450/contratos",
+							"nodeName": "http:\/\/localhost:4450\/contratos",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "same-site",
+							"otherinfo": ""
+						},
+						{
+							"id": "216",
+							"uri": "http://localhost:4450/contratos/estados",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/estados",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "same-site",
+							"otherinfo": ""
+						},
+						{
+							"id": "244",
+							"uri": "http://localhost:4450/usuarios",
+							"nodeName": "http:\/\/localhost:4450\/usuarios",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "same-site",
+							"otherinfo": ""
+						}
+					],
+					"count": "5",
+					"systemic": true,
+					"solution": "<p>Ensure that the application/web server sets the Cross-Origin-Resource-Policy header appropriately, and that it sets the Cross-Origin-Resource-Policy header to 'same-origin' for all web pages.</p><p>'same-site' is considered as less secured and should be avoided.</p><p>If resources must be shared, set the header to 'cross-origin'.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that supports the Cross-Origin-Resource-Policy header (https://caniuse.com/mdn-http_headers_cross-origin-resource-policy).</p>",
+					"otherinfo": "",
+					"reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy</p>",
+					"cweid": "693",
+					"wascid": "14",
+					"sourceid": "11"
+				},
+				{
+					"pluginid": "100000",
+					"alertRef": "100000-1",
+					"alert": "A Client Error response code was returned by the server",
+					"name": "A Client Error response code was returned by the server",
+					"riskcode": "0",
+					"confidence": "3",
+					"riskdesc": "Informational (High)",
+					"desc": "<p>A response code of 404 was returned by the server.</p><p>This may indicate that the application is failing to handle unexpected input correctly.</p><p>Raised by the 'Alert on HTTP Response Code Error' script</p>",
+					"instances":[ 
+						{
+							"id": "8",
+							"uri": "http://localhost:4450/clientes/10",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5910",
+							"uri": "http://localhost:4450/clientes/10/",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10\/",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "12",
+							"uri": "http://localhost:4450/contratos/10",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5902",
+							"uri": "http://localhost:4450/contratos/10/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "30",
+							"uri": "http://localhost:4450/contratos/10/compartir",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/compartir",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5909",
+							"uri": "http://localhost:4450/contratos/10/compartir/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/compartir\/",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "26",
+							"uri": "http://localhost:4450/empresa-usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/10",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5904",
+							"uri": "http://localhost:4450/empresa-usuarios/10/",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/10\/",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "18",
+							"uri": "http://localhost:4450/empresas/10",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/10",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5915",
+							"uri": "http://localhost:4450/empresas/10/",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/10\/",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "22",
+							"uri": "http://localhost:4450/roles/10",
+							"nodeName": "http:\/\/localhost:4450\/roles\/10",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "403",
+							"otherinfo": ""
+						},
+						{
+							"id": "5899",
+							"uri": "http://localhost:4450/roles/10/",
+							"nodeName": "http:\/\/localhost:4450\/roles\/10\/",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "4",
+							"uri": "http://localhost:4450/usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/10",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5913",
+							"uri": "http://localhost:4450/usuarios/10/",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/10\/",
+							"method": "DELETE",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "32",
+							"uri": "http://localhost:4450/716656732590999138",
+							"nodeName": "http:\/\/localhost:4450\/716656732590999138",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "6633",
+							"uri": "http://localhost:4450/actuator/health",
+							"nodeName": "http:\/\/localhost:4450\/actuator\/health",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5920",
+							"uri": "http://localhost:4450/auditoria/",
+							"nodeName": "http:\/\/localhost:4450\/auditoria\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "85",
+							"uri": "http://localhost:4450/autenticacion",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5918",
+							"uri": "http://localhost:4450/autenticacion/",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "33",
+							"uri": "http://localhost:4450/autenticacion/3768443096627619021",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/3768443096627619021",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5922",
+							"uri": "http://localhost:4450/clientes/",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "6",
+							"uri": "http://localhost:4450/clientes/10",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5923",
+							"uri": "http://localhost:4450/clientes/10/",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "34",
+							"uri": "http://localhost:4450/clientes/7894206869456539653",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/7894206869456539653",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "98",
+							"uri": "http://localhost:4450/clientes/search?name=http%3A%2F%2Fwww.google.com%2F",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/search (name)",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5927",
+							"uri": "http://localhost:4450/clientes/search/",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/search\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "93",
+							"uri": "http://localhost:4450/compartido",
+							"nodeName": "http:\/\/localhost:4450\/compartido",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5921",
+							"uri": "http://localhost:4450/compartido/",
+							"nodeName": "http:\/\/localhost:4450\/compartido\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "35",
+							"uri": "http://localhost:4450/compartido/159139723070079836",
+							"nodeName": "http:\/\/localhost:4450\/compartido\/159139723070079836",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "31",
+							"uri": "http://localhost:4450/compartido/token",
+							"nodeName": "http:\/\/localhost:4450\/compartido\/token",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5924",
+							"uri": "http://localhost:4450/compartido/token/",
+							"nodeName": "http:\/\/localhost:4450\/compartido\/token\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5926",
+							"uri": "http://localhost:4450/contratos/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "10",
+							"uri": "http://localhost:4450/contratos/10",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5932",
+							"uri": "http://localhost:4450/contratos/10/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "37",
+							"uri": "http://localhost:4450/contratos/10/9178839119472063358",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/9178839119472063358",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "28",
+							"uri": "http://localhost:4450/contratos/10/compartir",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/compartir",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5928",
+							"uri": "http://localhost:4450/contratos/10/compartir/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/compartir\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "13",
+							"uri": "http://localhost:4450/contratos/10/file",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/file",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5925",
+							"uri": "http://localhost:4450/contratos/10/file/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/file\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "36",
+							"uri": "http://localhost:4450/contratos/5252994348225689692",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/5252994348225689692",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5931",
+							"uri": "http://localhost:4450/contratos/dashboard/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/dashboard\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5930",
+							"uri": "http://localhost:4450/contratos/estados/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/estados\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5929",
+							"uri": "http://localhost:4450/empresa-usuarios/",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "24",
+							"uri": "http://localhost:4450/empresa-usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5940",
+							"uri": "http://localhost:4450/empresa-usuarios/10/",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "38",
+							"uri": "http://localhost:4450/empresa-usuarios/1809092873666138044",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/1809092873666138044",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5938",
+							"uri": "http://localhost:4450/empresas/",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "16",
+							"uri": "http://localhost:4450/empresas/10",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5937",
+							"uri": "http://localhost:4450/empresas/10/",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "39",
+							"uri": "http://localhost:4450/empresas/3887392477764141648",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/3887392477764141648",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5936",
+							"uri": "http://localhost:4450/metricas/",
+							"nodeName": "http:\/\/localhost:4450\/metricas\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5935",
+							"uri": "http://localhost:4450/roles/",
+							"nodeName": "http:\/\/localhost:4450\/roles\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "20",
+							"uri": "http://localhost:4450/roles/10",
+							"nodeName": "http:\/\/localhost:4450\/roles\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5939",
+							"uri": "http://localhost:4450/roles/10/",
+							"nodeName": "http:\/\/localhost:4450\/roles\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "40",
+							"uri": "http://localhost:4450/roles/8972247969990415000",
+							"nodeName": "http:\/\/localhost:4450\/roles\/8972247969990415000",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5933",
+							"uri": "http://localhost:4450/usuarios/",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "2",
+							"uri": "http://localhost:4450/usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5934",
+							"uri": "http://localhost:4450/usuarios/10/",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/10\/",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "41",
+							"uri": "http://localhost:4450/usuarios/2526666959119966914",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/2526666959119966914",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "45",
+							"uri": "http://localhost:4450/auditoria",
+							"nodeName": "http:\/\/localhost:4450\/auditoria ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "14",
+							"uri": "http://localhost:4450/auditoria",
+							"nodeName": "http:\/\/localhost:4450\/auditoria ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "405",
+							"otherinfo": ""
+						},
+						{
+							"id": "5894",
+							"uri": "http://localhost:4450/auditoria/",
+							"nodeName": "http:\/\/localhost:4450\/auditoria\/ ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "0",
+							"uri": "http://localhost:4450/autenticacion/login",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/login ()({nombre_usuario,password})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "390",
+							"uri": "http://localhost:4450/autenticacion/login",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/login ()({nombre_usuario,password})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "429",
+							"otherinfo": ""
+						},
+						{
+							"id": "5893",
+							"uri": "http://localhost:4450/autenticacion/login/",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/login\/ ()({nombre_usuario,password})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "429",
+							"otherinfo": ""
+						},
+						{
+							"id": "47",
+							"uri": "http://localhost:4450/autenticacion/logout",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/logout ()({refreshToken})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5896",
+							"uri": "http://localhost:4450/autenticacion/logout/",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/logout\/ ()({refreshToken})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "27",
+							"uri": "http://localhost:4450/autenticacion/refresh",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/refresh ()({refreshToken})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5898",
+							"uri": "http://localhost:4450/autenticacion/refresh/",
+							"nodeName": "http:\/\/localhost:4450\/autenticacion\/refresh\/ ()({refreshToken})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5",
+							"uri": "http://localhost:4450/clientes",
+							"nodeName": "http:\/\/localhost:4450\/clientes ()({nombre,correo,telefono,direccion,es_empresa,nombre_banco,numero_cuenta,titular_cuenta})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "65",
+							"uri": "http://localhost:4450/clientes",
+							"nodeName": "http:\/\/localhost:4450\/clientes ()({nombre,correo,telefono,direccion,es_empresa,nombre_banco,numero_cuenta,titular_cuenta})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5907",
+							"uri": "http://localhost:4450/clientes/",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/ ()({nombre,correo,telefono,direccion,es_empresa,nombre_banco,numero_cuenta,titular_cuenta})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "4398",
+							"uri": "http://localhost:4450/computeMetadata/v1/",
+							"nodeName": "http:\/\/localhost:4450\/computeMetadata\/v1\/ ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "9",
+							"uri": "http://localhost:4450/contratos",
+							"nodeName": "http:\/\/localhost:4450\/contratos ()(multipart:cliente_id,titulo,descripcion,fecha_inicio,fecha_fin,file)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "42",
+							"uri": "http://localhost:4450/contratos",
+							"nodeName": "http:\/\/localhost:4450\/contratos ()(multipart:cliente_id,titulo,descripcion,fecha_inicio,fecha_fin,file)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5905",
+							"uri": "http://localhost:4450/contratos/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/ ()(multipart:cliente_id,titulo,descripcion,fecha_inicio,fecha_fin,file)",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "29",
+							"uri": "http://localhost:4450/contratos/10/compartir",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/compartir ()({horas})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5908",
+							"uri": "http://localhost:4450/contratos/10/compartir/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/compartir\/ ()({horas})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "23",
+							"uri": "http://localhost:4450/empresa-usuarios",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios ()({empresa_id,usuario_id,rol_id})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "43",
+							"uri": "http://localhost:4450/empresa-usuarios",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios ()({empresa_id,usuario_id,rol_id})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5903",
+							"uri": "http://localhost:4450/empresa-usuarios/",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/ ()({empresa_id,usuario_id,rol_id})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "15",
+							"uri": "http://localhost:4450/empresas",
+							"nodeName": "http:\/\/localhost:4450\/empresas ()({nombre,direccion,telefono,correo})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "360",
+							"uri": "http://localhost:4450/empresas",
+							"nodeName": "http:\/\/localhost:4450\/empresas ()({nombre,direccion,telefono,correo})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "429",
+							"otherinfo": ""
+						},
+						{
+							"id": "5897",
+							"uri": "http://localhost:4450/empresas/",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/ ()({nombre,direccion,telefono,correo})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "429",
+							"otherinfo": ""
+						},
+						{
+							"id": "4394",
+							"uri": "http://localhost:4450/latest/meta-data/",
+							"nodeName": "http:\/\/localhost:4450\/latest\/meta-data\/ ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "4502",
+							"uri": "http://localhost:4450/metadata/instance",
+							"nodeName": "http:\/\/localhost:4450\/metadata\/instance ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "4516",
+							"uri": "http://localhost:4450/metadata/v1",
+							"nodeName": "http:\/\/localhost:4450\/metadata\/v1 ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "4426",
+							"uri": "http://localhost:4450/opc/v1/instance/",
+							"nodeName": "http:\/\/localhost:4450\/opc\/v1\/instance\/ ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "4455",
+							"uri": "http://localhost:4450/opc/v2/instance/",
+							"nodeName": "http:\/\/localhost:4450\/opc\/v2\/instance\/ ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "4530",
+							"uri": "http://localhost:4450/openstack/latest/meta_data.json",
+							"nodeName": "http:\/\/localhost:4450\/openstack\/latest\/meta_data.json ()({accion,detalles})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "48",
+							"uri": "http://localhost:4450/roles",
+							"nodeName": "http:\/\/localhost:4450\/roles ()({nombre})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "19",
+							"uri": "http://localhost:4450/roles",
+							"nodeName": "http:\/\/localhost:4450\/roles ()({nombre})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "403",
+							"otherinfo": ""
+						},
+						{
+							"id": "5914",
+							"uri": "http://localhost:4450/roles/",
+							"nodeName": "http:\/\/localhost:4450\/roles\/ ()({nombre})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "1",
+							"uri": "http://localhost:4450/usuarios",
+							"nodeName": "http:\/\/localhost:4450\/usuarios ()({nombre_usuario,contrasena_hash,correo})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "67",
+							"uri": "http://localhost:4450/usuarios",
+							"nodeName": "http:\/\/localhost:4450\/usuarios ()({nombre_usuario,contrasena_hash,correo})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5911",
+							"uri": "http://localhost:4450/usuarios/",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/ ()({nombre_usuario,contrasena_hash,correo})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "7",
+							"uri": "http://localhost:4450/clientes/10",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10 ()({nombre,correo,telefono,direccion,es_empresa,nombre_banco,numero_cuenta,titular_cuenta})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "50",
+							"uri": "http://localhost:4450/clientes/10",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10 ()({nombre,correo,telefono,direccion,es_empresa,nombre_banco,numero_cuenta,titular_cuenta})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5895",
+							"uri": "http://localhost:4450/clientes/10/",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10\/ ()({nombre,correo,telefono,direccion,es_empresa,nombre_banco,numero_cuenta,titular_cuenta})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "44",
+							"uri": "http://localhost:4450/contratos/10",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10 ()({cliente_id,titulo,descripcion,fecha_inicio,fecha_fin})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "11",
+							"uri": "http://localhost:4450/contratos/10",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10 ()({cliente_id,titulo,descripcion,fecha_inicio,fecha_fin})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5906",
+							"uri": "http://localhost:4450/contratos/10/",
+							"nodeName": "http:\/\/localhost:4450\/contratos\/10\/ ()({cliente_id,titulo,descripcion,fecha_inicio,fecha_fin})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "25",
+							"uri": "http://localhost:4450/empresa-usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/10 ()({empresa_id,usuario_id,rol_id})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "400",
+							"otherinfo": ""
+						},
+						{
+							"id": "72",
+							"uri": "http://localhost:4450/empresa-usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/10 ()({empresa_id,usuario_id,rol_id})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "5901",
+							"uri": "http://localhost:4450/empresa-usuarios/10/",
+							"nodeName": "http:\/\/localhost:4450\/empresa-usuarios\/10\/ ()({empresa_id,usuario_id,rol_id})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "82",
+							"uri": "http://localhost:4450/empresas/10",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/10 ()({nombre,direccion,telefono,correo})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "17",
+							"uri": "http://localhost:4450/empresas/10",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/10 ()({nombre,direccion,telefono,correo})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5900",
+							"uri": "http://localhost:4450/empresas/10/",
+							"nodeName": "http:\/\/localhost:4450\/empresas\/10\/ ()({nombre,direccion,telefono,correo})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "73",
+							"uri": "http://localhost:4450/roles/10",
+							"nodeName": "http:\/\/localhost:4450\/roles\/10 ()({nombre})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "21",
+							"uri": "http://localhost:4450/roles/10",
+							"nodeName": "http:\/\/localhost:4450\/roles\/10 ()({nombre})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "403",
+							"otherinfo": ""
+						},
+						{
+							"id": "5916",
+							"uri": "http://localhost:4450/roles/10/",
+							"nodeName": "http:\/\/localhost:4450\/roles\/10\/ ()({nombre})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "57",
+							"uri": "http://localhost:4450/usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/10 ()({nombre_usuario,contrasena_hash,correo})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						},
+						{
+							"id": "3",
+							"uri": "http://localhost:4450/usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/10 ()({nombre_usuario,contrasena_hash,correo})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "404",
+							"otherinfo": ""
+						},
+						{
+							"id": "5912",
+							"uri": "http://localhost:4450/usuarios/10/",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/10\/ ()({nombre_usuario,contrasena_hash,correo})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "401",
+							"otherinfo": ""
+						}
+					],
+					"count": "114",
+					"systemic": false,
+					"solution": "",
+					"otherinfo": "",
+					"reference": "",
+					"cweid": "388",
+					"wascid": "20",
+					"sourceid": "17"
+				},
+				{
+					"pluginid": "10049",
+					"alertRef": "10049-1",
+					"alert": "Non-Storable Content",
+					"name": "Non-Storable Content",
+					"riskcode": "0",
+					"confidence": "2",
+					"riskdesc": "Informational (Medium)",
+					"desc": "<p>The response contents are not storable by caching components such as proxy servers. If the response does not contain sensitive, personal or user-specific information, it may benefit from being stored and cached, to improve performance.</p>",
+					"instances":[ 
+						{
+							"id": "207",
+							"uri": "http://localhost:4450/clientes/10",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "authorization:",
+							"otherinfo": ""
+						},
+						{
+							"id": "179",
+							"uri": "http://localhost:4450/contratos",
+							"nodeName": "http:\/\/localhost:4450\/contratos",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "authorization:",
+							"otherinfo": ""
+						},
+						{
+							"id": "189",
+							"uri": "http://localhost:4450/usuarios",
+							"nodeName": "http:\/\/localhost:4450\/usuarios ()({nombre_usuario,contrasena_hash,correo})",
+							"method": "POST",
+							"param": "",
+							"attack": "",
+							"evidence": "authorization:",
+							"otherinfo": ""
+						},
+						{
+							"id": "184",
+							"uri": "http://localhost:4450/clientes/10",
+							"nodeName": "http:\/\/localhost:4450\/clientes\/10 ()({nombre,correo,telefono,direccion,es_empresa,nombre_banco,numero_cuenta,titular_cuenta})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "PUT ",
+							"otherinfo": ""
+						},
+						{
+							"id": "192",
+							"uri": "http://localhost:4450/usuarios/10",
+							"nodeName": "http:\/\/localhost:4450\/usuarios\/10 ()({nombre_usuario,contrasena_hash,correo})",
+							"method": "PUT",
+							"param": "",
+							"attack": "",
+							"evidence": "PUT ",
+							"otherinfo": ""
+						}
+					],
+					"count": "5",
+					"systemic": true,
+					"solution": "<p>The content may be marked as storable by ensuring that the following conditions are satisfied:</p><p>The request method must be understood by the cache and defined as being cacheable (\"GET\", \"HEAD\", and \"POST\" are currently defined as cacheable)</p><p>The response status code must be understood by the cache (one of the 1XX, 2XX, 3XX, 4XX, or 5XX response classes are generally understood)</p><p>The \"no-store\" cache directive must not appear in the request or response header fields</p><p>For caching by \"shared\" caches such as \"proxy\" caches, the \"private\" response directive must not appear in the response</p><p>For caching by \"shared\" caches such as \"proxy\" caches, the \"Authorization\" header field must not appear in the request, unless the response explicitly allows it (using one of the \"must-revalidate\", \"public\", or \"s-maxage\" Cache-Control response directives)</p><p>In addition to the conditions above, at least one of the following conditions must also be satisfied by the response:</p><p>It must contain an \"Expires\" header field</p><p>It must contain a \"max-age\" response directive</p><p>For \"shared\" caches such as \"proxy\" caches, it must contain a \"s-maxage\" response directive</p><p>It must contain a \"Cache Control Extension\" that allows it to be cached</p><p>It must have a status code that is defined as cacheable by default (200, 203, 204, 206, 300, 301, 404, 405, 410, 414, 501).</p>",
+					"otherinfo": "",
+					"reference": "<p>https://datatracker.ietf.org/doc/html/rfc7234</p><p>https://datatracker.ietf.org/doc/html/rfc7231</p><p>https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>",
+					"cweid": "524",
+					"wascid": "13",
+					"sourceid": "15"
+				}
+			]
+		}
+	],
+	"sequences":[
+	]
+
+}

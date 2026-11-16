@@ -74,7 +74,7 @@ export default function Home() {
       }
     };
 
-    fetchMetricas();
+    fetchMetricas().catch(() => {});
   }, []);
 
   const handleTabChange = (event, newValue) => {
@@ -134,7 +134,7 @@ export default function Home() {
                 <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
                   {metricas.totalUsuarios}
                 </Typography>
-                <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                <Typography variant="body2">
                   Usuarios de la Empresa
                 </Typography>
               </Box>
@@ -144,7 +144,7 @@ export default function Home() {
         </Card>
         <Card
           sx={{
-            background: "#4BBC7F",
+            background: "#2E7D55",
             color: "white",
             boxShadow: "0 10px 30px rgba(75, 188, 127, 0.3)",
             transition: "transform 0.3s ease, box-shadow 0.3s ease",
@@ -164,7 +164,7 @@ export default function Home() {
                 <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
                   {metricas.totalClientes}
                 </Typography>
-                <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                <Typography variant="body2">
                   Clientes Creados
                 </Typography>
               </Box>
@@ -174,7 +174,7 @@ export default function Home() {
         </Card>
         <Card
           sx={{
-            background: "#D32F2F",
+            background: "#B71C1C",
             color: "white",
             boxShadow: "0 10px 30px rgba(211, 47, 47, 0.3)",
             transition: "transform 0.3s ease, box-shadow 0.3s ease",
@@ -194,7 +194,7 @@ export default function Home() {
                 <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
                   {metricas.contratos15Dias}
                 </Typography>
-                <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                <Typography variant="body2">
                   Vencen en 15 días
                 </Typography>
               </Box>
@@ -204,7 +204,7 @@ export default function Home() {
         </Card>
         <Card
           sx={{
-            background: "#FF9800",
+            background: "#9A4A00",
             color: "white",
             boxShadow: "0 10px 30px rgba(255, 152, 0, 0.3)",
             transition: "transform 0.3s ease, box-shadow 0.3s ease",
@@ -224,7 +224,7 @@ export default function Home() {
                 <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
                   {metricas.contratos30Dias}
                 </Typography>
-                <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                <Typography variant="body2">
                   Vencen en 30 días
                 </Typography>
               </Box>

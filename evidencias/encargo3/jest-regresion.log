@@ -1,0 +1,36 @@
+npm notice run atlas@1.0.0 test:ci
+npm notice run TZ=America/Santiago jest --runInBand --ci --forceExit --coverage --json --outputFile=reports/jest-results.json
+PASS tests/integration/complementarios.int.test.js
+PASS tests/integration/auth.int.test.js
+PASS tests/integration/usuarios.int.test.js
+PASS tests/integration/clientes.int.test.js
+PASS tests/integration/contratos.int.test.js
+PASS tests/integration/seguridad.int.test.js
+  ● Console
+
+    console.log
+      CP-50 p95 (ms): {"listarClientes":7,"crearCliente":9,"listarContratos":5}
+
+      at Object.log (tests/integration/seguridad.int.test.js:93:13)
+
+PASS tests/integration/registro.int.test.js
+PASS tests/unit/auth.test.js
+PASS tests/unit/cifrado-archivos.test.js
+PASS tests/unit/validators.test.js
+PASS tests/unit/contratoEstado.test.js
+📦 report is created on: /proyecto/atlas-qa/BACKEND/reports/html/index.html
+
+=============================== Coverage summary ===============================
+Statements   : 94.44% ( 867/918 )
+Branches     : 82.32% ( 410/498 )
+Functions    : 97.03% ( 131/135 )
+Lines        : 97.32% ( 763/784 )
+================================================================================
+
+Test Suites: 11 passed, 11 total
+Tests:       121 passed, 121 total
+Snapshots:   0 total
+Time:        13.819 s, estimated 15 s
+Ran all test suites.
+Test results written to: reports/jest-results.json
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

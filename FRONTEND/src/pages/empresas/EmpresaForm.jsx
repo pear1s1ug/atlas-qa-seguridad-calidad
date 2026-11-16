@@ -30,7 +30,7 @@ export default function EmpresaForm() {
 
   useEffect(() => {
     if (!id) return
-    ;(async () => {
+    void (async () => {
       try {
         const { data } = await api.get(`/empresas/${id}`)
         setEmpresaInfo({
@@ -39,7 +39,7 @@ export default function EmpresaForm() {
           telefono: data.telefono || '',
           correo: data.correo || ''
         })
-      } catch (error) {
+      } catch {
         toast.error('Error al cargar empresa')
       }
     })()
@@ -60,7 +60,7 @@ export default function EmpresaForm() {
         correo: empresaInfo.correo
       })
       toast.success('Información de la empresa actualizada')
-    } catch (error) {
+    } catch {
       // El error ya se maneja en el interceptor
     } finally {
       setLoading(false)

@@ -1,0 +1,38 @@
+npm notice run atlas@1.0.0 npx
+npm notice run 'eslint' src
+
+/proyecto/atlas-qa/BACKEND/src/app.js
+  48:20  warning  Unexpected console statement  no-console
+  82:33  warning  Unexpected console statement  no-console
+
+/proyecto/atlas-qa/BACKEND/src/config.js
+  8:13  warning  Variable Assigned to Object Injection Sink  security/detect-object-injection
+
+/proyecto/atlas-qa/BACKEND/src/lib/archivos.js
+  16:1   warning  Found mkdirSync from package "fs" with non literal argument at index 0      security/detect-non-literal-fs-filename
+  43:17  warning  Variable Assigned to Object Injection Sink                                  security/detect-object-injection
+  44:65  warning  Generic Object Injection Sink                                               security/detect-object-injection
+  54:3   warning  Found writeFileSync from package "fs" with non literal argument at index 0  security/detect-non-literal-fs-filename
+  68:5   warning  Found unlinkSync from package "fs" with non literal argument at index 0     security/detect-non-literal-fs-filename
+
+/proyecto/atlas-qa/BACKEND/src/lib/errors.js
+  46:3  warning  Unexpected console statement  no-console
+
+/proyecto/atlas-qa/BACKEND/src/lib/validators.js
+    4:18  warning  Unsafe Regular Expression            security/detect-unsafe-regex
+   40:20  warning  Function Call Object Injection Sink  security/detect-object-injection
+   79:20  warning  Generic Object Injection Sink        security/detect-object-injection
+   84:7   warning  Generic Object Injection Sink        security/detect-object-injection
+   88:7   warning  Generic Object Injection Sink        security/detect-object-injection
+  110:5   warning  Generic Object Injection Sink        security/detect-object-injection
+
+/proyecto/atlas-qa/BACKEND/src/routes/clients.js
+   76:43  warning  Generic Object Injection Sink  security/detect-object-injection
+  142:29  warning  Generic Object Injection Sink  security/detect-object-injection
+
+/proyecto/atlas-qa/BACKEND/src/routes/contracts.js
+  211:10  warning  Found existsSync from package "fs" with non literal argument at index 0    security/detect-non-literal-fs-filename
+  212:21  warning  Found readFileSync from package "fs" with non literal argument at index 0  security/detect-non-literal-fs-filename
+
+✖ 19 problems (0 errors, 19 warnings)
+

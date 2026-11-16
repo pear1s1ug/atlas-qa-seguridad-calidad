@@ -36,7 +36,7 @@ export default function ClientesList() {
   }, []);
 
   useEffect(() => {
-    load();
+    load().catch(() => {});
   }, [load]);
 
   const handleTabChange = (event, newValue) => {
@@ -48,7 +48,7 @@ export default function ClientesList() {
       if (role !== "administrador") return;
       await api.delete(`/clientes/${id}`);
       toast.success("Cliente eliminado");
-      load();
+      load().catch(() => {});
     },
     [role, load]
   );
