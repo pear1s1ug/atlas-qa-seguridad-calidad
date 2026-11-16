@@ -5,13 +5,13 @@ export default {
     extend: {
       colors: {
         primary: "#1B7576",
-        secondary: "#4BBC7F",
+        secondary: "#2E7D55",
       },
       fontFamily: {
         sans: ["Poppins", "Arial", "sans-serif"],
       },
       fontSize: {
-        base: "13px" /* Reducido de 14px (default) a 12px (2pt menos) */,
+        base: "14px" /* NFR-USAB-1: tipografía legible */,
       },
     },
   },

@@ -47,7 +47,7 @@ export default function EmpresasList() {
     await api.post('/empresas', form)
     toast.success('Empresa creada')
     setForm({ nombre: '', direccion: '', telefono: '', correo: '' })
-    load()
+    void load()
   }
 
   return (
@@ -121,7 +121,7 @@ export default function EmpresasList() {
               />
               <Button 
                 variant="contained" 
-                onClick={onCreate}
+                onClick={() => onCreate().catch(() => {})}
                 startIcon={<AddBusinessIcon />}
                 sx={{ 
                   minWidth: 150,

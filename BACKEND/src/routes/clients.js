@@ -1,357 +1,165 @@
+/** RF-4 Gestión de clientes / RB-2 / RB-4 / RB-5 / NFR-SEG-3 / NFR-SEG-5 */
 const express = require("express");
 const { pool } = require("../db");
-const jwt = require("jsonwebtoken");
+const { requireAuth, requireAdmin } = require("../lib/auth");
+const { validar, esIdValido } = require("../lib/validators");
+const { cifrar, descifrar } = require("../lib/cifrado");
+const { desdeReq } = require("../lib/auditoria");
+const { ah, e400, e404, e409 } = require("../lib/errors");
 
 const router = express.Router();
-const { getUserFromAuthHeader } = require("../lib/auth");
-const JWT_SECRET = process.env.JWT_SECRET || "inseguro";
+router.use(requireAuth);
 
-// Función helper para simular latencia
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const REGLAS = {
+  nombre: { req: true, max: 150 },
+  correo: { req: true, tipo: "email", max: 254 },
+  telefono: { tipo: "telefono", max: 20 },
+  direccion: { max: 250 },
+  es_empresa: { tipo: "bool", defecto: false },
+  rut: { tipo: "rut", max: 12 },
+  nombre_fantasia: { max: 150 },
+  giro_actividad_economica: { max: 200 },
+  nombre_representante: { max: 150 },
+  cargo_representante: { max: 100 },
+  correo_representante: { tipo: "email", max: 254 },
+  telefono_representante: { tipo: "telefono", max: 20 },
+  relacion_representante: { max: 100 },
+  direccion_calle: { max: 150 },
+  direccion_numero: { max: 20 },
+  direccion_ciudad: { max: 100 },
+  direccion_region: { max: 100 },
+  sitio_web: { tipo: "url", max: 250 },
+  telefono_corporativo: { tipo: "telefono", max: 20 },
+  nombre_banco: { max: 100 },
+  numero_cuenta: { max: 30 },
+  titular_cuenta: { max: 150 },
+  metodo_pago: { max: 30 },
+  dia_pago: { tipo: "entero", min: 1, maxValor: 31 },
+  moneda: { max: 10 },
+};
+const CAMPOS = Object.keys(REGLAS);
 
+function idParam(req) {
+  if (!esIdValido(req.params.id)) throw e400("Identificador inválido");
+  return req.params.id;
+}
 
-// Crear cliente (empresa)
-router.post("/", async (req, res) => {
-  const {
-    nombre,
-    correo,
-    telefono,
-    direccion,
-    es_empresa = false,
-    nombre_banco = null,
-    numero_cuenta = null,
-    titular_cuenta = null,
-    // Información del cliente
-    rut = null,
-    nombre_fantasia = null,
-    giro_actividad_economica = null,
-    // Información del representante
-    nombre_representante = null,
-    cargo_representante = null,
-    correo_representante = null,
-    telefono_representante = null,
-    relacion_representante = null,
-    // Información de contacto
-    direccion_calle = null,
-    direccion_numero = null,
-    direccion_ciudad = null,
-    direccion_region = null,
-    sitio_web = null,
-    telefono_corporativo = null,
-    // Información financiera
-    metodo_pago = null,
-    dia_pago = null,
-    moneda = null,
-  } = req.body;
+function datosValidados(body) {
+  const { datos, errores } = validar(body, REGLAS);
+  if (errores.length) throw e400(errores.join("; "));
+  datos.numero_cuenta = cifrar(datos.numero_cuenta);
+  return datos;
+}
 
-  try {
-    // Obtener empresa_id del token
-    const authUser = getUserFromAuthHeader(req);
+// Descifra datos sensibles solo para el titular autorizado
+function salida(row) {
+  if (!row) return row;
+  const { eliminado_en, ...resto } = row; // eslint-disable-line no-unused-vars
+  return { ...resto, numero_cuenta: descifrar(resto.numero_cuenta) };
+}
 
-    // Validar que exista el token y el empresaId
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
+async function correoDuplicado(empresaId, correo, exceptoId = null) {
+  const r = await pool.query(
+    "SELECT 1 FROM clientes WHERE empresa_id=$1 AND lower(correo)=lower($2) AND eliminado_en IS NULL AND ($3::bigint IS NULL OR id <> $3)",
+    [empresaId, correo, exceptoId]
+  );
+  return r.rowCount > 0;
+}
+
+router.post(
+  "/",
+  requireAdmin,
+  ah(async (req, res) => {
+    const d = datosValidados(req.body);
+    if (await correoDuplicado(req.user.empresaId, d.correo)) throw e409("Ya existe un cliente con ese correo");
+    const cols = [...CAMPOS, "empresa_id"];
+    const valores = [...CAMPOS.map((c) => d[c]), req.user.empresaId]; // empresa_id siempre desde el token
+    const r = await pool.query(
+      `INSERT INTO clientes (${cols.join(", ")}) VALUES (${cols.map((_, i) => `$${i + 1}`).join(", ")}) RETURNING *`,
+      valores
+    );
+    await desdeReq(req, `CLIENTES_CREAR: creó cliente ID ${r.rows[0].id} ${d.nombre}`);
+    res.status(201).json(salida(r.rows[0]));
+  })
+);
+
+// Listado con paginación opcional (?page&limit) y filtro por nombre (?nombre)
+router.get(
+  "/",
+  ah(async (req, res) => {
+    const filtro = typeof req.query.nombre === "string" ? req.query.nombre.slice(0, 100) : "";
+    const params = [req.user.empresaId, `%${filtro}%`];
+    const where = "empresa_id = $1 AND eliminado_en IS NULL AND (nombre ILIKE $2 OR coalesce(nombre_fantasia,'') ILIKE $2)";
+    const total = await pool.query(`SELECT count(*)::int AS n FROM clientes WHERE ${where}`, params);
+    let sql = `SELECT * FROM clientes WHERE ${where} ORDER BY id DESC`;
+    if (req.query.page || req.query.limit) {
+      const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 20, 1), 100);
+      const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
+      sql += ` LIMIT ${limit} OFFSET ${(page - 1) * limit}`;
     }
+    const r = await pool.query(sql, params);
+    res.set("X-Total-Count", String(total.rows[0].n));
+    res.json(r.rows.map(salida));
+  })
+);
 
-    const empresaId = authUser.empresaId;
-
-    const result = await pool.query(
-      `INSERT INTO clientes (
-        nombre, correo, telefono, direccion, es_empresa, nombre_banco, numero_cuenta, titular_cuenta,
-        rut, nombre_fantasia, giro_actividad_economica,
-        nombre_representante, cargo_representante, correo_representante, telefono_representante, relacion_representante,
-        direccion_calle, direccion_numero, direccion_ciudad, direccion_region, sitio_web, telefono_corporativo,
-        metodo_pago, dia_pago, moneda,
-        empresa_id
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26) RETURNING *`,
-      [
-        nombre,
-        correo,
-        telefono,
-        direccion,
-        es_empresa,
-        nombre_banco,
-        numero_cuenta,
-        titular_cuenta,
-        rut,
-        nombre_fantasia,
-        giro_actividad_economica,
-        nombre_representante,
-        cargo_representante,
-        correo_representante,
-        telefono_representante,
-        relacion_representante,
-        direccion_calle,
-        direccion_numero,
-        direccion_ciudad,
-        direccion_region,
-        sitio_web,
-        telefono_corporativo,
-        metodo_pago,
-        dia_pago,
-        moneda,
-        empresaId,
-      ]
+router.get(
+  "/search",
+  ah(async (req, res) => {
+    const name = typeof req.query.name === "string" ? req.query.name.slice(0, 100) : "";
+    const r = await pool.query(
+      "SELECT * FROM clientes WHERE nombre ILIKE $1 AND empresa_id = $2 AND eliminado_en IS NULL ORDER BY nombre ASC LIMIT 100",
+      [`%${name}%`, req.user.empresaId]
     );
+    res.json(r.rows.map(salida));
+  })
+);
 
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `CLIENTES_CREAR: creó cliente ${nombre}`,
-      ]
+router.get(
+  "/:id",
+  ah(async (req, res) => {
+    const r = await pool.query("SELECT * FROM clientes WHERE id=$1 AND empresa_id=$2 AND eliminado_en IS NULL", [
+      idParam(req),
+      req.user.empresaId,
+    ]);
+    if (!r.rowCount) throw e404();
+    res.json(salida(r.rows[0]));
+  })
+);
+
+router.put(
+  "/:id",
+  requireAdmin,
+  ah(async (req, res) => {
+    const id = idParam(req);
+    const d = datosValidados(req.body);
+    const ex = await pool.query("SELECT 1 FROM clientes WHERE id=$1 AND empresa_id=$2 AND eliminado_en IS NULL", [id, req.user.empresaId]);
+    if (!ex.rowCount) throw e404();
+    if (await correoDuplicado(req.user.empresaId, d.correo, id)) throw e409("Ya existe un cliente con ese correo");
+    const sets = CAMPOS.map((c, i) => `${c}=$${i + 1}`).join(", ");
+    const r = await pool.query(
+      `UPDATE clientes SET ${sets} WHERE id=$${CAMPOS.length + 1} AND empresa_id=$${CAMPOS.length + 2} RETURNING *`,
+      [...CAMPOS.map((c) => d[c]), id, req.user.empresaId]
     );
+    await desdeReq(req, `CLIENTES_ACTUALIZAR: actualizó cliente ID ${id}`);
+    res.json(salida(r.rows[0]));
+  })
+);
 
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al crear cliente",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Listar clientes filtrados por empresa del token
-router.get("/", async (req, res) => {
-  try {
-    // Simular latencia de 4 segundos
-    await delay(4000);
-    const authUser = getUserFromAuthHeader(req);
-
-    // Si no hay token o no hay empresaId, retornar error
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    console.log("authUser", authUser.empresaId);
-
-    // Filtrar clientes por empresa_id del token
-    const result = await pool.query(
-      "SELECT * FROM clientes WHERE empresa_id = $1 ORDER BY id DESC",
-      [authUser.empresaId]
+// RF-4.2: eliminación lógica (el registro se conserva con marca temporal)
+router.delete(
+  "/:id",
+  requireAdmin,
+  ah(async (req, res) => {
+    const id = idParam(req);
+    const r = await pool.query(
+      "UPDATE clientes SET eliminado_en = now() WHERE id=$1 AND empresa_id=$2 AND eliminado_en IS NULL RETURNING id",
+      [id, req.user.empresaId]
     );
-
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al listar clientes",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Buscar cliente por nombre (contiene) filtrado por empresa del token
-router.get("/search", async (req, res) => {
-  const { name } = req.query;
-  try {
-    const authUser = getUserFromAuthHeader(req);
-
-    // Si no hay token o no hay empresaId, retornar error
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    const result = await pool.query(
-      "SELECT * FROM clientes WHERE nombre ILIKE $1 AND empresa_id = $2 ORDER BY nombre ASC",
-      [`%${name || ""}%`, authUser.empresaId]
-    );
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error en búsqueda",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Obtener cliente por id (validando que pertenezca a la empresa del token)
-router.get("/:id", async (req, res) => {
-  try {
-    const authUser = getUserFromAuthHeader(req);
-
-    // Si no hay token o no hay empresaId, retornar error
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    const result = await pool.query(
-      "SELECT * FROM clientes WHERE id=$1 AND empresa_id = $2",
-      [req.params.id, authUser.empresaId]
-    );
-
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "No encontrado" });
-
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al obtener cliente",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Editar cliente (validando que pertenezca a la empresa del token)
-router.put("/:id", async (req, res) => {
-  const {
-    nombre,
-    correo,
-    telefono,
-    direccion,
-    es_empresa = false,
-    nombre_banco = null,
-    numero_cuenta = null,
-    titular_cuenta = null,
-    // Información del cliente
-    rut = null,
-    nombre_fantasia = null,
-    giro_actividad_economica = null,
-    // Información del representante
-    nombre_representante = null,
-    cargo_representante = null,
-    correo_representante = null,
-    telefono_representante = null,
-    relacion_representante = null,
-    // Información de contacto
-    direccion_calle = null,
-    direccion_numero = null,
-    direccion_ciudad = null,
-    direccion_region = null,
-    sitio_web = null,
-    telefono_corporativo = null,
-    // Información financiera
-    metodo_pago = null,
-    dia_pago = null,
-    moneda = null,
-  } = req.body;
-
-  try {
-    const authUser = getUserFromAuthHeader(req);
-
-    // Si no hay token o no hay empresaId, retornar error
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    // Actualizar cliente validando que pertenezca a la empresa del token
-    // El empresa_id se mantiene del token, no se puede cambiar desde el body
-    const result = await pool.query(
-      `UPDATE clientes SET 
-        nombre=$1, correo=$2, telefono=$3, direccion=$4, es_empresa=$5, nombre_banco=$6, numero_cuenta=$7, titular_cuenta=$8,
-        rut=$9, nombre_fantasia=$10, giro_actividad_economica=$11,
-        nombre_representante=$12, cargo_representante=$13, correo_representante=$14, telefono_representante=$15, relacion_representante=$16,
-        direccion_calle=$17, direccion_numero=$18, direccion_ciudad=$19, direccion_region=$20, sitio_web=$21, telefono_corporativo=$22,
-        metodo_pago=$23, dia_pago=$24, moneda=$25
-      WHERE id=$26 AND empresa_id = $27 RETURNING *`,
-      [
-        nombre,
-        correo,
-        telefono,
-        direccion,
-        es_empresa,
-        nombre_banco,
-        numero_cuenta,
-        titular_cuenta,
-        rut,
-        nombre_fantasia,
-        giro_actividad_economica,
-        nombre_representante,
-        cargo_representante,
-        correo_representante,
-        telefono_representante,
-        relacion_representante,
-        direccion_calle,
-        direccion_numero,
-        direccion_ciudad,
-        direccion_region,
-        sitio_web,
-        telefono_corporativo,
-        metodo_pago,
-        dia_pago,
-        moneda,
-        req.params.id,
-        authUser.empresaId,
-      ]
-    );
-
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "No encontrado" });
-
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `CLIENTES_ACTUALIZAR: actualizó cliente ID ${req.params.id}`,
-      ]
-    );
-
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al actualizar cliente",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Eliminar cliente (validando que pertenezca a la empresa del token)
-router.delete("/:id", async (req, res) => {
-  try {
-    const authUser = getUserFromAuthHeader(req);
-
-    // Si no hay token o no hay empresaId, retornar error
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    // Eliminar cliente validando que pertenezca a la empresa del token
-    const result = await pool.query(
-      "DELETE FROM clientes WHERE id=$1 AND empresa_id = $2 RETURNING *",
-      [req.params.id, authUser.empresaId]
-    );
-
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "No encontrado" });
-
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `CLIENTES_ELIMINAR: eliminó cliente ID ${req.params.id}`,
-      ]
-    );
-
+    if (!r.rowCount) throw e404();
+    await desdeReq(req, `CLIENTES_ELIMINAR: eliminó (lógicamente) cliente ID ${id}`);
     res.json({ deleted: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al eliminar cliente",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
+  })
+);
 
 module.exports = router;

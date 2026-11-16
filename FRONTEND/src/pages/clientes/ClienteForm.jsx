@@ -60,7 +60,7 @@ export default function ClienteForm() {
 
   useEffect(() => {
     if (!isEdit) return;
-    (async () => {
+    void (async () => {
       try {
         const { data } = await api.get(`/clientes/${id}`);
         setForm({
@@ -115,7 +115,7 @@ export default function ClienteForm() {
         await api.post("/clientes", form);
         toast.success("Cliente creado");
       }
-      navigate("/clientes");
+      void navigate("/clientes");
     } catch {
       // El error ya se maneja en el interceptor
     } finally {
@@ -529,7 +529,7 @@ export default function ClienteForm() {
                 id="crear-cliente-form"
                 variant="contained"
                 data-testid="button-cliente-guardar"
-                onClick={onSubmit}
+                onClick={() => onSubmit().catch(() => {})}
                 disabled={loading}
                 startIcon={isEdit ? <EditIcon /> : <PersonAddIcon />}
                 sx={{

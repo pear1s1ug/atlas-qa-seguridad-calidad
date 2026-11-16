@@ -3,8 +3,8 @@ import { createTheme } from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: { main: "#1B7576" }, // Verde azulado
-    secondary: { main: "#4BBC7F" }, // Verde claro
-    background: { default:"#fffff", paper: "#ffffff" }, // slate-50
+    secondary: { main: "#2E7D55" }, // Verde (contraste AA 4.9:1 con blanco)
+    background: { default:"#ffffff", paper: "#ffffff" }, // slate-50
   },
   typography: {
     fontFamily: "Poppins, system-ui, Avenir, Helvetica, Arial, sans-serif",

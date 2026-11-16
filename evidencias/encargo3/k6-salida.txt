@@ -1,0 +1,11 @@
+    http_req_duration{tipo:crud}
+    ✓ 'p(95)<300' p(95)=223.73ms
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+    ✓ clientes 200
+    ✓ contratos 200
+    http_req_duration..............: avg=92.79ms min=3.42ms med=61.02ms p(90)=189.77ms p(95)=224.1ms  max=1.7s 
+    http_req_failed................: 0.00%  0 out of 10320
+    http_reqs......................: 10320  322.143854/s
+    vus_max........................: 200    min=200        max=200
+concurrentes ✓ [ 100% ] 200 VUs  30s

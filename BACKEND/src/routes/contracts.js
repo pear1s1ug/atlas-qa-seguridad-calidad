@@ -1,457 +1,287 @@
-const path = require("path");
+/** RF-5 Gestión de contratos y documentos / RF-6.1 / RB-2 / RB-3 / RB-4 / NFR-SEG-4 / NFR-SEG-5 */
 const fs = require("fs");
+const crypto = require("crypto");
 const express = require("express");
-const multer = require("multer");
-const jwt = require("jsonwebtoken");
-const { pool } = require("../db");
+const { pool, transaccion } = require("../db");
+const config = require("../config");
+const { requireAuth, requireAdmin } = require("../lib/auth");
+const { validar, esIdValido } = require("../lib/validators");
+const { calcularEstado, fechaHoyISO, sumarDiasISO } = require("../lib/contratoEstado");
+const archivos = require("../lib/archivos");
+const { sha256 } = require("../lib/cifrado");
+const { desdeReq } = require("../lib/auditoria");
+const { ah, e400, e404 } = require("../lib/errors");
 
 const router = express.Router();
-const { getUserFromAuthHeader } = require("../lib/auth");
-const JWT_SECRET = process.env.JWT_SECRET || "inseguro";
+router.use(requireAuth);
 
-// Función helper para simular latencia
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const iso = (f) => (f instanceof Date ? fechaHoyISO(f) : String(f).slice(0, 10));
+const conEstado = (c) => ({ ...c, fecha_inicio: iso(c.fecha_inicio), fecha_fin: iso(c.fecha_fin), estado: calcularEstado(iso(c.fecha_fin)) });
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+function idParam(req) {
+  if (!esIdValido(req.params.id)) throw e400("Identificador inválido");
+  return req.params.id;
+}
 
+async function clienteDeEmpresa(clienteId, empresaId) {
+  if (!esIdValido(clienteId)) return false;
+  const r = await pool.query("SELECT 1 FROM clientes WHERE id=$1 AND empresa_id=$2 AND eliminado_en IS NULL", [clienteId, empresaId]);
+  return r.rowCount > 0;
+}
 
-// Crear contrato con archivo PDF (guardado en DB como bytea)
-router.post("/", upload.single("file"), async (req, res) => {
-  const {
-    cliente_id,
-    titulo,
-    descripcion = null,
-    fecha_inicio,
-    fecha_fin,
-  } = req.body;
+async function contratoDeEmpresa(id, empresaId) {
+  const r = await pool.query(
+    `SELECT c.*, cl.nombre AS cliente_nombre,
+            EXISTS (SELECT 1 FROM documentos_contrato d WHERE d.contract_id = c.id) AS tiene_documento
+       FROM contratos c JOIN clientes cl ON cl.id = c.cliente_id
+      WHERE c.id = $1 AND cl.empresa_id = $2`,
+    [id, empresaId]
+  );
+  if (!r.rowCount) throw e404("Contrato no encontrado");
+  return r.rows[0];
+}
+
+const REGLAS = {
+  cliente_id: { req: true, tipo: "entero", min: 1 },
+  titulo: { req: true, max: 200 },
+  descripcion: { max: 2000 },
+  fecha_inicio: { req: true, tipo: "fecha" },
+  fecha_fin: { req: true, tipo: "fecha" },
+};
+
+async function guardarDocumento(client, contratoId, file) {
+  const doc = archivos.guardar(file);
   try {
-    const clientIdNum = Number(cliente_id);
-    const contractInsert = await pool.query(
-      "INSERT INTO contratos (cliente_id, titulo, descripcion, fecha_inicio, fecha_fin) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [clientIdNum, titulo, descripcion, fecha_inicio, fecha_fin]
+    await client.query(
+      "INSERT INTO documentos_contrato (contract_id, ruta, nombre_original, mime_type, tamano) VALUES ($1, $2, $3, $4, $5)",
+      [contratoId, doc.ruta, doc.nombre_original, doc.mime_type, doc.tamano]
     );
+  } catch (e) {
+    archivos.eliminar(doc.ruta);
+    throw e;
+  }
+  return doc;
+}
 
-    if (req.file && req.file.buffer) {
-      await pool.query(
-        "INSERT INTO documentos_contrato (contract_id, document) VALUES ($1, $2)",
-        [contractInsert.rows[0].id, req.file.buffer]
+router.post(
+  "/",
+  requireAdmin,
+  archivos.upload.single("file"),
+  ah(async (req, res) => {
+    const { datos: d, errores } = validar(req.body, REGLAS);
+    if (!errores.length && d.fecha_fin < d.fecha_inicio) errores.push("La fecha de término debe ser posterior a la fecha de inicio");
+    if (errores.length) throw e400(errores.join("; "));
+    if (req.file) archivos.validarContenido(req.file); // antes de escribir nada
+    if (!(await clienteDeEmpresa(d.cliente_id, req.user.empresaId))) throw e404("El cliente indicado no existe en su empresa");
+
+    const contrato = await transaccion(async (client) => {
+      const r = await client.query(
+        "INSERT INTO contratos (cliente_id, titulo, descripcion, fecha_inicio, fecha_fin) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+        [d.cliente_id, d.titulo, d.descripcion, d.fecha_inicio, d.fecha_fin]
       );
-    }
-
-    const result = contractInsert;
-    const authUser = getUserFromAuthHeader(req);
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `CONTRATOS_CREAR: creó contrato ${titulo} para cliente ${cliente_id}`,
-      ]
-    );
-
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al crear contrato",
-      glosa: err.message || err.toString(),
+      await desdeReq(req, `CONTRATOS_CREAR: creó contrato ID ${r.rows[0].id} "${d.titulo}" para cliente ${d.cliente_id}`, client);
+      if (req.file) {
+        const doc = await guardarDocumento(client, r.rows[0].id, req.file);
+        await desdeReq(req, `DOCUMENTO_SUBIR: adjuntó ${doc.nombre_original} al contrato ID ${r.rows[0].id}`, client);
+      }
+      return r.rows[0];
     });
-  }
-});
+    res.status(201).json(conEstado(contrato));
+  })
+);
 
-// Listar contratos
-router.get("/", async (req, res) => {
-  try {
-    // Simular latencia de 4 segundos
-    await delay(4000);
-    const authUser = getUserFromAuthHeader(req);
-
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-    const empresaId = authUser.empresaId;
-    const result = await pool.query(
-      `
-      SELECT 
-        c.id, 
-        c.titulo, 
-        c.descripcion, 
-        c.fecha_inicio, 
-        c.fecha_fin, 
-        c.created_at,
-        cl.nombre AS cliente_nombre
-      FROM contratos c
-      INNER JOIN clientes cl ON cl.id = c.cliente_id
-      WHERE cl.empresa_id = $1
-      ORDER BY c.id DESC
-    `,
-      [empresaId]
+router.get(
+  "/",
+  ah(async (req, res) => {
+    const cliente = req.query.cliente && esIdValido(req.query.cliente) ? req.query.cliente : null;
+    const r = await pool.query(
+      `SELECT c.id, c.cliente_id, c.titulo, c.descripcion, c.fecha_inicio, c.fecha_fin, c.created_at, cl.nombre AS cliente_nombre
+         FROM contratos c JOIN clientes cl ON cl.id = c.cliente_id
+        WHERE cl.empresa_id = $1 AND ($2::bigint IS NULL OR c.cliente_id = $2)
+        ORDER BY c.id DESC`,
+      [req.user.empresaId, cliente]
     );
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al listar contratos",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
+    res.json(r.rows.map(conEstado));
+  })
+);
 
-// Servicio 1: Contratos por estado (por_vencer y vencido)
-router.get("/estados", async (req, res) => {
-  try {
-    const authUser = getUserFromAuthHeader(req);
+async function porRango(empresaId, desde, hasta, orden, limite) {
+  const r = await pool.query(
+    `SELECT c.id, c.cliente_id, c.titulo, c.descripcion, c.fecha_inicio, c.fecha_fin, c.created_at
+       FROM contratos c JOIN clientes cl ON cl.id = c.cliente_id
+      WHERE cl.empresa_id = $1 AND ($2::date IS NULL OR c.fecha_fin >= $2) AND ($3::date IS NULL OR c.fecha_fin <= $3)
+      ORDER BY c.fecha_fin ${orden === "DESC" ? "DESC" : "ASC"} LIMIT ${Number(limite)}`,
+    [empresaId, desde, hasta]
+  );
+  return r.rows.map(conEstado);
+}
 
-    // Validar token y empresaId
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
+router.get(
+  "/estados",
+  ah(async (req, res) => {
+    const hoy = fechaHoyISO();
+    const porVencer = await porRango(req.user.empresaId, hoy, sumarDiasISO(hoy, 30), "ASC", 3);
+    const vencidos = await porRango(req.user.empresaId, null, sumarDiasISO(hoy, -1), "DESC", 3);
+    res.json([...porVencer, ...vencidos]);
+  })
+);
 
-    const empresaId = authUser.empresaId;
-    const hoy = new Date();
-    const hoyFormateado = hoy.toISOString().split("T")[0]; // YYYY-MM-DD
-    const fecha30Dias = new Date(hoy);
-    fecha30Dias.setDate(fecha30Dias.getDate() + 30);
-    const fecha30DiasFormateada = fecha30Dias.toISOString().split("T")[0];
-
-    // Contratos por vencer (fecha_fin entre hoy y 30 días)
-    const porVencer = await pool.query(
-      `SELECT c.id, c.cliente_id, c.titulo, c.descripcion, c.fecha_inicio, c.fecha_fin, c.created_at
-       FROM contratos c
-       INNER JOIN clientes cl ON cl.id = c.cliente_id
-       WHERE cl.empresa_id = $1 
-         AND c.fecha_fin >= $2 
-         AND c.fecha_fin <= $3
-       ORDER BY c.fecha_fin ASC
-       LIMIT 3`,
-      [empresaId, hoyFormateado, fecha30DiasFormateada]
-    );
-
-    // Contratos vencidos (fecha_fin ya pasó)
-    const vencidos = await pool.query(
-      `SELECT c.id, c.cliente_id, c.titulo, c.descripcion, c.fecha_inicio, c.fecha_fin, c.created_at
-       FROM contratos c
-       INNER JOIN clientes cl ON cl.id = c.cliente_id
-       WHERE cl.empresa_id = $1 
-         AND c.fecha_fin < $2
-       ORDER BY c.fecha_fin DESC
-       LIMIT 3`,
-      [empresaId, hoyFormateado]
-    );
-
-    // Agregar estado a cada contrato
-    const porVencerConEstado = porVencer.rows.map((contrato) => ({
-      ...contrato,
-      estado: "por_vencer",
-    }));
-
-    const vencidosConEstado = vencidos.rows.map((contrato) => ({
-      ...contrato,
-      estado: "vencido",
-    }));
-
-    res.json([...porVencerConEstado, ...vencidosConEstado]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al obtener contratos por estado",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
-
-// Servicio 2: Dashboard con estadísticas de la empresa
-router.get("/dashboard", async (req, res) => {
-  try {
-    const authUser = getUserFromAuthHeader(req);
-
-    // Validar token y empresaId
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    const empresaId = authUser.empresaId;
-    const hoy = new Date();
-    const hoyFormateado = hoy.toISOString().split("T")[0];
-
-    // Fechas para los próximos 7, 15 y 30 días
-    const fecha7Dias = new Date(hoy);
-    fecha7Dias.setDate(fecha7Dias.getDate() + 7);
-    const fecha7DiasFormateada = fecha7Dias.toISOString().split("T")[0];
-
-    const fecha15Dias = new Date(hoy);
-    fecha15Dias.setDate(fecha15Dias.getDate() + 15);
-    const fecha15DiasFormateada = fecha15Dias.toISOString().split("T")[0];
-
-    const fecha30Dias = new Date(hoy);
-    fecha30Dias.setDate(fecha30Dias.getDate() + 30);
-    const fecha30DiasFormateada = fecha30Dias.toISOString().split("T")[0];
-
-    // Total de usuarios de la empresa
-    const totalUsuariosResult = await pool.query(
-      "SELECT COUNT(*) as total FROM empresa_usuarios WHERE empresa_id = $1",
-      [empresaId]
-    );
-    const totalUsuarios = parseInt(totalUsuariosResult.rows[0].total);
-
-    // Total de clientes asociados a la empresa
-    const totalClientesResult = await pool.query(
-      "SELECT COUNT(*) as total FROM clientes WHERE empresa_id = $1",
-      [empresaId]
-    );
-    const totalClientes = parseInt(totalClientesResult.rows[0].total);
-
-    // Total de contratos que vencen en los próximos 7 días
-    const contratos7DiasResult = await pool.query(
-      `SELECT COUNT(*) as total 
-       FROM contratos c
-       INNER JOIN clientes cl ON cl.id = c.cliente_id
-       WHERE cl.empresa_id = $1 
-         AND c.fecha_fin >= $2 
-         AND c.fecha_fin <= $3`,
-      [empresaId, hoyFormateado, fecha7DiasFormateada]
-    );
-    const contratos7Dias = parseInt(contratos7DiasResult.rows[0].total);
-
-    // Total de contratos que vencen en los próximos 15 días
-    const contratos15DiasResult = await pool.query(
-      `SELECT COUNT(*) as total 
-       FROM contratos c
-       INNER JOIN clientes cl ON cl.id = c.cliente_id
-       WHERE cl.empresa_id = $1 
-         AND c.fecha_fin >= $2 
-         AND c.fecha_fin <= $3`,
-      [empresaId, hoyFormateado, fecha15DiasFormateada]
-    );
-    const contratos15Dias = parseInt(contratos15DiasResult.rows[0].total);
-
-    // Total de contratos que vencen en los próximos 30 días
-    const contratos30DiasResult = await pool.query(
-      `SELECT COUNT(*) as total 
-       FROM contratos c
-       INNER JOIN clientes cl ON cl.id = c.cliente_id
-       WHERE cl.empresa_id = $1 
-         AND c.fecha_fin >= $2 
-         AND c.fecha_fin <= $3`,
-      [empresaId, hoyFormateado, fecha30DiasFormateada]
-    );
-    const contratos30Dias = parseInt(contratos30DiasResult.rows[0].total);
-
+router.get(
+  "/dashboard",
+  ah(async (req, res) => {
+    const hoy = fechaHoyISO();
+    const e = req.user.empresaId;
+    const contar = async (dias) =>
+      (
+        await pool.query(
+          `SELECT count(*)::int AS n FROM contratos c JOIN clientes cl ON cl.id = c.cliente_id
+            WHERE cl.empresa_id = $1 AND c.fecha_fin BETWEEN $2 AND $3`,
+          [e, hoy, sumarDiasISO(hoy, dias)]
+        )
+      ).rows[0].n;
+    const u = await pool.query("SELECT count(*)::int AS n FROM empresa_usuarios WHERE empresa_id=$1", [e]);
+    const c = await pool.query("SELECT count(*)::int AS n FROM clientes WHERE empresa_id=$1 AND eliminado_en IS NULL", [e]);
     res.json({
-      totalUsuarios,
-      totalClientes,
-      contratosVencen7Dias: contratos7Dias,
-      contratosVencen15Dias: contratos15Dias,
-      contratosVencen30Dias: contratos30Dias,
+      totalUsuarios: u.rows[0].n,
+      totalClientes: c.rows[0].n,
+      contratosVencen7Dias: await contar(7),
+      contratosVencen15Dias: await contar(15),
+      contratosVencen30Dias: await contar(30),
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al obtener estadísticas",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
+  })
+);
 
-// Obtener contrato por id
-router.get("/:id", async (req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT id, cliente_id, titulo, descripcion, fecha_inicio, fecha_fin, created_at FROM contratos WHERE id=$1",
-      [req.params.id]
-    );
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "No encontrado" });
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al obtener contrato",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
+router.get(
+  "/:id",
+  ah(async (req, res) => {
+    res.json(conEstado(await contratoDeEmpresa(idParam(req), req.user.empresaId)));
+  })
+);
 
-// Actualizar contrato
-router.put("/:id", upload.single("file"), async (req, res) => {
-  try {
-    const authUser = getUserFromAuthHeader(req);
+router.put(
+  "/:id",
+  requireAdmin,
+  archivos.upload.single("file"),
+  ah(async (req, res) => {
+    const id = idParam(req);
+    const actual = await contratoDeEmpresa(id, req.user.empresaId);
+    const merged = {
+      cliente_id: req.body.cliente_id ?? actual.cliente_id,
+      titulo: req.body.titulo ?? actual.titulo,
+      descripcion: req.body.descripcion ?? actual.descripcion,
+      fecha_inicio: req.body.fecha_inicio ?? iso(actual.fecha_inicio),
+      fecha_fin: req.body.fecha_fin ?? iso(actual.fecha_fin),
+    };
+    const { datos: d, errores } = validar(merged, REGLAS);
+    if (!errores.length && d.fecha_fin < d.fecha_inicio) errores.push("La fecha de término debe ser posterior a la fecha de inicio");
+    if (errores.length) throw e400(errores.join("; "));
+    if (req.file) archivos.validarContenido(req.file);
+    if (!(await clienteDeEmpresa(d.cliente_id, req.user.empresaId))) throw e404("El cliente indicado no existe en su empresa");
 
-    // Validar token y empresaId
-    if (!authUser || !authUser.empresaId) {
-      return res.status(401).json({
-        error: "No autorizado",
-        glosa: "Token inválido o sin empresa asociada",
-      });
-    }
-
-    const empresaId = authUser.empresaId;
-    const contratoId = req.params.id;
-
-    // Verificar que el contrato pertenezca a la empresa del token
-    const contratoExistente = await pool.query(
-      `SELECT c.id, c.cliente_id, c.titulo
-       FROM contratos c
-       INNER JOIN clientes cl ON cl.id = c.cliente_id
-       WHERE c.id = $1 AND cl.empresa_id = $2`,
-      [contratoId, empresaId]
-    );
-
-    if (contratoExistente.rows.length === 0) {
-      return res.status(404).json({
-        error: "No encontrado",
-        glosa: "Contrato no encontrado o no pertenece a tu empresa",
-      });
-    }
-
-    const { cliente_id, titulo, descripcion, fecha_inicio, fecha_fin } =
-      req.body;
-
-    // Construir la consulta dinámicamente solo con los campos que se envían
-    const updates = [];
-    const values = [];
-    let paramIndex = 1;
-
-    if (cliente_id !== undefined) {
-      updates.push(`cliente_id = $${paramIndex}`);
-      values.push(Number(cliente_id));
-      paramIndex++;
-    }
-
-    if (titulo !== undefined) {
-      updates.push(`titulo = $${paramIndex}`);
-      values.push(titulo);
-      paramIndex++;
-    }
-
-    if (descripcion !== undefined) {
-      updates.push(`descripcion = $${paramIndex}`);
-      values.push(descripcion);
-      paramIndex++;
-    }
-
-    if (fecha_inicio !== undefined) {
-      updates.push(`fecha_inicio = $${paramIndex}`);
-      values.push(fecha_inicio);
-      paramIndex++;
-    }
-
-    if (fecha_fin !== undefined) {
-      updates.push(`fecha_fin = $${paramIndex}`);
-      values.push(fecha_fin);
-      paramIndex++;
-    }
-
-    // Si no hay campos para actualizar, retornar el contrato actual
-    if (updates.length === 0) {
-      const contratoActual = await pool.query(
-        "SELECT * FROM contratos WHERE id = $1",
-        [contratoId]
+    const r = await transaccion(async (client) => {
+      const up = await client.query(
+        "UPDATE contratos SET cliente_id=$1, titulo=$2, descripcion=$3, fecha_inicio=$4, fecha_fin=$5 WHERE id=$6 RETURNING *",
+        [d.cliente_id, d.titulo, d.descripcion, d.fecha_inicio, d.fecha_fin, id]
       );
-      return res.json(contratoActual.rows[0]);
-    }
-
-    // Agregar el ID del contrato al final
-    values.push(contratoId);
-    const result = await pool.query(
-      `UPDATE contratos 
-       SET ${updates.join(", ")}
-       WHERE id = $${paramIndex}
-       RETURNING *`,
-      values
-    );
-
-    // Si se envía un nuevo archivo, actualizarlo
-    if (req.file && req.file.buffer) {
-      // Insertar nuevo documento (manteniendo el historial)
-      await pool.query(
-        "INSERT INTO documentos_contrato (contract_id, document) VALUES ($1, $2)",
-        [contratoId, req.file.buffer]
-      );
-    }
-
-    // Registrar en auditoría
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `CONTRATOS_ACTUALIZAR: actualizó contrato ID ${contratoId} - ${
-          titulo || contratoExistente.rows[0].titulo
-        }`,
-      ]
-    );
-
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al actualizar contrato",
-      glosa: err.message || err.toString(),
+      await desdeReq(req, `CONTRATOS_ACTUALIZAR: actualizó contrato ID ${id} - ${d.titulo}`, client);
+      if (req.file) {
+        const doc = await guardarDocumento(client, id, req.file);
+        await desdeReq(req, `DOCUMENTO_SUBIR: adjuntó ${doc.nombre_original} al contrato ID ${id}`, client);
+      }
+      return up.rows[0];
     });
-  }
-});
+    res.json(conEstado(r));
+  })
+);
 
-// Descargar/visualizar el último documento asociado al contrato
-router.get("/:id/file", async (req, res) => {
-  try {
-    const doc = await pool.query(
-      "SELECT document FROM documentos_contrato WHERE contract_id=$1 ORDER BY id DESC LIMIT 1",
-      [req.params.id]
+/** Envía el último documento del contrato (desde storage interno o, si es heredado, desde la BD). */
+async function enviarDocumento(res, contratoId) {
+  const doc = await pool.query(
+    "SELECT ruta, nombre_original, mime_type, document FROM documentos_contrato WHERE contract_id=$1 ORDER BY id DESC LIMIT 1",
+    [contratoId]
+  );
+  if (!doc.rowCount) throw e404("El contrato no tiene documento adjunto");
+  const d = doc.rows[0];
+  const nombre = (d.nombre_original || "contrato.pdf").replace(/["\\\r\n]/g, "_");
+  res.setHeader("Content-Type", d.mime_type || "application/pdf");
+  res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(nombre)}"`);
+  res.setHeader("Cache-Control", "no-store");
+  if (d.ruta) {
+    const abs = archivos.rutaAbsoluta(d.ruta);
+    if (!fs.existsSync(abs)) throw e404("El archivo no se encuentra en el almacenamiento");
+    return res.send(fs.readFileSync(abs));
+  }
+  return res.send(d.document);
+}
+
+router.get(
+  "/:id/file",
+  ah(async (req, res) => {
+    const c = await contratoDeEmpresa(idParam(req), req.user.empresaId);
+    await desdeReq(req, `DOCUMENTO_DESCARGAR: descargó documento del contrato ID ${c.id}`);
+    await enviarDocumento(res, c.id);
+  })
+);
+
+// RF-5.5: enlaces para compartir el documento con expiración y revocación
+router.post(
+  "/:id/compartir",
+  requireAdmin,
+  ah(async (req, res) => {
+    const c = await contratoDeEmpresa(idParam(req), req.user.empresaId);
+    if (!c.tiene_documento) throw e400("El contrato no tiene documento para compartir");
+    const horas = Math.min(Math.max(Number.parseInt((req.body && req.body.horas) || 24, 10) || 24, 1), 168);
+    const token = crypto.randomBytes(32).toString("base64url");
+    const r = await pool.query(
+      `INSERT INTO enlaces_compartidos (contrato_id, token_hash, expira_en, creado_por)
+       VALUES ($1, $2, now() + ($3 || ' hours')::interval, $4) RETURNING id, expira_en`,
+      [c.id, sha256(token), String(horas), req.user.nombreUsuario]
     );
-    if (doc.rows.length === 0)
-      return res.status(404).json({ error: "Documento no encontrado" });
-    const buffer = doc.rows[0].document;
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", 'inline; filename="contrato.pdf"');
-    res.send(buffer);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al obtener archivo",
-      glosa: err.message || err.toString(),
+    await desdeReq(req, `DOCUMENTO_COMPARTIR: generó enlace ${r.rows[0].id} para contrato ID ${c.id} (${horas} h)`);
+    res.status(201).json({ id: r.rows[0].id, token, url: `${config.publicApiUrl}/compartido/${token}`, expira_en: r.rows[0].expira_en });
+  })
+);
+
+router.get(
+  "/:id/compartir",
+  requireAdmin,
+  ah(async (req, res) => {
+    const c = await contratoDeEmpresa(idParam(req), req.user.empresaId);
+    const r = await pool.query(
+      "SELECT id, expira_en, revocado_en, creado_por, created_at FROM enlaces_compartidos WHERE contrato_id=$1 ORDER BY id DESC",
+      [c.id]
+    );
+    res.json(r.rows);
+  })
+);
+
+router.delete(
+  "/:id/compartir",
+  requireAdmin,
+  ah(async (req, res) => {
+    const c = await contratoDeEmpresa(idParam(req), req.user.empresaId);
+    const r = await pool.query("UPDATE enlaces_compartidos SET revocado_en=now() WHERE contrato_id=$1 AND revocado_en IS NULL", [c.id]);
+    await desdeReq(req, `DOCUMENTO_REVOCAR_ENLACES: revocó ${r.rowCount} enlace(s) del contrato ID ${c.id}`);
+    res.json({ revocados: r.rowCount });
+  })
+);
+
+router.delete(
+  "/:id",
+  requireAdmin,
+  ah(async (req, res) => {
+    const c = await contratoDeEmpresa(idParam(req), req.user.empresaId);
+    const rutas = await transaccion(async (client) => {
+      const docs = await client.query("DELETE FROM documentos_contrato WHERE contract_id=$1 RETURNING ruta", [c.id]);
+      await client.query("DELETE FROM enlaces_compartidos WHERE contrato_id=$1", [c.id]);
+      await client.query("DELETE FROM contratos WHERE id=$1", [c.id]);
+      await desdeReq(req, `CONTRATOS_ELIMINAR: eliminó contrato ID ${c.id} y ${docs.rowCount} documento(s)`, client);
+      return docs.rows.map((d) => d.ruta).filter(Boolean);
     });
-  }
-});
-
-// Eliminar contrato y su archivo
-router.delete("/:id", async (req, res) => {
-  try {
-    await pool.query("DELETE FROM documentos_contrato WHERE contract_id=$1", [
-      req.params.id,
-    ]);
-    const result = await pool.query(
-      "DELETE FROM contratos WHERE id=$1 RETURNING *",
-      [req.params.id]
-    );
-    if (result.rows.length === 0)
-      return res.status(404).json({ error: "No encontrado" });
-
-    const authUser = getUserFromAuthHeader(req);
-    await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2)",
-      [
-        authUser?.nombreUsuario || null,
-        `CONTRATOS_ELIMINAR: eliminó contrato ID ${req.params.id}`,
-      ]
-    );
-
+    rutas.forEach(archivos.eliminar);
     res.json({ deleted: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Error al eliminar contrato",
-      glosa: err.message || err.toString(),
-    });
-  }
-});
+  })
+);
 
 module.exports = router;
+module.exports.enviarDocumento = enviarDocumento;

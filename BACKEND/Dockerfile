@@ -1,24 +1,13 @@
-FROM node:18-alpine
-
+FROM node:20-alpine
+ENV NODE_ENV=production
 WORKDIR /app
-
-# Copiar archivos de dependencias
 COPY package*.json ./
-
-# Instalar dependencias
-RUN npm ci --only=production
-
-# Copiar código de la aplicación
+RUN npm ci --omit=dev --no-audit --no-fund && npm cache clean --force
 COPY src/ ./src/
-COPY sql/ ./sql/
-COPY uploads/ ./uploads/
-
-# Crear directorio para uploads si no existe
-RUN mkdir -p uploads/contracts
-
-# Exponer puerto
-EXPOSE 3000
-
-# Comando para iniciar la aplicación
+# Directorio de documentos (storage interno) con permisos para el usuario sin privilegios
+RUN mkdir -p uploads/contracts && chown -R node:node uploads
+USER node
+EXPOSE 4000
+HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:4000/salud >/dev/null || exit 1
 CMD ["node", "src/app.js"]
-

@@ -36,7 +36,7 @@ export default function Login() {
     try {
       await login(values);
       toast.success("Sesión iniciada");
-      navigate("/home", { replace: true });
+      void navigate("/home", { replace: true });
     } catch {
       toast.error("Credenciales inválidas");
     }
@@ -57,8 +57,8 @@ export default function Login() {
         style={{ backgroundImage: `url(${bgRegistro})` }}
       ></div>
 
-      <div className="w-6/12 min-h-screen relative z-10 bg-white flex items-center justify-center shadow-lg">
-        <div className="p-8 w-full max-w-md">
+      <div className="w-full md:w-6/12 min-h-screen relative z-10 bg-white flex items-center justify-center shadow-lg">
+        <main className="p-8 w-full max-w-md">
           <Box
             sx={{
               display: "flex",
@@ -122,7 +122,7 @@ export default function Login() {
               </Link>
             </p>
           </form>
-        </div>
+        </main>
       </div>
 
       {/* Botón fijo en la parte inferior izquierda */}

@@ -1,38 +1,29 @@
+/** RF-6 Auditoría / NFR-SEG-6 / RB-2: lectura aislada por empresa; sin inserción manual (append-only). */
 const express = require("express");
 const { pool } = require("../db");
-const jwt = require("jsonwebtoken");
+const { requireAuth } = require("../lib/auth");
+const { ah, HttpError } = require("../lib/errors");
 
 const router = express.Router();
-const { getUserFromAuthHeader } = require("../lib/auth");
-const JWT_SECRET = process.env.JWT_SECRET || "inseguro";
+router.use(requireAuth);
 
-
-// Registrar log manualmente
-router.post("/", async (req, res) => {
-  const { accion, detalles } = req.body;
-  try {
-    const authUser = getUserFromAuthHeader(req);
-    const actionText = detalles ? `${accion}: ${detalles}` : accion;
-    const result = await pool.query(
-      "INSERT INTO auditoria (usuario_id, accion) VALUES ($1, $2) RETURNING *",
-      [authUser?.nombreUsuario || null, actionText]
+router.get(
+  "/",
+  ah(async (req, res) => {
+    const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 500, 1), 1000);
+    const r = await pool.query(
+      `SELECT id, usuario_id, accion, fecha_hora FROM auditoria
+        WHERE empresa_id = $1
+           OR (empresa_id IS NULL AND usuario_id IN (
+                SELECT u.nombre_usuario FROM usuarios u JOIN empresa_usuarios eu ON eu.usuario_id = u.id WHERE eu.empresa_id = $1))
+        ORDER BY id DESC LIMIT ${limit}`,
+      [req.user.empresaId]
     );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Error al registrar log", glosa: err.message || err.toString() });
-  }
-});
+    res.json(r.rows);
+  })
+);
 
-// Listar logs
-router.get("/", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM auditoria ORDER BY id DESC");
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Error al listar logs", glosa: err.message || err.toString() });
-  }
-});
+// Los registros de auditoría solo los genera el sistema: se impide su falsificación
+router.all("/", (req, res, next) => next(new HttpError(405, "Método no permitido", "La auditoría es de solo lectura")));
 
 module.exports = router;

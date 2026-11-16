@@ -1,0 +1,13 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Artefactos generados y dependencias (no contienen secretos del proyecto)"
+paths = [
+  '''node_modules''',
+  '''evidencias''',
+  '''reports''',
+  '''playwright-report''',
+  '''test-results''',
+  '''(^|/)\.env$''',
+]

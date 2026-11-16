@@ -18,4 +18,9 @@ module.exports = [
       "no-console": "warn",
     },
   },
+  {
+    // En pruebas los nombres de archivo y expresiones dinámicas son datos controlados del propio test
+    files: ["tests/**/*.js"],
+    rules: { "security/detect-non-literal-fs-filename": "off", "security/detect-non-literal-regexp": "off", "security/detect-object-injection": "off" },
+  },
 ];

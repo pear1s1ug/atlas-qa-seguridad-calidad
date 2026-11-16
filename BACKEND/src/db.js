@@ -1,10 +1,22 @@
 const { Pool } = require("pg");
-require("dotenv").config();
+const config = require("./config");
 
-const connectionString =
-  process.env.DATABASE_URL ||
-  "postgres://postgres:alone15@localhost:5432/atlas";
+// Sin credenciales embebidas: la cadena de conexión proviene solo del entorno
+const pool = new Pool({ connectionString: config.databaseUrl, max: Number(process.env.DB_POOL_MAX || 20) });
 
-const pool = new Pool({ connectionString });
+async function transaccion(fn) {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const r = await fn(client);
+    await client.query("COMMIT");
+    return r;
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
+}
 
-module.exports = { pool };
+module.exports = { pool, transaccion };

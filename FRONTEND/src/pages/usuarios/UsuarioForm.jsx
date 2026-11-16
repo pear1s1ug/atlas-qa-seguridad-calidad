@@ -33,14 +33,14 @@ export default function UsuarioForm() {
 
   useEffect(() => {
     if (!id) return;
-    (async () => {
+    void (async () => {
       try {
         const { data } = await api.get(`/usuarios/${id}`);
         setUsuarioInfo({
           nombre_usuario: data.nombre_usuario || "",
           correo: data.correo || "",
         });
-      } catch (error) {
+      } catch {
         toast.error("Error al cargar usuario");
       }
     })();
@@ -58,7 +58,7 @@ export default function UsuarioForm() {
         correo: usuarioInfo.correo,
       });
       toast.success("Información del usuario actualizada");
-    } catch (error) {
+    } catch {
       // El error ya se maneja en el interceptor
     } finally {
       setLoading(false);
@@ -83,7 +83,7 @@ export default function UsuarioForm() {
       });
       toast.success("Contraseña actualizada");
       setPasswordForm({ contrasena_hash: "", confirmar_contrasena: "" });
-    } catch (error) {
+    } catch {
       // El error ya se maneja en el interceptor
     } finally {
       setLoading(false);

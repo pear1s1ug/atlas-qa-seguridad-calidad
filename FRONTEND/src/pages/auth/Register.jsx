@@ -56,7 +56,7 @@ export default function Register() {
 
       await api.post("/empresas", payload);
       toast.success("Cuenta creada exitosamente, ahora inicia sesión");
-      navigate("/login");
+      void navigate("/login");
     } catch {
       // El interceptor de api ya maneja los toasts de error
     }
@@ -74,14 +74,14 @@ export default function Register() {
       ></div>
 
       <div className="w-full md:w-6/12 min-h-screen relative z-10 bg-white flex items-center justify-center shadow-lg overflow-y-auto">
-        <div className="px-8 py-8 md:py-4 w-full max-w-2xl my-auto">
+        <main className="px-8 py-8 md:py-4 w-full max-w-2xl my-auto">
           {/* Indicador de pasos */}
           <div className="flex items-center justify-center mb-8">
             <div className="flex items-center">
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
                   step >= 1
-                    ? "bg-secondary text-primary"
+                    ? "bg-secondary text-white"
                     : "bg-gray-200 text-gray-500"
                 }`}
               >
@@ -98,7 +98,7 @@ export default function Register() {
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
                   step >= 2
-                    ? "bg-secondary text-primary"
+                    ? "bg-secondary text-white"
                     : "bg-gray-200 text-gray-500"
                 }`}
               >
@@ -167,15 +167,30 @@ export default function Register() {
                   id="contrasena_hash"
                   type="password"
                   data-testid="input-registro-password"
-                  {...userForm.register("contrasena_hash", { required: true })}
+                  {...userForm.register("contrasena_hash", {
+                    required: "La contraseña es obligatoria",
+                    validate: (v) =>
+                      (v.length >= 12 && /[A-Z]/.test(v) && /[a-z]/.test(v) && /[0-9]/.test(v) && /[^A-Za-z0-9]/.test(v)) ||
+                      "Debe tener al menos 12 caracteres, mayúscula, minúscula, número y símbolo",
+                  })}
+                  aria-describedby="ayuda-password"
+                  aria-invalid={!!userForm.formState.errors.contrasena_hash}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent hover:border-secondary transition-colors"
                 />
+                <p id="ayuda-password" className="text-sm text-gray-600 mt-1">
+                  Mínimo 12 caracteres, con mayúscula, minúscula, número y símbolo.
+                </p>
+                {userForm.formState.errors.contrasena_hash && (
+                  <p role="alert" className="text-sm text-red-700 mt-1">
+                    {userForm.formState.errors.contrasena_hash.message}
+                  </p>
+                )}
               </div>
 
               <button
                 type="submit"
                 data-testid="button-registro-continuar"
-                className="w-full mt-4 py-3 text-lg font-semibold bg-secondary text-primary rounded-lg hover:bg-[#e6a600] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                className="w-full mt-4 py-3 text-lg font-semibold bg-secondary text-white rounded-lg hover:bg-[#e6a600] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
               >
                 Continuar
               </button>
@@ -308,14 +323,14 @@ export default function Register() {
                 <button
                   type="submit"
                   data-testid="button-registro-crear-cuenta"
-                  className="flex-1 mt-4 py-3 text-lg font-semibold bg-secondary text-primary rounded-lg hover:bg-[#e6a600] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                  className="flex-1 mt-4 py-3 text-lg font-semibold bg-secondary text-white rounded-lg hover:bg-[#e6a600] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
                 >
                   Crear cuenta
                 </button>
               </div>
             </form>
           )}
-        </div>
+        </main>
       </div>
     </div>
   );

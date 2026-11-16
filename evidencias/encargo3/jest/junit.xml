@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="121" failures="0" errors="0" time="13.699">
+  <testsuite name="CP-65 Manejo centralizado de errores (NFR-USAB-3 / NFR-SEG-6)" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:40:49" time="3.861" tests="12">
+    <testcase classname="CP-65 Manejo centralizado de errores (NFR-USAB-3 / NFR-SEG-6) JSON malformado → 400, ruta inexistente → 404, cuerpo excesivo → 413, sin detalles internos" name="CP-65 Manejo centralizado de errores (NFR-USAB-3 / NFR-SEG-6) JSON malformado → 400, ruta inexistente → 404, cuerpo excesivo → 413, sin detalles internos" time="0.018">
+    </testcase>
+    <testcase classname="CP-65 Manejo centralizado de errores (NFR-USAB-3 / NFR-SEG-6) login sin campos → 400; refresh inválido → 401; identificadores no numéricos → 400" name="CP-65 Manejo centralizado de errores (NFR-USAB-3 / NFR-SEG-6) login sin campos → 400; refresh inválido → 401; identificadores no numéricos → 400" time="0.037">
+    </testcase>
+    <testcase classname="CP-65 Manejo centralizado de errores (NFR-USAB-3 / NFR-SEG-6) token de un usuario desvinculado de la empresa es rechazado" name="CP-65 Manejo centralizado de errores (NFR-USAB-3 / NFR-SEG-6) token de un usuario desvinculado de la empresa es rechazado" time="0.296">
+    </testcase>
+    <testcase classname="CP-66 Gestión de vínculos empresa-usuario y roles (RF-3.1 / RF-3.3) admin cambia rol, consulta y elimina un vínculo; no puede alterar su propio rol/acceso" name="CP-66 Gestión de vínculos empresa-usuario y roles (RF-3.1 / RF-3.3) admin cambia rol, consulta y elimina un vínculo; no puede alterar su propio rol/acceso" time="0.33">
+    </testcase>
+    <testcase classname="CP-66 Gestión de vínculos empresa-usuario y roles (RF-3.1 / RF-3.3) vincular usuario existente, duplicados y rol inexistente" name="CP-66 Gestión de vínculos empresa-usuario y roles (RF-3.1 / RF-3.3) vincular usuario existente, duplicados y rol inexistente" time="0.46">
+    </testcase>
+    <testcase classname="CP-66 Gestión de vínculos empresa-usuario y roles (RF-3.1 / RF-3.3) el usuario cambia su propia contraseña (política aplicada) y un editor no puede eliminarse a sí mismo vía admin" name="CP-66 Gestión de vínculos empresa-usuario y roles (RF-3.1 / RF-3.3) el usuario cambia su propia contraseña (política aplicada) y un editor no puede eliminarse a sí mismo vía admin" time="0.441">
+    </testcase>
+    <testcase classname="CP-66 Gestión de vínculos empresa-usuario y roles (RF-3.1 / RF-3.3) catálogo de roles es de solo lectura" name="CP-66 Gestión de vínculos empresa-usuario y roles (RF-3.1 / RF-3.3) catálogo de roles es de solo lectura" time="0.026">
+    </testcase>
+    <testcase classname="CP-67 Gestión de la propia empresa (RF-2.2 / RB-1) admin lee y actualiza su empresa; validaciones y baja controlada" name="CP-67 Gestión de la propia empresa (RF-2.2 / RB-1) admin lee y actualiza su empresa; validaciones y baja controlada" time="0.312">
+    </testcase>
+    <testcase classname="CP-68 Edición de contratos y servicios de estado (RF-5.1 / RF-5.4) admin edita un contrato y reemplaza su documento; validaciones de fechas y cliente" name="CP-68 Edición de contratos y servicios de estado (RF-5.1 / RF-5.4) admin edita un contrato y reemplaza su documento; validaciones de fechas y cliente" time="0.108">
+    </testcase>
+    <testcase classname="CP-68 Edición de contratos y servicios de estado (RF-5.1 / RF-5.4) servicios /contratos/estados, /contratos/dashboard y /metricas reflejan los estados" name="CP-68 Edición de contratos y servicios de estado (RF-5.1 / RF-5.4) servicios /contratos/estados, /contratos/dashboard y /metricas reflejan los estados" time="0.073">
+    </testcase>
+    <testcase classname="CP-69 Enlaces compartidos expirados (RF-5.5) un enlace expirado responde 410 Gone" name="CP-69 Enlaces compartidos expirados (RF-5.5) un enlace expirado responde 410 Gone" time="0.035">
+    </testcase>
+    <testcase classname="CP-70 Disponibilidad (NFR-DIS-1) el endpoint /salud informa el estado de la API y la base de datos" name="CP-70 Disponibilidad (NFR-DIS-1) el endpoint /salud informa el estado de la API y la base de datos" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-1.1 Inicio de sesión" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:40:52" time="1.959" tests="6">
+    <testcase classname="RF-1.1 Inicio de sesión CP-01 login exitoso con credenciales válidas entrega un JWT" name="RF-1.1 Inicio de sesión CP-01 login exitoso con credenciales válidas entrega un JWT" time="0.14">
+    </testcase>
+    <testcase classname="RF-1.1 Inicio de sesión CP-02 login rechaza credenciales inválidas con HTTP 401 y sin token" name="RF-1.1 Inicio de sesión CP-02 login rechaza credenciales inválidas con HTTP 401 y sin token" time="0.243">
+    </testcase>
+    <testcase classname="RF-1.1 Inicio de sesión CP-40a inyección SQL en el login no permite autenticarse" name="RF-1.1 Inicio de sesión CP-40a inyección SQL en el login no permite autenticarse" time="0.122">
+    </testcase>
+    <testcase classname="RF-1.2 Cierre de sesión y revocación de tokens CP-14 logout invalida el token: reutilizarlo responde 401" name="RF-1.2 Cierre de sesión y revocación de tokens CP-14 logout invalida el token: reutilizarlo responde 401" time="0.161">
+    </testcase>
+    <testcase classname="NFR-SEG-9 / 3.1.2 JWT de corta vigencia y refresh token CP-47 access token dura ≤ 60 min y existe refresh token funcional" name="NFR-SEG-9 / 3.1.2 JWT de corta vigencia y refresh token CP-47 access token dura ≤ 60 min y existe refresh token funcional" time="0.146">
+    </testcase>
+    <testcase classname="NFR-SEG-5 Protección contra fuerza bruta CP-46 tras múltiples intentos fallidos el login responde 429" name="NFR-SEG-5 Protección contra fuerza bruta CP-46 tras múltiples intentos fallidos el login responde 429" time="0.5">
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-3.1 Crear/invitar usuarios y asignar rol" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:40:54" time="1.81" tests="9">
+    <testcase classname="RF-3.1 Crear/invitar usuarios y asignar rol CP-10 listar usuarios solo retorna integrantes de la empresa del token" name="RF-3.1 Crear/invitar usuarios y asignar rol CP-10 listar usuarios solo retorna integrantes de la empresa del token" time="0.009">
+    </testcase>
+    <testcase classname="RF-3.1 Crear/invitar usuarios y asignar rol CP-12 vincular usuario a empresa exige rol_id (400) y no crea usuario huérfano" name="RF-3.1 Crear/invitar usuarios y asignar rol CP-12 vincular usuario a empresa exige rol_id (400) y no crea usuario huérfano" time="0.02">
+    </testcase>
+    <testcase classname="RF-3.1 Crear/invitar usuarios y asignar rol CP-18c un editor no puede crear usuarios (403)" name="RF-3.1 Crear/invitar usuarios y asignar rol CP-18c un editor no puede crear usuarios (403)" time="0.005">
+    </testcase>
+    <testcase classname="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-20 admin actualiza y elimina a un usuario de su empresa" name="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-20 admin actualiza y elimina a un usuario de su empresa" time="0.42">
+    </testcase>
+    <testcase classname="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-19b un editor no puede modificar ni eliminar usuarios (403)" name="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-19b un editor no puede modificar ni eliminar usuarios (403)" time="0.01">
+    </testcase>
+    <testcase classname="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-21 admin de la empresa A no puede leer, modificar ni eliminar usuarios de la empresa B (IDOR)" name="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-21 admin de la empresa A no puede leer, modificar ni eliminar usuarios de la empresa B (IDOR)" time="0.149">
+    </testcase>
+    <testcase classname="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-21b sin token no es posible crear, leer ni modificar usuarios (401)" name="RF-3.3 Administrador modifica o elimina usuarios de su empresa CP-21b sin token no es posible crear, leer ni modificar usuarios (401)" time="0.004">
+    </testcase>
+    <testcase classname="NFR-SEG-2 Almacenamiento seguro de contraseñas CP-38 las contraseñas se almacenan con hash bcrypt (no en texto plano)" name="NFR-SEG-2 Almacenamiento seguro de contraseñas CP-38 las contraseñas se almacenan con hash bcrypt (no en texto plano)" time="0.002">
+    </testcase>
+    <testcase classname="NFR-SEG-2 Almacenamiento seguro de contraseñas CP-38b los usuarios semilla (admin/editor) no conservan contraseñas en texto plano" name="NFR-SEG-2 Almacenamiento seguro de contraseñas CP-38b los usuarios semilla (admin/editor) no conservan contraseñas en texto plano" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Control de acceso a clientes" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:40:56" time="1.716" tests="18">
+    <testcase classname="Control de acceso a clientes CP-03 listar clientes sin token JWT responde 401" name="Control de acceso a clientes CP-03 listar clientes sin token JWT responde 401" time="0.005">
+    </testcase>
+    <testcase classname="Control de acceso a clientes CP-04 listar clientes con token válido filtra por la empresa del JWT" name="Control de acceso a clientes CP-04 listar clientes con token válido filtra por la empresa del JWT" time="0.008">
+    </testcase>
+    <testcase classname="Control de acceso a clientes CP-04b no se puede leer, editar ni eliminar un cliente de otra empresa" name="Control de acceso a clientes CP-04b no se puede leer, editar ni eliminar un cliente de otra empresa" time="0.015">
+    </testcase>
+    <testcase classname="RF-4.1 Crear clientes CP-09 crear cliente asocia el registro a la empresa del token (ignora empresa_id del body)" name="RF-4.1 Crear clientes CP-09 crear cliente asocia el registro a la empresa del token (ignora empresa_id del body)" time="0.009">
+    </testcase>
+    <testcase classname="RF-4.1 Crear clientes CP-11 crear cliente deja registro de auditoría con usuario y acción" name="RF-4.1 Crear clientes CP-11 crear cliente deja registro de auditoría con usuario y acción" time="0.023">
+    </testcase>
+    <testcase classname="RF-4.1 Crear clientes CP-18 un editor (solo lectura) no puede crear clientes (403)" name="RF-4.1 Crear clientes CP-18 un editor (solo lectura) no puede crear clientes (403)" time="0.011">
+    </testcase>
+    <testcase classname="RF-4.1 Crear clientes CP-19a un editor no puede editar ni eliminar clientes (403)" name="RF-4.1 Crear clientes CP-19a un editor no puede editar ni eliminar clientes (403)" time="0.008">
+    </testcase>
+    <testcase classname="RF-4.2 Editar, eliminar y listar clientes CP-22 editar cliente persiste los cambios y registra auditoría" name="RF-4.2 Editar, eliminar y listar clientes CP-22 editar cliente persiste los cambios y registra auditoría" time="0.025">
+    </testcase>
+    <testcase classname="RF-4.2 Editar, eliminar y listar clientes CP-23 la eliminación de clientes es lógica (el registro se conserva marcado)" name="RF-4.2 Editar, eliminar y listar clientes CP-23 la eliminación de clientes es lógica (el registro se conserva marcado)" time="0.025">
+    </testcase>
+    <testcase classname="RF-4.2 Editar, eliminar y listar clientes CP-24 el listado de clientes soporta paginación y filtro por nombre" name="RF-4.2 Editar, eliminar y listar clientes CP-24 el listado de clientes soporta paginación y filtro por nombre" time="0.329">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { correo: &apos;no-es-un-correo&apos; } (correo inválido) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { correo: &apos;no-es-un-correo&apos; } (correo inválido) responde 400" time="0.006">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { rut: &apos;12.345.678-0&apos; } (RUT con dígito verificador inválido) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { rut: &apos;12.345.678-0&apos; } (RUT con dígito verificador inválido) responde 400" time="0.005">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { nombre: &apos;&apos; } (nombre vacío) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { nombre: &apos;&apos; } (nombre vacío) responde 400" time="0.005">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { telefono: &apos;abc-def&apos; } (teléfono no numérico) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { telefono: &apos;abc-def&apos; } (teléfono no numérico) responde 400" time="0.005">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con { dia_pago: &apos;45&apos; } (día de pago fuera de rango) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con { dia_pago: &apos;45&apos; } (día de pago fuera de rango) responde 400" time="0.004">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25 crear cliente con {
+  nombre: &apos;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&apos;
+} (nombre excede largo máximo) responde 400" name="RF-4.3 Validación de campos CP-25 crear cliente con {
+  nombre: &apos;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&apos;
+} (nombre excede largo máximo) responde 400" time="0.005">
+    </testcase>
+    <testcase classname="NFR-SEG-5 Inyección SQL CP-40b la búsqueda por nombre no es vulnerable a inyección SQL" name="NFR-SEG-5 Inyección SQL CP-40b la búsqueda por nombre no es vulnerable a inyección SQL" time="0.012">
+    </testcase>
+    <testcase classname="NFR-SEG-3 Cifrado de datos sensibles en reposo CP-45 el número de cuenta bancaria se almacena cifrado y se entrega descifrado al titular" name="NFR-SEG-3 Cifrado de datos sensibles en reposo CP-45 el número de cuenta bancaria se almacena cifrado y se entrega descifrado al titular" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-5.1 Crear contratos asociados a cliente" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:40:58" time="1.585" tests="15">
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-26 crear contrato con título, descripción y fechas asociado a un cliente" name="RF-5.1 Crear contratos asociados a cliente CP-26 crear contrato con título, descripción y fechas asociado a un cliente" time="0.016">
+    </testcase>
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-27 crear contrato con fecha_fin anterior a fecha_inicio responde 400" name="RF-5.1 Crear contratos asociados a cliente CP-27 crear contrato con fecha_fin anterior a fecha_inicio responde 400" time="0.005">
+    </testcase>
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-61 RB-3 un contrato debe asociarse a un (único) cliente: cliente_id es obligatorio" name="RF-5.1 Crear contratos asociados a cliente CP-61 RB-3 un contrato debe asociarse a un (único) cliente: cliente_id es obligatorio" time="0.005">
+    </testcase>
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-28 no se puede crear un contrato para un cliente de otra empresa ni sin autenticación" name="RF-5.1 Crear contratos asociados a cliente CP-28 no se puede crear un contrato para un cliente de otra empresa ni sin autenticación" time="0.008">
+    </testcase>
+    <testcase classname="RF-5.1 Crear contratos asociados a cliente CP-19 un editor no puede crear, editar ni eliminar contratos (403)" name="RF-5.1 Crear contratos asociados a cliente CP-19 un editor no puede crear, editar ni eliminar contratos (403)" time="0.012">
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-29 adjuntar PDF y PNG; la descarga devuelve el mismo archivo con su tipo MIME" name="RF-5.2 / RF-5.3 Documentos del contrato CP-29 adjuntar PDF y PNG; la descarga devuelve el mismo archivo con su tipo MIME" time="0.04">
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-30 se rechaza adjuntar archivo no permitido malware.exe (400/415)" name="RF-5.2 / RF-5.3 Documentos del contrato CP-30 se rechaza adjuntar archivo no permitido malware.exe (400/415)" time="0.006">
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-30 se rechaza adjuntar archivo no permitido xss.html (400/415)" name="RF-5.2 / RF-5.3 Documentos del contrato CP-30 se rechaza adjuntar archivo no permitido xss.html (400/415)" time="0.005">
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-30b se rechaza un archivo con extensión permitida pero contenido falso (magic bytes)" name="RF-5.2 / RF-5.3 Documentos del contrato CP-30b se rechaza un archivo con extensión permitida pero contenido falso (magic bytes)" time="0.005">
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-31 el documento se almacena en storage interno y la BD guarda su referencia" name="RF-5.2 / RF-5.3 Documentos del contrato CP-31 el documento se almacena en storage interno y la BD guarda su referencia" time="0.025">
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-34 descargar documento exige autenticación y pertenencia a la empresa" name="RF-5.2 / RF-5.3 Documentos del contrato CP-34 descargar documento exige autenticación y pertenencia a la empresa" time="0.014">
+    </testcase>
+    <testcase classname="RF-5.2 / RF-5.3 Documentos del contrato CP-35 subida y descarga de un documento de 5 MB demoran menos de 10 segundos" name="RF-5.2 / RF-5.3 Documentos del contrato CP-35 subida y descarga de un documento de 5 MB demoran menos de 10 segundos" time="0.087">
+    </testcase>
+    <testcase classname="RF-5.4 Estado calculado del contrato CP-32 los contratos listados exponen su estado (vigente / por_vencer / vencido)" name="RF-5.4 Estado calculado del contrato CP-32 los contratos listados exponen su estado (vigente / por_vencer / vencido)" time="0.036">
+    </testcase>
+    <testcase classname="RF-5.5 Enlace para compartir el documento CP-33 generar enlace, acceder sin sesión y revocar el acceso" name="RF-5.5 Enlace para compartir el documento CP-33 generar enlace, acceder sin sesión y revocar el acceso" time="0.03">
+    </testcase>
+    <testcase classname="RF-6.1 Auditoría de acciones críticas sobre contratos y documentos CP-36 se auditan la subida, descarga y eliminación de contratos/documentos" name="RF-6.1 Auditoría de acciones críticas sobre contratos y documentos CP-36 se auditan la subida, descarga y eliminación de contratos/documentos" time="0.032">
+    </testcase>
+  </testsuite>
+  <testsuite name="NFR-SEG-6 / RB-2 Gestión segura de logs de auditoría" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:41:00" time="1.176" tests="8">
+    <testcase classname="NFR-SEG-6 / RB-2 Gestión segura de logs de auditoría CP-37 la auditoría exige autenticación, se aísla por empresa y no acepta inserciones anónimas" name="NFR-SEG-6 / RB-2 Gestión segura de logs de auditoría CP-37 la auditoría exige autenticación, se aísla por empresa y no acepta inserciones anónimas" time="0.011">
+    </testcase>
+    <testcase classname="NFR-SEG-5 / NFR-SEG-6 Manejo de errores sin fuga de información CP-39 los errores no exponen detalles internos (SQL, stack, constraints)" name="NFR-SEG-5 / NFR-SEG-6 Manejo de errores sin fuga de información CP-39 los errores no exponen detalles internos (SQL, stack, constraints)" time="0.009">
+    </testcase>
+    <testcase classname="NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF CP-42 CORS restringido a orígenes permitidos y sesión sin cookies (mitiga CSRF)" name="NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF CP-42 CORS restringido a orígenes permitidos y sesión sin cookies (mitiga CSRF)" time="0.137">
+    </testcase>
+    <testcase classname="NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF CP-43 la API envía cabeceras de seguridad HTTP (Helmet)" name="NFR-SEG-5 Cabeceras de seguridad, CORS y CSRF CP-43 la API envía cabeceras de seguridad HTTP (Helmet)" time="0.002">
+    </testcase>
+    <testcase classname="NFR-SEG-8 Protección de datos personales (Ley 19.628 / Ley 21.719) CP-49 datos de empresas y usuarios no son accesibles por terceros no autorizados" name="NFR-SEG-8 Protección de datos personales (Ley 19.628 / Ley 21.719) CP-49 datos de empresas y usuarios no son accesibles por terceros no autorizados" time="0.018">
+    </testcase>
+    <testcase classname="NFR-PERF-1 Tiempo de respuesta de operaciones CRUD simples CP-50 GET/POST de clientes y contratos responden con p95 &lt; 300 ms" name="NFR-PERF-1 Tiempo de respuesta de operaciones CRUD simples CP-50 GET/POST de clientes y contratos responden con p95 &lt; 300 ms" time="0.098">
+    </testcase>
+    <testcase classname="3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) CP-62 la colección OpenAPI está disponible y documenta los endpoints críticos" name="3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) CP-62 la colección OpenAPI está disponible y documenta los endpoints críticos" time="0.006">
+    </testcase>
+    <testcase classname="3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) CP-62b la colección OpenAPI documenta logout, refresh y compartir documentos" name="3.1.2 Interfaz de servidor documentada (Swagger/OpenAPI) CP-62b la colección OpenAPI documenta logout, refresh y compartir documentos" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-2 Registro y creación de empresa" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:41:01" time="0.971" tests="8">
+    <testcase classname="RF-2 Registro y creación de empresa CP-15 registro de usuario + empresa permite iniciar sesión y ver el dashboard" name="RF-2 Registro y creación de empresa CP-15 registro de usuario + empresa permite iniciar sesión y ver el dashboard" time="0.386">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-16 el primer usuario de la empresa obtiene rol administrador" name="RF-2 Registro y creación de empresa CP-16 el primer usuario de la empresa obtiene rol administrador" time="0.163">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;admin&apos; (muy corta) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;admin&apos; (muy corta) con 400" time="0.005">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;sinsimbolos12345A&apos; (sin símbolo) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;sinsimbolos12345A&apos; (sin símbolo) con 400" time="0.003">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;SOLOMAYUSCULAS#123&apos; (sin minúsculas) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;SOLOMAYUSCULAS#123&apos; (sin minúsculas) con 400" time="0.003">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;solominusculas#123&apos; (sin mayúsculas) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;solominusculas#123&apos; (sin mayúsculas) con 400" time="0.003">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;SinNumeros#Atlas&apos; (sin número) con 400" name="RF-2 Registro y creación de empresa CP-17 registro rechaza contraseña débil &apos;SinNumeros#Atlas&apos; (sin número) con 400" time="0.003">
+    </testcase>
+    <testcase classname="RF-2 Registro y creación de empresa CP-60 RB-1 no se permite registrar dos empresas con el mismo correo principal (409)" name="RF-2 Registro y creación de empresa CP-60 RB-1 no se permite registrar dos empresas con el mismo correo principal (409)" time="0.145">
+    </testcase>
+  </testsuite>
+  <testsuite name="NFR-SEG-9 Verificación de tokens JWT" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:41:02" time="0.175" tests="7">
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08a token válido retorna el payload decodificado" name="NFR-SEG-9 Verificación de tokens JWT CP-08a token válido retorna el payload decodificado" time="0.002">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08b sin cabecera Authorization retorna null" name="NFR-SEG-9 Verificación de tokens JWT CP-08b sin cabecera Authorization retorna null" time="0.001">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08c token mal formado retorna null" name="NFR-SEG-9 Verificación de tokens JWT CP-08c token mal formado retorna null" time="0">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08d token expirado retorna null" name="NFR-SEG-9 Verificación de tokens JWT CP-08d token expirado retorna null" time="0">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08e token firmado con otra clave (firma alterada) retorna null" name="NFR-SEG-9 Verificación de tokens JWT CP-08e token firmado con otra clave (firma alterada) retorna null" time="0.001">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-08f token con algoritmo &apos;none&apos; es rechazado" name="NFR-SEG-9 Verificación de tokens JWT CP-08f token con algoritmo &apos;none&apos; es rechazado" time="0.001">
+    </testcase>
+    <testcase classname="NFR-SEG-9 Verificación de tokens JWT CP-47b sin JWT_SECRET configurado la app no usa una clave por defecto embebida" name="NFR-SEG-9 Verificación de tokens JWT CP-47b sin JWT_SECRET configurado la app no usa una clave por defecto embebida" time="0.123">
+    </testcase>
+  </testsuite>
+  <testsuite name="NFR-SEG-3 Cifrado AES-256-GCM" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:41:02" time="0.058" tests="6">
+    <testcase classname="NFR-SEG-3 Cifrado AES-256-GCM CP-45u cifra y descifra (ida y vuelta) con IV aleatorio" name="NFR-SEG-3 Cifrado AES-256-GCM CP-45u cifra y descifra (ida y vuelta) con IV aleatorio" time="0.001">
+    </testcase>
+    <testcase classname="NFR-SEG-3 Cifrado AES-256-GCM CP-45u detecta manipulación del texto cifrado (integridad GCM)" name="NFR-SEG-3 Cifrado AES-256-GCM CP-45u detecta manipulación del texto cifrado (integridad GCM)" time="0.003">
+    </testcase>
+    <testcase classname="NFR-SEG-3 Cifrado AES-256-GCM CP-45u valores vacíos y heredados en claro se mantienen" name="NFR-SEG-3 Cifrado AES-256-GCM CP-45u valores vacíos y heredados en claro se mantienen" time="0">
+    </testcase>
+    <testcase classname="RF-5.2 Validación de documentos CP-30u acepta PDF y PNG con firma correcta" name="RF-5.2 Validación de documentos CP-30u acepta PDF y PNG con firma correcta" time="0">
+    </testcase>
+    <testcase classname="RF-5.2 Validación de documentos CP-30u rechaza extensión permitida con contenido falso o extensión no permitida" name="RF-5.2 Validación de documentos CP-30u rechaza extensión permitida con contenido falso o extensión no permitida" time="0.01">
+    </testcase>
+    <testcase classname="RF-5.2 Validación de documentos CP-30u impide path traversal al resolver rutas de documentos" name="RF-5.2 Validación de documentos CP-30u impide path traversal al resolver rutas de documentos" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Restricción 2.4 Política de contraseñas" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:41:02" time="0.044" tests="26">
+    <testcase classname="Restricción 2.4 Política de contraseñas CP-17u acepta contraseña que cumple todos los criterios (12+, mayús., minús., número, símbolo)" name="Restricción 2.4 Política de contraseñas CP-17u acepta contraseña que cumple todos los criterios (12+, mayús., minús., número, símbolo)" time="0.001">
+    </testcase>
+    <testcase classname="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;Ab#1abcdefg&apos; por faltar al menos 12 caracteres" name="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;Ab#1abcdefg&apos; por faltar al menos 12 caracteres" time="0">
+    </testcase>
+    <testcase classname="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;abcdefgh#123&apos; por faltar una letra mayúscula" name="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;abcdefgh#123&apos; por faltar una letra mayúscula" time="0">
+    </testcase>
+    <testcase classname="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;ABCDEFGH#123&apos; por faltar una letra minúscula" name="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;ABCDEFGH#123&apos; por faltar una letra minúscula" time="0.001">
+    </testcase>
+    <testcase classname="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;Abcdefgh#xyz&apos; por faltar un número" name="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;Abcdefgh#xyz&apos; por faltar un número" time="0">
+    </testcase>
+    <testcase classname="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;Abcdefgh1234&apos; por faltar un símbolo" name="Restricción 2.4 Política de contraseñas CP-17u rechaza &apos;Abcdefgh1234&apos; por faltar un símbolo" time="0">
+    </testcase>
+    <testcase classname="Restricción 2.4 Política de contraseñas CP-17u valor límite: exactamente 12 caracteres es válido" name="Restricción 2.4 Política de contraseñas CP-17u valor límite: exactamente 12 caracteres es válido" time="0">
+    </testcase>
+    <testcase classname="Restricción 2.4 Política de contraseñas CP-17u entradas no string son rechazadas" name="Restricción 2.4 Política de contraseñas CP-17u entradas no string son rechazadas" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT válido 76.086.428-5" name="RF-4.3 Validación de campos CP-25u RUT válido 76.086.428-5" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT válido 76086428-5" name="RF-4.3 Validación de campos CP-25u RUT válido 76086428-5" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT válido 12.345.678-5" name="RF-4.3 Validación de campos CP-25u RUT válido 12.345.678-5" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT válido 11.111.111-1" name="RF-4.3 Validación de campos CP-25u RUT válido 11.111.111-1" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT válido 10.000.013-K" name="RF-4.3 Validación de campos CP-25u RUT válido 10.000.013-K" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT inválido 12.345.678-0" name="RF-4.3 Validación de campos CP-25u RUT inválido 12.345.678-0" time="0.001">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT inválido abc" name="RF-4.3 Validación de campos CP-25u RUT inválido abc" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT inválido 1-9" name="RF-4.3 Validación de campos CP-25u RUT inválido 1-9" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT inválido " name="RF-4.3 Validación de campos CP-25u RUT inválido " time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u RUT inválido 76.086.428-K" name="RF-4.3 Validación de campos CP-25u RUT inválido 76.086.428-K" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u correo válido persona@empresa.cl" name="RF-4.3 Validación de campos CP-25u correo válido persona@empresa.cl" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u correo válido a.b+c@sub.dominio.com" name="RF-4.3 Validación de campos CP-25u correo válido a.b+c@sub.dominio.com" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u correo inválido sin-arroba" name="RF-4.3 Validación de campos CP-25u correo inválido sin-arroba" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u correo inválido a@b" name="RF-4.3 Validación de campos CP-25u correo inválido a@b" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u correo inválido &lt;script&gt;@x.cl" name="RF-4.3 Validación de campos CP-25u correo inválido &lt;script&gt;@x.cl" time="0.001">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u correo inválido a@@b.cl" name="RF-4.3 Validación de campos CP-25u correo inválido a@@b.cl" time="0">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u teléfono, fecha, URL e identificadores" name="RF-4.3 Validación de campos CP-25u teléfono, fecha, URL e identificadores" time="0.001">
+    </testcase>
+    <testcase classname="RF-4.3 Validación de campos CP-25u validador declarativo aplica obligatoriedad, largo y rangos" name="RF-4.3 Validación de campos CP-25u validador declarativo aplica obligatoriedad, largo y rangos" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="RF-5.4 Estado de vigencia del contrato" errors="0" failures="0" skipped="0" timestamp="2026-11-16T02:41:02" time="0.035" tests="6">
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-05 contrato con fecha_fin anterior a hoy se clasifica como vencido" name="RF-5.4 Estado de vigencia del contrato CP-05 contrato con fecha_fin anterior a hoy se clasifica como vencido" time="0.001">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-06 contrato que vence dentro de 30 días se clasifica como por_vencer" name="RF-5.4 Estado de vigencia del contrato CP-06 contrato que vence dentro de 30 días se clasifica como por_vencer" time="0.001">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-06 valores límite: vence hoy y vence exactamente en el día 30 → por_vencer" name="RF-5.4 Estado de vigencia del contrato CP-06 valores límite: vence hoy y vence exactamente en el día 30 → por_vencer" time="0">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-07 contrato que vence después de 30 días se clasifica como vigente" name="RF-5.4 Estado de vigencia del contrato CP-07 contrato que vence después de 30 días se clasifica como vigente" time="0">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-13 cálculo de días restantes y vencidos es exacto" name="RF-5.4 Estado de vigencia del contrato CP-13 cálculo de días restantes y vencidos es exacto" time="0.001">
+    </testcase>
+    <testcase classname="RF-5.4 Estado de vigencia del contrato CP-13b la fecha &apos;hoy&apos; se calcula en la zona horaria de Chile (America/Santiago)" name="RF-5.4 Estado de vigencia del contrato CP-13b la fecha &apos;hoy&apos; se calcula en la zona horaria de Chile (America/Santiago)" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>

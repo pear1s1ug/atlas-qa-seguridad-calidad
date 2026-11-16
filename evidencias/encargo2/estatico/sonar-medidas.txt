@@ -1,0 +1,1 @@
+{'coverage': '32.5', 'bugs': '25', 'reliability_rating': '3.0 (C)', 'code_smells': '9', 'duplicated_lines_density': '16.0', 'security_rating': '5.0 (E)', 'vulnerabilities': '4', 'security_hotspots': '0', 'sqale_rating': '1.0', 'quality_gate': 'OK (por defecto sin código nuevo)'}

@@ -31,7 +31,7 @@ export default function ContratoForm() {
   const [file, setFile] = useState(null);
 
   useEffect(() => {
-    (async () => {
+    void (async () => {
       try {
         const { data } = await api.get("/clientes");
         setClientes(data || []);
@@ -43,7 +43,7 @@ export default function ContratoForm() {
 
   useEffect(() => {
     if (!isEdit) return;
-    (async () => {
+    void (async () => {
       try {
         const { data } = await api.get(`/contratos/${id}`);
         setForm({
@@ -87,7 +87,7 @@ export default function ContratoForm() {
         });
         toast.success("Contrato creado");
       }
-      navigate("/contratos");
+      void navigate("/contratos");
     } catch {
       // El error ya se maneja en el interceptor
     } finally {
@@ -209,7 +209,7 @@ export default function ContratoForm() {
               label="Archivo"
               InputLabelProps={{ shrink: true }}
               inputProps={{
-                accept: ".pdf",
+                accept: ".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png",
                 "data-testid": "input-contrato-archivo",
               }}
               onChange={(e) => setFile(e.target.files?.[0] || null)}
@@ -240,7 +240,7 @@ export default function ContratoForm() {
               <Button
                 variant="contained"
                 data-testid="button-contrato-guardar"
-                onClick={onSubmit}
+                onClick={() => onSubmit().catch(() => {})}
                 disabled={loading}
                 startIcon={isEdit ? <EditIcon /> : <DescriptionIcon />}
                 sx={{

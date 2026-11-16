@@ -1,0 +1,58 @@
+<testsuites id="" name="" tests="16" failures="0" skipped="0" errors="0" time="51.427397">
+<testsuite name="flujo.spec.js" timestamp="2026-11-16T02:31:12.865Z" hostname="chromium" tests="4" failures="0" skipped="0" time="9.775" errors="0">
+<testcase name="Flujos E2E › CP-63 flujo completo: login → dashboard → crear cliente → crear contrato con PDF → logout" classname="flujo.spec.js" time="4.099">
+</testcase>
+<testcase name="Flujos E2E › CP-64 un usuario Editor no ve ni accede a funciones de administración en la UI" classname="flujo.spec.js" time="1.637">
+</testcase>
+<testcase name="Flujos E2E › CP-56 NFR-USAB-4 desde un cliente se accede a la lista de sus contratos" classname="flujo.spec.js" time="1.55">
+</testcase>
+<testcase name="Flujos E2E › CP-41 XSS almacenado: un nombre con HTML malicioso se muestra escapado" classname="flujo.spec.js" time="2.489">
+</testcase>
+</testsuite>
+<testsuite name="no-funcionales.spec.js" timestamp="2026-11-16T02:31:12.865Z" hostname="chromium" tests="10" failures="0" skipped="0" time="26.513" errors="0">
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53 /login sin violaciones WCAG 2.1 AA críticas o graves (axe-core)" classname="no-funcionales.spec.js" time="2.569">
+<system-out>
+<![CDATA[CP-53 /login: []
+]]>
+</system-out>
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53 /registro sin violaciones WCAG 2.1 AA críticas o graves (axe-core)" classname="no-funcionales.spec.js" time="3.285">
+<system-out>
+<![CDATA[CP-53 /registro: []
+]]>
+</system-out>
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53b pantallas autenticadas (inicio y clientes) sin violaciones WCAG críticas/graves" classname="no-funcionales.spec.js" time="5.617">
+<system-out>
+<![CDATA[CP-53b: {"/home":[],"/clientes":[]}
+]]>
+</system-out>
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-53c tipografía mínima de 12px en textos visibles" classname="no-funcionales.spec.js" time="0.586">
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-54 el login puede completarse solo con teclado (Tab / Enter)" classname="no-funcionales.spec.js" time="2.801">
+</testcase>
+<testcase name="NFR-USAB / 3.1.1 Accesibilidad y usabilidad › CP-55 mensajes de error amigables ante credenciales inválidas" classname="no-funcionales.spec.js" time="1.227">
+</testcase>
+<testcase name="NFR-PERF-2 Tiempo de carga › CP-51 la página principal (dashboard) carga en &lt; 2 s con red móvil promedio (4G)" classname="no-funcionales.spec.js" time="1.517">
+<system-out>
+<![CDATA[CP-51 dashboard listo en 291 ms
+]]>
+</system-out>
+</testcase>
+<testcase name="NFR-COMPAT Compatibilidad › CP-58 @compat la pantalla de login se renderiza y autentica en el navegador" classname="no-funcionales.spec.js" time="2.189">
+</testcase>
+<testcase name="NFR-COMPAT Compatibilidad › CP-59 diseño responsivo en movil 375x667 sin desborde horizontal" classname="no-funcionales.spec.js" time="2.923">
+</testcase>
+<testcase name="NFR-COMPAT Compatibilidad › CP-59 diseño responsivo en tablet 768x1024 sin desborde horizontal" classname="no-funcionales.spec.js" time="3.799">
+</testcase>
+</testsuite>
+<testsuite name="no-funcionales.spec.js" timestamp="2026-11-16T02:31:12.865Z" hostname="firefox" tests="1" failures="0" skipped="0" time="3.717" errors="0">
+<testcase name="NFR-COMPAT Compatibilidad › CP-58 @compat la pantalla de login se renderiza y autentica en el navegador" classname="no-funcionales.spec.js" time="3.717">
+</testcase>
+</testsuite>
+<testsuite name="no-funcionales.spec.js" timestamp="2026-11-16T02:31:12.865Z" hostname="webkit" tests="1" failures="0" skipped="0" time="4.464" errors="0">
+<testcase name="NFR-COMPAT Compatibilidad › CP-58 @compat la pantalla de login se renderiza y autentica en el navegador" classname="no-funcionales.spec.js" time="4.464">
+</testcase>
+</testsuite>
+</testsuites>

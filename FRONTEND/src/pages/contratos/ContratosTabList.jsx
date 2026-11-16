@@ -24,15 +24,14 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { abrirDocumento } from "../../lib/api";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function ContratosTabList({
   items,
   onDelete,
-  onLoad,
   loading = false,
 }) {
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:4450";
   const navigate = useNavigate();
   const { role } = useAuth();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -64,18 +63,6 @@ export default function ContratosTabList({
       month: "short",
       day: "numeric",
     });
-  };
-
-  const getStatusColor = (fechaFin) => {
-    if (!fechaFin) return "default";
-    const fin = new Date(fechaFin);
-    const hoy = new Date();
-    const diasRestantes = Math.ceil((fin - hoy) / (1000 * 60 * 60 * 24));
-
-    if (diasRestantes < 0) return "error";
-    if (diasRestantes <= 7) return "warning";
-    if (diasRestantes <= 30) return "info";
-    return "success";
   };
 
   const getStatusLabel = (fechaFin) => {
@@ -157,9 +144,16 @@ export default function ContratosTabList({
         size: 180,
         Cell: ({ row }) => (
           <Chip
-            label={getStatusLabel(row.original.fecha_fin)}
+            label={
+              row.original.estado === "vencido"
+                ? "Vencido"
+                : row.original.estado === "por_vencer"
+                ? getStatusLabel(row.original.fecha_fin)
+                : "Vigente"
+            }
             size="small"
-            color={getStatusColor(row.original.fecha_fin)}
+            data-testid={`estado-contrato-${row.original.id}`}
+            color={row.original.estado === "vencido" ? "error" : row.original.estado === "por_vencer" ? "warning" : "success"}
           />
         ),
       },
@@ -169,9 +163,10 @@ export default function ContratosTabList({
         size: 150,
         Cell: ({ row }) => (
           <MLink
-            href={`${apiUrl}/contratos/${row.original.id}/file`}
-            target="_blank"
-            rel="noreferrer"
+            component="button"
+            type="button"
+            onClick={() => abrirDocumento(row.original.id).catch(() => {})}
+            aria-label={`Ver archivo del contrato ${row.original.titulo}`}
             sx={{
               display: "inline-flex",
               alignItems: "center",
@@ -203,9 +198,10 @@ export default function ContratosTabList({
                   color="primary"
                   size="small"
                   data-testid={`button-contrato-editar-${row.original.id}`}
+                  aria-label={`Editar contrato ${row.original.titulo}`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/contratos/${row.original.id}/editar`);
+                    void navigate(`/contratos/${row.original.id}/editar`);
                   }}
                   sx={{
                     "&:hover": {
@@ -219,6 +215,7 @@ export default function ContratosTabList({
                   color="error"
                   size="small"
                   data-testid={`button-contrato-eliminar-${row.original.id}`}
+                  aria-label={`Eliminar contrato ${row.original.titulo}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDeleteClick(row.original.id, row.original.titulo);
@@ -349,7 +346,7 @@ export default function ContratosTabList({
           onClick: (e) => {
             // No navegar si se hace clic en un botón
             if (e.target.closest("button")) return;
-            navigate(`/contratos/${row.original.id}`);
+            void navigate(`/contratos/${row.original.id}`);
           },
           sx: {
             cursor: "pointer",
