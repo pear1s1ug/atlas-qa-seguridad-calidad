@@ -107,8 +107,10 @@ jobs:
           npm ci --no-audit
           npx playwright install --with-deps chromium firefox webkit
           npx playwright test
-      - name: Prueba de carga k6 (200 usuarios concurrentes, p95 < 300 ms)
-        run: docker run --rm --network host -v "$PWD/perf:/scripts" grafana/k6:latest run -e DURACION=20s /scripts/carga.js
+      # Smoke de carga en CI (runner de 2 vCPU). La prueba completa de 200 VU (NFR-PERF-3)
+      # se ejecuta en el ambiente de rendimiento: ver evidencias/encargo3/k6-salida.txt
+      - name: Prueba de carga k6 (smoke 50 usuarios, p95 < 300 ms)
+        run: docker run --rm --network host -v "$PWD/perf:/scripts" grafana/k6:latest run -e VUS=50 -e DURACION=20s /scripts/carga.js
       - name: DAST - OWASP ZAP baseline (frontend) y API scan (OpenAPI)
         run: |
           mkdir -p zap && chmod 777 zap
